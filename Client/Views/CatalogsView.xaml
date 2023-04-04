@@ -5,9 +5,12 @@
              Title=""
              Shell.NavBarIsVisible="False">
     <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
+        <ScrollView>
+            <CollectionView
+                
+                >
+                
+            </CollectionView>
+        </ScrollView>
     </VerticalStackLayout>
 </ContentPage>

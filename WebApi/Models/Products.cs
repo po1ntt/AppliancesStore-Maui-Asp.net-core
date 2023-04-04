@@ -5,10 +5,7 @@ namespace WebApi.Models
 {
     public class Products
     {
-        public Products()
-        {
-            characteristicProducts = new HashSet<CharacteristicProduct>();
-        }
+       
         [Key]
         public int id_products { get; set; }
         public string? ProductsName { get; set; }
@@ -20,9 +17,9 @@ namespace WebApi.Models
         public decimal Price { get; set; }
         public bool Available { get; set; }
         public int Quantity { get; set; }
-        [InverseProperty("Product")]
-        public ICollection<CharacteristicProduct>? characteristicProducts { get; set; }
-
+        public virtual ICollection<CharacteristicProduct>? CharacteristicProduct { get; set; }
+        public virtual ICollection<ReviewsProduct>? ReviewsProduct { get; set; }
+        public string ProductImageUrl { get; set; }
         public Subcategory Subcategory { get; set; }
         public BrandProduct BrandProduct { get; set; }
 

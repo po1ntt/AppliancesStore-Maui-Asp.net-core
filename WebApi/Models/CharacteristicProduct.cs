@@ -1,6 +1,7 @@
 ﻿using Newtonsoft.Json;
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WebApi.Models
 {
@@ -13,7 +14,7 @@ namespace WebApi.Models
         public string? CharacterValue { get; set; }
         [ForeignKey("Products")]
         public int product_id { get; set; }
-        [JsonIgnore]
+        [System.Text.Json.Serialization.JsonIgnore]
         public Products? Product { get; set; }
         public Character? Character { get; set; }
 

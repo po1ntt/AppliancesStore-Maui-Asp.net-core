@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace WebApi.Models
 {
@@ -11,7 +12,7 @@ namespace WebApi.Models
         public int category_id { get; set; }
 
         public  string? NameSubCategory { get; set; }
-
+        [System.Text.Json.Serialization.JsonIgnore]
         public Category? Category { get; set; }
     }
 }

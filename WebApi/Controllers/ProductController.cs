@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -13,8 +14,14 @@ namespace WebApi.Controllers
         {
             context = new AppliancesStoreDbContext();
         }
-        [HttpGet]
-        public List<Products> GetProducts() => context.Products.ToList();
-        
+        [HttpGet("GetProducts")]
+        public List<Products> GetProducts() => context.Products.Include(p=> p.Subcategory).Include(p=> p.BrandProduct).Include(p=> p.CharacteristicProduct).Include(p=> p.ReviewsProduct).ToList();
+        [HttpGet("GetCharacteristicProduct")]
+        public List<CharacteristicProduct> GetCharacteristicProduct(int id_product) => context.CharacteristicProduct.Where(p=> p.product_id == id_product).Include(p => p.Character).ToList();
+        [HttpGet("GetReviewsProduct")]
+
+        public List<ReviewsProduct> GetReviewsProduct(int id_product) => context.ReviewsProducts.Where(p => p.product_id == id_product).Include(p => p.Review).ToList();
+
+
     }
 }

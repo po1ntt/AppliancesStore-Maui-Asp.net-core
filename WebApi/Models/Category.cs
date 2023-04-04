@@ -7,5 +7,6 @@ namespace WebApi.Models
         [Key]
         public int id_categoryProduct { get; set; }
         public string? CategoryName { get; set; }
+        public ICollection<Subcategory>? Subcategories { get; set; }
     }
 }

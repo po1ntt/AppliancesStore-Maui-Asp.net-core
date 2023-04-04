@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    internal class Subcategory
+    public class Subcategory
     {
+        public int id_subcategory { get; set; }
+        public int category_id { get; set; }
+        public string nameSubCategory { get; set; }
     }
 }

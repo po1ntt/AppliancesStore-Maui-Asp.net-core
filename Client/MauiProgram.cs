@@ -22,8 +22,8 @@ namespace Client
                 })
                 .ConfigureFonts(fonts =>
                 {
-                    fonts.AddFont("OpenSans-Regular.ttf", "OpenSansRegular");
-                    fonts.AddFont("OpenSans-Semibold.ttf", "OpenSansSemibold");
+                    fonts.AddFont("18vagRounded.ttf", "OpenSansRegular");
+                    fonts.AddFont("18vagRounded.ttf", "OpenSansSemibold");
                     fonts.AddFontAwesomeIconFonts();
                 });
 

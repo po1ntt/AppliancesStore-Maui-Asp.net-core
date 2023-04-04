@@ -9,8 +9,10 @@ namespace WebApi.Models
         [Key]
         public int id_reviewsproduct { get; set; }
         [ForeignKey("Reviews")]
+
         public int reviews_id { get; set; }
         [ForeignKey("Products")]
+
         public int product_id { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
         public Products? Products { get; set; }

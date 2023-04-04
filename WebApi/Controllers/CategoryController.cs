@@ -7,15 +7,17 @@ namespace WebApi.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ReviewController : ControllerBase
+    public class CategoryController : ControllerBase
     {
         public AppliancesStoreDbContext context { get; set; }
-        public ReviewController()
+        public CategoryController()
         {
             context = new AppliancesStoreDbContext();
         }
-        [HttpGet("GetReviews")]
-        public List<Review> GetReviews() => context.Review.Include(x=> x.User).ToList();
-        
+        [HttpGet("GetCategories")]
+        public async Task<List<Category>> GetCategoriesAsync()
+        {
+            return await context.Category.Include(p=> p.Subcategories).ToListAsync();
+        }
     }
 }

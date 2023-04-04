@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using System.Reflection.Metadata;
 
 namespace WebApi.Models
 {
@@ -18,14 +19,21 @@ namespace WebApi.Models
         public DbSet<Review>  Review { get; set; }
         public DbSet<ReviewsProduct> ReviewsProducts { get; set; }
         public DbSet<Category> Category { get; set; }
-        public DbSet<CharacteristicProduct> CharacteristicProducts { get; set; }
+        public DbSet<CharacteristicProduct> CharacteristicProduct { get; set; }
         public DbSet<Character> Character { get; set; }
         public DbSet<BrandProduct> BrandProduct { get; set; }
         public DbSet<Subcategory> Subcategory { get; set; }
         public DbSet<RecentlyViewed> RecentlyViewed { get; set; }
         public DbSet<PostponedProduct> PostponedProduct { get; set; }
 
-
+        protected override void OnModelCreating(ModelBuilder modelBuilder)
+        {
+            modelBuilder.Entity<Products>()
+               .HasMany(e => e.CharacteristicProduct)
+                .WithOne(e => e.Product)
+                .HasForeignKey(e => e.product_id)
+                .IsRequired();
+        }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
 

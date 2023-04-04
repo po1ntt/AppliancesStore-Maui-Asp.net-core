@@ -11,14 +11,18 @@ namespace WebApi.Models
         public int id_recentlyViewed { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
 
+
         [ForeignKey("Users")]
+
         public int user_id { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
 
         [ForeignKey("Products")]
         public int product_id { get; set; }
+
         public Products? Products { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
+
         public Users? Users { get; set; }
 
 
