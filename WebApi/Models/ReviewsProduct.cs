@@ -8,7 +8,7 @@ namespace WebApi.Models
     {
         [Key]
         public int id_reviewsproduct { get; set; }
-        [ForeignKey("Reviews")]
+        [ForeignKey("Review")]
 
         public int reviews_id { get; set; }
         [ForeignKey("Products")]

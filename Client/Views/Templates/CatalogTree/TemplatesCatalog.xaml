@@ -1,6 +1,83 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ResourceDictionary xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="Client.Views.Templates.CatalogTree.TemplatesCatalog">
+             x:Class="Client.Views.Templates.CatalogTree.TemplatesCatalog"
+                 xmlns:local="clr-namespace:Client.Views.Templates.CatalogTree"
+                    xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+                    >
+    <DataTemplate x:Key="CatalogItem" 
+                  >
+        <Grid RowDefinitions="50,1*,5" ColumnDefinitions="0,1*">
+            
+        
+            <Grid.GestureRecognizers>
+                <TapGestureRecognizer Command="{Binding OpenDataCommand}" CommandParameter="{Binding}" />
+            </Grid.GestureRecognizers>
+            <StackLayout
+                Grid.Row="0"
+                Grid.Column="1"
+                 Orientation="Horizontal">
+               
+               
+                <Label 
+                    Margin="5,0,0,0"
+                    TextColor="White" 
+                    VerticalOptions="Center"
+                    FontSize="25"
+                    Text="{Binding CategoryInfo.categoryName}"/>
+                <Image
+                    Rotation="{Binding Rotation}"
+                    Margin="0,0,5,0" 
+                    WidthRequest="25"
+                    HeightRequest="25"
+                    Source="rarrow.png"
+                    HorizontalOptions="EndAndExpand"
+                    >
 
+                </Image>
+
+            </StackLayout>
+            <VerticalStackLayout
+                Grid.Row="1"
+                Grid.Column="1"
+                Margin="30,0,0,0"
+                    IsVisible="{Binding IsVisible}"
+                    HeightRequest="0"
+               
+                    BindableLayout.ItemsSource="{Binding ChildsElements}"
+                    VerticalOptions="Center"
+                    
+                  
+                  >
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                       <Border Background="transparent" Stroke="transparent" Padding="5" HeightRequest="50" >
+                            <StackLayout>
+                                <Label TextColor="White" FontSize="20" Text="{Binding nameSubCategory}">
+                                    <Label.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:CatalogTreeModel}},Path=gotoProductsCommand}"  CommandParameter="{Binding}" />
+                                    </Label.GestureRecognizers>
+                                </Label>
+                                <Line HeightRequest="1" Margin="0,5,0,0" Background="gray"></Line>
+                            </StackLayout>  
+                      
+
+                        </Border>
+
+                        </DataTemplate>
+                </BindableLayout.ItemTemplate>
+                    <VerticalStackLayout.Triggers>
+                   
+                        <Trigger TargetType="VerticalStackLayout"
+                                 Property="IsVisible"
+                                 Value="True">
+                            <Setter Property="HeightRequest" Value="-1"></Setter>
+                        </Trigger>
+                    </VerticalStackLayout.Triggers>
+            </VerticalStackLayout>
+            <Grid  Grid.Column="1" Grid.Row="2" HeightRequest="3" Margin="0,0,0,10" Background="#80373737"></Grid>
+        </Grid>
+
+    </DataTemplate>
+    
 </ResourceDictionary>

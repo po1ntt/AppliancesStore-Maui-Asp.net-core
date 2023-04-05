@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    internal class Review
+    public class Review
     {
+        public int id_review { get; set; }
+        public int user_id { get; set; }
+        public double grade { get; set; }
+        public string reviewText { get; set; }
+        public Users user { get; set; }
     }
 }

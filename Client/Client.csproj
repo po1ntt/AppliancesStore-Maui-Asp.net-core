@@ -56,6 +56,7 @@
 	  <None Remove="Resources\Images\home.png" />
 	  <None Remove="Resources\Images\list.png" />
 	  <None Remove="Resources\Images\logo.png" />
+	  <None Remove="Resources\Images\rarrow.png" />
 	  <None Remove="Resources\Images\user.png" />
 	  <None Remove="Resources\Images\withoutbg.png" />
 	</ItemGroup>
@@ -102,6 +103,14 @@
 	  <MauiXaml Update="Views\Templates\CatalogTree\TemplatesCatalog.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
+	  <MauiXaml Update="Views\Templates\ProductsTemplate\ProductTemplametesMain\ProductsVerticalTwoRows.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <Folder Include="Views\Templates\ProductsTemplate\ProductsDataTemplates\" />
+	  <Folder Include="Views\Templates\ProductsTemplate\ProductsDataSelectors\" />
 	</ItemGroup>
 
 </Project>

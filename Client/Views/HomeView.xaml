@@ -44,7 +44,7 @@
                     </HorizontalStackLayout>
                 </ScrollView>
             
-                    <Label FontSize="20" TextColor="White" Text="Популярно" Margin="5" FontAttributes="Bold">
+                    <Label FontSize="20" TextColor="White" Text="Популярные Категории" Margin="5" FontAttributes="Bold">
                     
                 </Label>
                     <HorizontalStackLayout>
@@ -68,29 +68,78 @@
                       
                     </HorizontalStackLayout>
 
-                    <Label FontSize="20" TextColor="White" Text="Новое" Margin="5" FontAttributes="Bold">
+                    <material:TabView>
+                        <material:TabView.TabHeaderItemTemplate>
+                            <DataTemplate>
+                                <Button
+                                Text="{Binding Title}" 
+                                Command="{Binding Command}"
+                                 Margin="10,0,0,0"
+                                  FontAttributes="Bold"
+                                    Padding="6"
+                                    CharacterSpacing="1"
+                                    
+                                >
+                                    <Button.Triggers>
+                                        <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="True">
+                                            <Setter Property="BackgroundColor" Value="White" />
+                                            <Setter Property="TextColor" Value="Black" />
+                                        </DataTrigger>
+                                        <DataTrigger TargetType="Button" Binding="{Binding IsSelected}" Value="False">
+                                            <Setter Property="BackgroundColor" Value="#80373737" />
+                                            <Setter Property="TextColor" Value="White" />
+                                        </DataTrigger>
+                                    </Button.Triggers>
+                                </Button>
+                            </DataTemplate>
+                        </material:TabView.TabHeaderItemTemplate>
+                        <material:TabItem Title="Новинки">
+                           
+                            <HorizontalStackLayout>
+                                <Grid Margin="10" Padding="10" HeightRequest="250" WidthRequest="220" Background="#80373737">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0.8*"></RowDefinition>
+                                        <RowDefinition Height="0.2*"></RowDefinition>
+                                        <RowDefinition Height="0.2*"></RowDefinition>
+                                        <RowDefinition Height="0.3*"></RowDefinition>
+                                        <RowDefinition Height="0.2*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Image Source="withoutbg.png"></Image>
+                                    <Label Grid.Row="1" FontAttributes="Bold" TextColor="White" FontSize="25">21 999 ₽</Label>
+                                    <StackLayout Grid.Row="2" Orientation="Horizontal">
+                                        <Image HeightRequest="15" VerticalOptions="Center" Source="{FontImageSource Color=Gray,Glyph={x:Static fa:Solid.Star}, FontFamily=FASolid}" ></Image>
+                                        <Label Margin="5,0,0,0"  VerticalOptions="Center" FontAttributes="Bold" TextColor="Gray" FontSize="15">Нет отзывов</Label>
+                                    </StackLayout>
+                                    <Label Grid.Row="3" TextColor="White" FontSize="18">Морозильная камера Haier HF-82WAA</Label>
 
-                    </Label>
-                    <HorizontalStackLayout>
-                        <Grid Margin="10" Padding="10" HeightRequest="250" WidthRequest="220" Background="#80373737">
-                            <Grid.RowDefinitions>
-                                <RowDefinition Height="0.8*"></RowDefinition>
-                                <RowDefinition Height="0.2*"></RowDefinition>
-                                <RowDefinition Height="0.2*"></RowDefinition>
-                                <RowDefinition Height="0.3*"></RowDefinition>
-                                <RowDefinition Height="0.2*"></RowDefinition>
-                            </Grid.RowDefinitions>
-                            <Image Source="withoutbg.png"></Image>
-                            <Label Grid.Row="1" FontAttributes="Bold" TextColor="White" FontSize="25">21 999 ₽</Label>
-                            <StackLayout Grid.Row="2" Orientation="Horizontal">
-                                <Image HeightRequest="15" VerticalOptions="Center" Source="{FontImageSource Color=Gray,Glyph={x:Static fa:Solid.Star}, FontFamily=FASolid}" ></Image>
-                                <Label Margin="5,0,0,0"  VerticalOptions="Center" FontAttributes="Bold" TextColor="Gray" FontSize="15">Нет отзывов</Label>
-                            </StackLayout>
-                            <Label Grid.Row="3" TextColor="White" FontSize="18">Морозильная камера Haier HF-82WAA</Label>
+                                </Grid>
 
-                        </Grid>
-                       
-                    </HorizontalStackLayout>
+                            </HorizontalStackLayout>
+                        </material:TabItem>
+                        <material:TabItem Title="В тренде" >
+                            <HorizontalStackLayout>
+                                <Grid Margin="10" Padding="10" HeightRequest="250" WidthRequest="220" Background="#80373737">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="0.8*"></RowDefinition>
+                                        <RowDefinition Height="0.2*"></RowDefinition>
+                                        <RowDefinition Height="0.2*"></RowDefinition>
+                                        <RowDefinition Height="0.3*"></RowDefinition>
+                                        <RowDefinition Height="0.2*"></RowDefinition>
+                                    </Grid.RowDefinitions>
+                                    <Image Source="withoutbg.png"></Image>
+                                    <Label Grid.Row="1" FontAttributes="Bold" TextColor="White" FontSize="25">21 999 ₽</Label>
+                                    <StackLayout Grid.Row="2" Orientation="Horizontal">
+                                        <Image HeightRequest="15" VerticalOptions="Center" Source="{FontImageSource Color=Gray,Glyph={x:Static fa:Solid.Star}, FontFamily=FASolid}" ></Image>
+                                        <Label Margin="5,0,0,0"  VerticalOptions="Center" FontAttributes="Bold" TextColor="Gray" FontSize="15">Нет отзывов</Label>
+                                    </StackLayout>
+                                    <Label Grid.Row="3" TextColor="White" FontSize="18">Морозильная камера Haier HF-82WAA</Label>
+
+                                </Grid>
+
+                            </HorizontalStackLayout>
+                        </material:TabItem>
+                    </material:TabView>
+                    
                     <Label FontSize="20" TextColor="White" Text="Вы смотрели" Margin="5" FontAttributes="Bold">
 
                     </Label>

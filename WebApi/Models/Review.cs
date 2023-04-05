@@ -8,7 +8,7 @@ namespace WebApi.Models
         [Key]
         public int id_review { get; set; }
 
-        [ForeignKey("User")]
+        [ForeignKey("Users")]
         public int user_id { get; set; }
 
         public double Grade { get; set; }

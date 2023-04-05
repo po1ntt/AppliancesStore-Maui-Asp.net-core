@@ -9,6 +9,7 @@ namespace WebApi.Models
         {
             RecentlyViewed = new HashSet<RecentlyViewed>();
             PostponedProduct = new HashSet<PostponedProduct>();
+            Basket =new HashSet<Basket>();  
         }
 
         [Key]
@@ -22,6 +23,8 @@ namespace WebApi.Models
         public ICollection<PostponedProduct> PostponedProduct { get; set; }
 
         public ICollection<RecentlyViewed> RecentlyViewed { get; set; }
+        public ICollection<Basket> Basket { get; set; }
+
 
 
     }

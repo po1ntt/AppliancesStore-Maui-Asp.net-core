@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    internal class PostponedProduct
+    public class PostponedProduct
     {
+        public int id_postponedproducct { get; set; }
+        public Products products { get; set; }
     }
 }

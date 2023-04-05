@@ -8,10 +8,10 @@ namespace WebApi.Controllers
     public class ImagesController : ControllerBase
     {
         [HttpGet]
-        public IActionResult Get(string name)
+        public Byte[] Get(string name)
         {
-            Byte[] b = System.IO.File.ReadAllBytes($"Images\\{name}");   // You can use your own method over here.         
-            return File(b, "image/jpeg");
+            Byte[] b = System.IO.File.ReadAllBytes($"Images\\{name}");           
+            return b;
         }
     }
 }

@@ -1,5 +1,4 @@
-﻿using Client.Models;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,25 +7,26 @@ using System.Threading.Tasks;
 
 namespace Client.DataService
 {
-    public class CategoryService : BaseService
+    public class ImageService : BaseService
     {
-        public static CategoryService categoryService = new CategoryService();
-        public async Task<List<Category>> GetCategories()
+        public static ImageService imageService = new ImageService();
+
+        public async Task<Byte[]> GetImageByte(string namelink)
         {
-            List<Category> Categoryes = new();
+            Byte[] result = new Byte[7000];
             if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
             {
                 Console.WriteLine("504");
-                return Categoryes;
+                return null;
             }
             try
             {
 
-                HttpResponseMessage response = await httpclient.GetAsync($"{Adress}/api/Category/GetCategories");
+                HttpResponseMessage response = await httpclient.GetAsync($"{Adress}/api/Images?name={namelink}");
                 if (response.IsSuccessStatusCode)
                 {
                     string data = await response.Content.ReadAsStringAsync();
-                    Categoryes = JsonSerializer.Deserialize<List<Category>>(data, jsonSerializerOptions);
+                    result = JsonSerializer.Deserialize<Byte[]>(data, jsonSerializerOptions);
                 }
                 else
                 {
@@ -36,9 +36,9 @@ namespace Client.DataService
             catch (Exception e)
             {
                 Console.WriteLine(e.Message);
-                return Categoryes;
+                return null;
             }
-            return Categoryes;
+            return result;
         }
     }
 }

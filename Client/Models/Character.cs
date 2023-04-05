@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    internal class Character
+    public class Character
     {
+        public int id_character { get; set; }
+        public string characterName { get; set; }
     }
 }

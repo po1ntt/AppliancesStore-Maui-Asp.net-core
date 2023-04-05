@@ -1,7 +1,11 @@
-﻿using CommunityToolkit.Maui;
+﻿using Client.Views;
+using Client.ViewsModels;
 using InputKit.Handlers;
+using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
+using CommunityToolkit.Mvvm;
 using UraniumUI;
+using CommunityToolkit.Maui;
 
 namespace Client
 {
@@ -15,6 +19,7 @@ namespace Client
                 .UseMauiCommunityToolkit()
                 .UseUraniumUI()
                 .UseUraniumUIMaterial()
+              
                 .ConfigureMauiHandlers(handlers =>
                 {
                     // Add following line:
@@ -27,9 +32,12 @@ namespace Client
                     fonts.AddFontAwesomeIconFonts();
                 });
 
+            builder.Services.AddSingleton<CatalogsView>();
+            builder.Services.AddSingleton<HomeView>();
 
 #if DEBUG
             builder.Logging.AddDebug();
+
 #endif
 
             return builder.Build();

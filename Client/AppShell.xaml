@@ -17,6 +17,7 @@
         <ShellContent Title="Профиль" ContentTemplate="{DataTemplate local:ProfileView}" Icon="user.png"  />
 
         <ShellContent Title="Корзина" ContentTemplate="{DataTemplate local:BasketView}" Icon="basket.png"  />
+        <ShellContent Title="Коеупва" ContentTemplate="{DataTemplate local:ProductsView}" Icon="basket.png"  />
 
     </TabBar>
 </Shell>

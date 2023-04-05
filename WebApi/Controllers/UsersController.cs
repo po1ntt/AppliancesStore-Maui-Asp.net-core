@@ -15,7 +15,7 @@ namespace WebApi.Controllers
             context = new AppliancesStoreDbContext();
         }
         [HttpGet("GetUsers")]
-        public async Task<List<Users>> GetUsersAsync() => await context.Users.Include(p=> p.PostponedProduct).ToListAsync();
+        public async Task<List<Users>> GetUsersAsync() => await context.Users.Include(p=> p.PostponedProduct).ThenInclude(p=> p.Products).Include(p => p.Basket).ThenInclude(p=>p.Products).ToListAsync();
         [HttpGet("GetPostPoned")]
         public async Task<List<PostponedProduct>> GetPostponedProductsAsync(int id_user)
             => await context.PostponedProduct

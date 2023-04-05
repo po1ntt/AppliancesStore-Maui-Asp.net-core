@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    internal class BrandProduct
+    public class BrandProduct
     {
+        public int id_brand { get; set; }
+        public string nameBrand { get; set; }
     }
 }

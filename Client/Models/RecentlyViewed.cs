@@ -6,7 +6,9 @@ using System.Threading.Tasks;
 
 namespace Client.Models
 {
-    internal class RecentlyViewed
+     public class RecentlyViewed
     {
+        public int id_recentlyViewed { get; set; }
+        public Products products { get; set; }
     }
 }
