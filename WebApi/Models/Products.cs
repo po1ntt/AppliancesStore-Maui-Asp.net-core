@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using Newtonsoft.Json;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 
 namespace WebApi.Models
@@ -17,11 +18,13 @@ namespace WebApi.Models
         public decimal Price { get; set; }
         public bool Available { get; set; }
         public int Quantity { get; set; }
+      
         public virtual ICollection<CharacteristicProduct>? CharacteristicProduct { get; set; }
         public virtual ICollection<ReviewsProduct>? ReviewsProduct { get; set; }
         public string? ProductImageUrl { get; set; }
         public Subcategory? Subcategory { get; set; }
         public BrandProduct? BrandProduct { get; set; }
+
 
 
     }

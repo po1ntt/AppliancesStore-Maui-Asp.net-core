@@ -15,7 +15,7 @@ namespace Client.ViewsModels
     public partial class CatalogVM : ObservableObject
     {
     
-        private ObservableCollection<CatalogTreeModel> CatalogItems;
+        public ObservableCollection<CatalogTreeModel> CatalogItems { get; set; }
         public CatalogVM()           
         {
             CatalogItems = new ObservableCollection<CatalogTreeModel>();
@@ -30,6 +30,7 @@ namespace Client.ViewsModels
             {
                 CatalogTreeModel itemtoadd = new CatalogTreeModel();
                 itemtoadd.CategoryInfo = item as Category;
+               
                 CatalogItems.Add(itemtoadd);
             }
         }

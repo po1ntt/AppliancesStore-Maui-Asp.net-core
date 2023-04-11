@@ -16,7 +16,7 @@
             <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
-    <Grid >
+    <Grid Padding="5" >
     
         <CollectionView
             Grid.Row="1"

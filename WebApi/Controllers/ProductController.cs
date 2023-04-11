@@ -15,7 +15,7 @@ namespace WebApi.Controllers
             context = new AppliancesStoreDbContext();
         }
         [HttpGet("GetProducts")]
-        public List<Products> GetProducts() => context.Products.Include(p=> p.Subcategory).Include(p=> p.BrandProduct).Include(p=> p.CharacteristicProduct).ToList();
+        public List<Products> GetProducts() => context.Products.Include(p=> p.Subcategory).Include(p=> p.BrandProduct).Include(p=>p.ReviewsProduct).ThenInclude(p=>p.Review).ToList();
         [HttpGet("GetCharacteristicProduct")]
         public List<CharacteristicProduct> GetCharacteristicProduct(int id_product) => context.CharacteristicProduct.Where(p=> p.product_id == id_product).Include(p => p.Character).ToList();
         [HttpGet("GetReviewsProduct")]

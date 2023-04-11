@@ -14,6 +14,6 @@ namespace WebApi.Models
         public double Grade { get; set; }
         public string? ReviewText { get; set; }
 
-        public Users? User { get; set; }
+        public Users? Users { get; set; }
     }
 }

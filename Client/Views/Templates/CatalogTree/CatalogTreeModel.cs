@@ -1,6 +1,7 @@
 ﻿using Client.DataService;
 using Client.Models;
 using CommunityToolkit.Mvvm.ComponentModel;
+using CommunityToolkit.Mvvm.Input;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -12,22 +13,24 @@ namespace Client.Views.Templates.CatalogTree
 {
     public partial class CatalogTreeModel : ObservableObject
     {
+      
         public int Rotation => IsVisible ? 270 : 90;
 
         [ObservableProperty]
         [NotifyPropertyChangedFor(nameof(Rotation))]
         private bool isVisible;
-        public Category CategoryInfo { get; set; }
+
+    
+
         [ObservableProperty]
         private ObservableCollection<Subcategory> childsElements;
 
-        public Byte[] imgByteSourse { get; set; }  = new Byte[Byte.MaxValue]; 
-       
 
-        public CatalogTreeModel()
-        {
-        }
-      
+        
+
+        [ObservableProperty]
+        private Category categoryInfo;
+
         [CommunityToolkit.Mvvm.Input.RelayCommand]
         private void OpenData(CatalogTreeModel catalogTree)
         {
@@ -39,11 +42,10 @@ namespace Client.Views.Templates.CatalogTree
             }
            
         }
-        private async void LoadImage()
-        {
-            imgByteSourse = await ImageService.imageService.GetImageByte(CategoryInfo.categoryImage);
 
-        }
+      
+
+      
         [CommunityToolkit.Mvvm.Input.RelayCommand]
         private async Task gotoProducts(Subcategory subcategory)
         {
