@@ -6,18 +6,13 @@
     xmlns:local="clr-namespace:Client.Views"
     Shell.FlyoutBehavior="Disabled"
     xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome">
-
     <TabBar>
-            <ShellContent Title="Главная" ContentTemplate="{DataTemplate local:HomeView}" Icon="home.png" />
-            
-
-            <ShellContent Title="Каталог"  ContentTemplate="{DataTemplate local:CatalogsView}" Icon="list.png" />
+        <ShellContent Title="Главная" ContentTemplate="{DataTemplate local:HomeView}" Icon="home.png" />
+        <ShellContent Title="Каталог"  ContentTemplate="{DataTemplate local:CatalogsView}" Icon="list.png" />
         <ShellContent Title="Избранное" ContentTemplate="{DataTemplate local:FavoritesView}" Icon="heart.png" />
-
         <ShellContent Title="Профиль" ContentTemplate="{DataTemplate local:ProfileView}" Icon="user.png"  />
-
         <ShellContent Title="Корзина" ContentTemplate="{DataTemplate local:BasketView}" Icon="basket.png"  />
-        <ShellContent Title="Коеупва" ContentTemplate="{DataTemplate local:ProductsView}" Icon="basket.png"  />
+        <ShellContent Title="Корзина" ContentTemplate="{DataTemplate local:SignInView}" Icon="basket.png"  />
 
     </TabBar>
 </Shell>

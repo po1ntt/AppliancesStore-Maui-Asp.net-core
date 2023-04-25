@@ -8,10 +8,10 @@ namespace WebApi.Controllers
     public class ImagesController : ControllerBase
     {
         [HttpGet]
-        public Byte[] Get(string name)
+        public IActionResult Get(string name)
         {
-            Byte[] b = System.IO.File.ReadAllBytes($"Images\\{name}");           
-            return b;
+            var b = System.IO.File.OpenRead($"Images\\{name}");           
+            return File(b, "image/png");
         }
     }
 }

@@ -110,7 +110,6 @@
 
 	<ItemGroup>
 	  <Folder Include="Views\Templates\ProductsTemplate\ProductsDataTemplates\" />
-	  <Folder Include="Views\Templates\ProductsTemplate\ProductsDataSelectors\" />
 	</ItemGroup>
 
 </Project>

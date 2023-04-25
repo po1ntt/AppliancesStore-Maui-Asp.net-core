@@ -1,6 +1,7 @@
 ﻿using Client.Models;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Text.Json;
@@ -10,8 +11,11 @@ namespace Client.DataService
 {
     public class UsersService : BaseService
     {
+        public static UsersService usersService = new UsersService();
         public static Users UserInfo { get; set; }
-        public static CategoryService categoryService = new CategoryService();
+        public ObservableCollection<PostponedProduct> postponedProducts { get; set; } = new();
+        public ObservableCollection<Basket> basketUser { get; set; } = new();
+
         public async Task<Users> GetuserInfo(string phone, string password)
         {
             Users Users = new();
@@ -45,10 +49,27 @@ namespace Client.DataService
             }
             return Users;
         }
-      
+        public void LoadBasket(Users users)
+        {
+            basketUser.Clear();
+            foreach (var basketitem in users.basket)
+            {
+                basketUser.Add(basketitem);
+            }
+        }
+        public void LoadFavorites(Users users)
+        {
+            postponedProducts.Clear();
+            foreach (var postponed in users.postponedProduct)
+            {
+                postponedProducts.Add(postponed);
+            }
+        }
         public void AuthorizeUser(Users users)
         {
             UserInfo = users;
+            LoadBasket(users);
+            LoadFavorites(users);
             Preferences.Default.Set("phone", users.userPhone);
             Preferences.Default.Set("password", users.userPasswod);
         }

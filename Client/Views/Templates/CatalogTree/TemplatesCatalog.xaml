@@ -25,7 +25,7 @@
                
                 <Label 
                     Margin="5,0,0,0"
-                    TextColor="White" 
+                    TextColor="#333" 
                     VerticalOptions="Center"
                     FontSize="20"
                     Text="{Binding CategoryInfo.categoryName}"/>
@@ -57,7 +57,7 @@
                     <DataTemplate>
                        <Border Background="transparent" Stroke="transparent" Padding="5" HeightRequest="50" >
                             <StackLayout>
-                                <Label TextColor="White" FontSize="18" Text="{Binding nameSubCategory}">
+                                <Label TextColor="#333"  FontSize="18" Text="{Binding nameSubCategory}">
                                     <Label.GestureRecognizers>
                                         <TapGestureRecognizer Command="{Binding Source={x:RelativeSource AncestorType={x:Type local:CatalogTreeModel}},Path=gotoProductsCommand}"  CommandParameter="{Binding}" />
                                     </Label.GestureRecognizers>

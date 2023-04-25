@@ -14,5 +14,7 @@ namespace Client.Models
         public string userPasswod { get; set; }
         public List<PostponedProduct> postponedProduct { get; set; }
         public List<RecentlyViewed> recentlyViewed { get; set; }
+        public List<Basket> basket { get; set; }
+
     }
 }

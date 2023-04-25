@@ -2,36 +2,37 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Client.Views.SignInView"
-             Title="SignInView"
+             Title="Авторизация"
              xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
             xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
              xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
-             Background="#111"
+             Background="#fff"
              xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
               xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
              Shell.TabBarIsVisible="False"
+             Shell.NavBarIsVisible="True"
 
 
 >
     <VerticalStackLayout VerticalOptions="Center">
         <input:FormView Padding="10" >
-            <Image  Source="logo.png" HeightRequest="120" HorizontalOptions="Center" />
+            <Image  Source="logo.png" HeightRequest="100" HorizontalOptions="Center" />
 
-            <input:AdvancedEntry TextColor="White"  Placeholder="Номер телефона" CornerRadius="5" Keyboard="Numeric" BackgroundColor="#80373737" BorderColor="Transparent" PlaceholderColor="Gray"  IconImage="{FontImageSource Color=White, FontFamily=FASolid,Glyph={x:Static fa:Solid.Phone}}" TitleColor="White" >
+            <input:AdvancedEntry  Placeholder="Номер телефона" CornerRadius="5"  BorderColor="Transparent" PlaceholderColor="Gray"  IconImage="{FontImageSource Color=Orange, FontFamily=FASolid,Glyph={x:Static fa:Solid.Phone}}" TitleColor="White" >
                 <input:AdvancedEntry.Validations >
                     <validation:RequiredValidation Message="Это поле необходимо заполнить"/>
                     <validation:MinLengthValidation MinLength="9" Message="Не меньше 9 символов" />
                 </input:AdvancedEntry.Validations>
             </input:AdvancedEntry>
-            <input:AdvancedEntry TextColor="White" PlaceholderColor="Gray"  Margin="0,0,0,10" CornerRadius="5" Placeholder="Пароль" IsPassword="True" BackgroundColor="#80373737"  BorderColor="Transparent"  IconImage="{FontImageSource Color=White, FontFamily=FASolid,Glyph={x:Static fa:Solid.User}}" TitleColor="White" >
+            <input:AdvancedEntry  PlaceholderColor="Gray"  Margin="0,0,0,10" CornerRadius="5" Placeholder="Пароль" IsPassword="True" BorderColor="Transparent"    IconImage="{FontImageSource Color=Orange, FontFamily=FASolid,Glyph={x:Static fa:Solid.User}}" TitleColor="White" >
                 <input:AdvancedEntry.Validations>
                     <validation:RequiredValidation Message="Это поле необходимо заполнить"/>
                     <validation:MinLengthValidation MinLength="8" Message="Не меньше 8 символов" />
                 </input:AdvancedEntry.Validations>
             </input:AdvancedEntry>
-            <Button Margin="0,0,0,10" BackgroundColor="#80373737" CornerRadius="5" TextColor="White" StyleClass="FilledButton" Text="Войти в аккаунт"
+            <Button Margin="0,0,0,10" BackgroundColor="Orange" CornerRadius="5" TextColor="White" StyleClass="FilledButton" Text="Войти в аккаунт"
                     input:FormView.IsSubmitButton="True"></Button>
-            <Button Margin="0,0,0,10" BackgroundColor="#80373737" CornerRadius="5" TextColor="White" StyleClass="FilledButton" Text="Регистрация"
+            <Button Margin="0,0,0,10" BackgroundColor="Orange" CornerRadius="5" TextColor="White" StyleClass="FilledButton" Text="Регистрация"
                     ></Button>
         </input:FormView>
        

@@ -40,5 +40,27 @@ namespace Client.DataService
             }
             return Categoryes;
         }
+        public async Task<List<Subcategory>> GetSubCategories()
+        {
+            try
+            {
+                List<Category> categories = await GetCategories();
+                List<Subcategory> subcategories = new();
+                foreach(var item in categories)
+                {
+                    foreach(var subcatero in item.subcategories.ToList())
+                    {
+                        subcategories.Add(subcatero);
+                    }
+                }
+                return subcategories;
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e.Message);
+                throw;
+            }
+            
+        }
     }
 }

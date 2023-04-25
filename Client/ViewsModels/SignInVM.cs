@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Client.ViewsModels
 {
-    internal class SignInVM
+    public class SignInVM : BaseVM
     {
     }
 }

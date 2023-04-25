@@ -15,7 +15,7 @@ namespace WebApi.Controllers
             context = new AppliancesStoreDbContext();
         }
         [HttpGet("GetReviews")]
-        public List<Review> GetReviews() => context.Review.Include(x=> x.Users).ToList();
+        public List<ReviewsProduct> GetReviews() => context.ReviewsProduct.Include(x=> x.Users).ToList();
         
     }
 }

@@ -12,7 +12,7 @@ using CommunityToolkit.Mvvm.Input;
 
 namespace Client.ViewsModels
 {
-    public partial class CatalogVM : ObservableObject
+    public partial class CatalogVM : BaseVM
     {
     
         public ObservableCollection<CatalogTreeModel> CatalogItems { get; set; }

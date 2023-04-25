@@ -49,7 +49,7 @@ namespace Client.Views.Templates.CatalogTree
         [CommunityToolkit.Mvvm.Input.RelayCommand]
         private async Task gotoProducts(Subcategory subcategory)
         {
-            await Shell.Current.DisplayAlert("Проверка", subcategory.nameSubCategory, "Ок");
+            await Shell.Current.Navigation.PushAsync(new ProductsView(subcategory));
         }
 
     }

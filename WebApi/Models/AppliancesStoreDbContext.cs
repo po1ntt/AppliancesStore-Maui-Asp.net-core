@@ -16,7 +16,6 @@ namespace WebApi.Models
         }
         public DbSet<Users> Users { get; set; }
         public DbSet<Products> Products { get; set; }
-        public DbSet<Review>  Review { get; set; }
         public DbSet<ReviewsProduct> ReviewsProduct { get; set; }
         public DbSet<Category> Category { get; set; }
         public DbSet<CharacteristicProduct> CharacteristicProduct { get; set; }

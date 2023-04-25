@@ -8,15 +8,20 @@ namespace WebApi.Models
     {
         [Key]
         public int id_reviewsproduct { get; set; }
-        [ForeignKey("Review")]
-
-        public int reviews_id { get; set; }
+     
         [ForeignKey("Products")]
 
         public int product_id { get; set; }
+        [ForeignKey("Users")]
+        public int user_id { get; set; }
+
+        public double Grade { get; set; }
+        public string? ReviewText { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
+        public Users? Users { get; set; }
+        [System.Text.Json.Serialization.JsonIgnore]
+
         public Products? Products { get; set; }
-        public Review? Review { get; set; }
 
     }
 }

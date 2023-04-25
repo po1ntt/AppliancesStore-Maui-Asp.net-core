@@ -13,8 +13,7 @@ namespace Client.Views.Templates.ProductsTemplate
     {
         [ObservableProperty]
         private Products productData;
-        [ObservableProperty]
-        private List<ReviewsProduct> reviews;
+
         [ObservableProperty]
         private bool isFavorite;
         [ObservableProperty]

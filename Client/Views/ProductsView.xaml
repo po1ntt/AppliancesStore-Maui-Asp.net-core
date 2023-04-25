@@ -2,38 +2,120 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Client.Views.ProductsView"
-             Title="Товары"
-             Shell.NavBarIsVisible="True"
-             BackgroundColor="#111">
-    <VerticalStackLayout Padding="10">
-        <Label Text="Выбранная категория:" TextColor="White" FontSize="20"></Label>
+             Title="{Binding SubCategorySelected.nameSubCategory}"
+             Shell.NavBarIsVisible="False"
+             BackgroundColor="White"
+             xmlns:local="clr-namespace:Client.Views.Templates.ProductsTemplate"
+            xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
+             xmlns:vm="clr-namespace:Client.ViewsModels"
+           xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
+
+             >
+  
+    <Grid Padding="10" RowDefinitions="80,80, 800">
+        <StackLayout HorizontalOptions="FillAndExpand" VerticalOptions="Center" Orientation="Horizontal" Grid.Row="0" >
+          
+            <material:TextField TitleColor="Gray" AccentColor="Orange" BorderColor="Orange" HorizontalOptions="FillAndExpand" Title="Поиск по названию"></material:TextField>
+        </StackLayout>
+        <Grid Grid.Row="1">
+            <VerticalStackLayout>
+                <HorizontalStackLayout>
+                    <Label Text="Каталог" TextColor="Orange" FontSize="18">
+                        <Label.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="PopThisPage_Tapped">
+                                
+                            </TapGestureRecognizer>
+                        </Label.GestureRecognizers>
+                    </Label>
+                    <Line HeightRequest="1" WidthRequest="10" Margin="5,0,5,0" Background="Orange"></Line>
+                    <Label Text="{Binding SubCategorySelected.nameSubCategory}" FontSize="18" TextColor="Orange"></Label>
+                </HorizontalStackLayout>
+                <Label  Grid.Column="1"  FontSize="30" FontAttributes="Bold" VerticalOptions="Center" Text="{Binding SubCategorySelected.nameSubCategory}"></Label>
+            </VerticalStackLayout>
+        </Grid>
         <CollectionView
-            HorizontalOptions="Center"
+            Grid.Row="2"
+            HorizontalOptions="FillAndExpand"
+            VerticalOptions="FillAndExpand"
+            ItemsSource="{Binding productsList}"
             >
-            <CollectionView.ItemsLayout>
-                <GridItemsLayout Orientation="Vertical"
-                        Span="2" />
-            </CollectionView.ItemsLayout>
+           
             <CollectionView.ItemTemplate>
                 <DataTemplate>
-                    <Grid HeightRequest="320" RowDefinitions="0.5*, 0.5*">
-                        <Image Grid.Row="0"></Image>
-                        <VerticalStackLayout>
-                            <Label Text="{Binding price}"></Label>
-                            <StackLayout Orientation="Horizontal">
-                                <Image></Image>
-                                <Label></Label>
-                                <Label></Label>
+                    <Grid Margin="5" HeightRequest="-1" ColumnDefinitions="0.3*, 0.5*">
+                              
+                            <VerticalStackLayout HorizontalOptions="FillAndExpand">
+                                <Image Source="{Binding ProductData.productImageUrl}"  Grid.Column="0" HeightRequest="100" WidthRequest="100">
+                                    
+                                </Image>
+                                <StackLayout Orientation="Vertical">
+                                    <StackLayout Orientation="Horizontal" HorizontalOptions="Center">
+                                        <Image Margin="0,0,5,0" Source="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.Star}, Color=Red}" HeightRequest="15"></Image>
+                                        <Label Text="{Binding AvgGrade}" ></Label>
+                                    </StackLayout>
+                              
+                                    <Label HorizontalOptions="Center" TextColor="Gray" Text="{Binding ProductData.reviewsProduct.Count, StringFormat='{0} отзывов'}"></Label>
+
                             </StackLayout>
-                            <Label></Label>
-                            <StackLayout Orientation="Horizontal">
-                                <Button></Button>
-                                <ImageButton></ImageButton>
-                            </StackLayout>
-                        </VerticalStackLayout>
+                            </VerticalStackLayout >
+
+                                <VerticalStackLayout Margin="0,0,0,20" Grid.Column="1" VerticalOptions="FillAndExpand" HorizontalOptions="FillAndExpand">
+                                    <Label HorizontalOptions="FillAndExpand" Text="{Binding ProductData.price, StringFormat='{0} ₽'}" FontSize="30"></Label>
+
+                                    <Label  LineBreakMode="CharacterWrap" Text="{Binding ProductData.productsName}"></Label>
+                                    <StackLayout Orientation="Horizontal" >
+                                    
+                                        <ImageButton Margin="0,0,10,0" Source="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.HeartCirclePlus}, Color=FloralWhite}">
+                                            <ImageButton.Triggers>
+                                                <DataTrigger
+                                                        TargetType="ImageButton"
+                                                        Binding="{Binding IsFavorite}"
+                                                    Value="True">
+                                            <Setter Property="Source"
+                                                    Value="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.HeartCirclePlus}, Color=Red}"></Setter>
+                                                    
+                                                </DataTrigger>
+                                            <DataTrigger
+                                                            TargetType="ImageButton"
+                                                            Binding="{Binding IsFavorite}"
+                                                        Value="False">
+                                            <Setter Property="Source"
+                                                        Value="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.HeartCirclePlus}, Color=Gray}"></Setter>
+
+                                        </DataTrigger>
+                                    </ImageButton.Triggers>
+                                        </ImageButton>
+                                        <Button HorizontalOptions="FillAndExpand"  Padding="10" CornerRadius="5" Text="В корзину" BackgroundColor="Orange" TextColor="White">
+
+                                        </Button>   
+                                     </StackLayout>
+
+                                 </VerticalStackLayout>
+                        <Line Grid.ColumnSpan="2"  VerticalOptions="EndAndExpand" HeightRequest="1" Margin="0,0,0,0" Background="Gray"></Line>
+
                     </Grid>
+
                 </DataTemplate>
+
             </CollectionView.ItemTemplate>
+            <CollectionView.EmptyView>
+                    <StackLayout HorizontalOptions="Center"
+                             VerticalOptions="Center">
+                        <Label Text="По этой категории ничего не найдено.:("
+                           FontAttributes="Bold"
+                           FontSize="18"
+                           HorizontalOptions="Fill"
+                           
+                           HorizontalTextAlignment="Center" />
+                        <Label Text="Попробуй другую(Холодильники)?"
+                           FontAttributes="Italic"
+                           FontSize="12"
+                           HorizontalOptions="Fill"
+                           HorizontalTextAlignment="Center" />
+                    </StackLayout>
+            </CollectionView.EmptyView>
+
+
         </CollectionView>
-    </VerticalStackLayout>
+    </Grid>
 </ContentPage>

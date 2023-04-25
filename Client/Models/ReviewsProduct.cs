@@ -9,8 +9,9 @@ namespace Client.Models
     public class ReviewsProduct
     {
         public int id_reviewsproduct { get; set; }
-        public int reviews_id { get; set; }
         public int product_id { get; set; }
-        public Review review { get; set; }
+        public int user_id { get; set; }
+        public double grade { get; set; }
+        public string reviewText { get; set; }
     }
 }

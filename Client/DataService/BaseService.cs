@@ -16,7 +16,7 @@ namespace Client.DataService
         public BaseService()
         {
             httpclient = new HttpClient();
-            Adress = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5067" : "https://localhost:7202";
+            Adress = DeviceInfo.Platform == DevicePlatform.Android ? "http://10.0.2.2:5067" : "http://localhost:5067";
             jsonSerializerOptions = new JsonSerializerOptions
             {
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase

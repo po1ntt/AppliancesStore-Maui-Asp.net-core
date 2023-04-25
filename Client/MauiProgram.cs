@@ -34,6 +34,8 @@ namespace Client
 
             builder.Services.AddSingleton<CatalogsView>();
             builder.Services.AddSingleton<HomeView>();
+            builder.Services.AddSingleton<BaseVM>();
+
 
 #if DEBUG
             builder.Logging.AddDebug();
