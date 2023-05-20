@@ -7,7 +7,7 @@ public partial class HomeView : ContentPage
 		InitializeComponent();
 	}
 
-    private async void Button_Clicked(object sender, EventArgs e)
+    private async void Auth_Clicked(object sender, EventArgs e)
     {
 		await Shell.Current.Navigation.PushModalAsync(new SignInView());
     }

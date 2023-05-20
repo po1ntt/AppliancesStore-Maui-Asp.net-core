@@ -17,7 +17,7 @@ namespace WebApi.Models
         [JsonIgnore]
 
         public Users? Users { get; set; }
-        public Products? Products { get; set; }
+        public Products Products { get; set; }
 
 
 

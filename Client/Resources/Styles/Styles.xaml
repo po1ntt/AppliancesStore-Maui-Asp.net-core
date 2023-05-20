@@ -158,7 +158,7 @@
     </Style>
 
     <Style TargetType="Label">
-        <Setter Property="TextColor" Value="White" />
+        <Setter Property="TextColor" Value="#333" />
         <Setter Property="FontAttributes" Value="Bold" />
 
         <Setter Property="BackgroundColor" Value="Transparent" />

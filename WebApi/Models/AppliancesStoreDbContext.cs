@@ -29,21 +29,7 @@ namespace WebApi.Models
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<Products>()
-               .HasMany(e => e.CharacteristicProduct)
-                .WithOne(e => e.Product)
-                .HasForeignKey(e => e.product_id)
-                .IsRequired();
-            modelBuilder.Entity<Users>()
-              .HasMany(e => e.PostponedProduct)
-               .WithOne(e => e.Users)
-               .HasForeignKey(e => e.user_id)
-               .IsRequired();
-            modelBuilder.Entity<Users>()
-             .HasMany(e => e.Basket)
-              .WithOne(e => e.Users)
-              .HasForeignKey(e => e.user_id)
-              .IsRequired();
+           
         }
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {

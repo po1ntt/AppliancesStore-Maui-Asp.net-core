@@ -16,7 +16,7 @@ namespace WebApi.Models
 
         [ForeignKey("Products")]
         public int product_id { get; set; }
-        public Products? Products { get; set; }
+        public Products Products { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
         public Users? Users { get; set; }
     }

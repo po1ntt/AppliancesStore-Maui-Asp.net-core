@@ -5,12 +5,6 @@ namespace WebApi.Models
 {
     public class Users
     {
-        public Users()
-        {
-            RecentlyViewed = new HashSet<RecentlyViewed>();
-            PostponedProduct = new HashSet<PostponedProduct>();
-            Basket =new HashSet<Basket>();  
-        }
 
         [Key]
        
@@ -20,10 +14,7 @@ namespace WebApi.Models
         public string? userName { get; set; }
         public string? UserPasswod { get; set; }
 
-        public ICollection<PostponedProduct> PostponedProduct { get; set; }
-
-        public ICollection<RecentlyViewed> RecentlyViewed { get; set; }
-        public ICollection<Basket> Basket { get; set; }
+      
 
 
 

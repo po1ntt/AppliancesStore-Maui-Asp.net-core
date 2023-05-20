@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace Client.DataService
 {
-    public class BasketService
+    public class BasketService : BaseService
     {
 
     }

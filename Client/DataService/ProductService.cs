@@ -54,7 +54,6 @@ namespace Client.DataService
                     if (product.reviewsProduct.Count != 0)
                     {
                         avgGrade = product.reviewsProduct.Average(p => p.grade);
-
                     }
                  
                     bool isFavorite = false;

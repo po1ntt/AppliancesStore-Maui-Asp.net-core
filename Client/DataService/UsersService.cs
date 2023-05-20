@@ -2,7 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
+using System.Net.Http.Json;
 using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
@@ -34,6 +36,8 @@ namespace Client.DataService
                     Users = JsonSerializer.Deserialize<Users>(data, jsonSerializerOptions);
                     if(Users != null)
                     {
+                        Preferences.Default.Set("phone", Users.userPhone);
+                        Preferences.Default.Set("password", Users.userPasswod);
                         AuthorizeUser(Users);
                     }
                 }
@@ -49,6 +53,26 @@ namespace Client.DataService
             }
             return Users;
         }
+        public async Task<List<Basket>> GetBasketsAsync(int user_id)
+        {
+            var basket = new List<Basket>();
+            try
+            {
+                if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
+                {
+                    await Shell.Current.DisplayAlert("Ошибка", "Проблема с соединением", "Ок");
+                    return basket;
+                }
+                basket = await httpclient.GetFromJsonAsync<List<Basket>>($"{Adress}/api/Basket");
+                return basket;
+
+            }
+            catch (Exception e)
+            {
+                await Shell.Current.DisplayAlert("Ошибка", e.Message, "Ок");
+                return basket;
+            }
+        }
         public void LoadBasket(Users users)
         {
             basketUser.Clear();
@@ -57,6 +81,7 @@ namespace Client.DataService
                 basketUser.Add(basketitem);
             }
         }
+        
         public void LoadFavorites(Users users)
         {
             postponedProducts.Clear();
@@ -68,10 +93,7 @@ namespace Client.DataService
         public void AuthorizeUser(Users users)
         {
             UserInfo = users;
-            LoadBasket(users);
-            LoadFavorites(users);
-            Preferences.Default.Set("phone", users.userPhone);
-            Preferences.Default.Set("password", users.userPasswod);
+           
         }
     }
 }

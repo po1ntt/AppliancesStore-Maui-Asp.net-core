@@ -17,7 +17,6 @@ namespace WebApi.Models
 
         public double Grade { get; set; }
         public string? ReviewText { get; set; }
-        [System.Text.Json.Serialization.JsonIgnore]
         public Users? Users { get; set; }
         [System.Text.Json.Serialization.JsonIgnore]
 

@@ -1,4 +1,5 @@
-﻿using CommunityToolkit.Mvvm.ComponentModel;
+﻿using Client.DataService;
+using CommunityToolkit.Mvvm.ComponentModel;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,9 +19,39 @@ namespace Client.ViewsModels
 				OnPropertyChanged();
 			}
 		}
+        private bool _IsBusy;
+
+        public bool IsBusy
+        {
+            get { return _IsBusy; }
+            set
+            {
+                _IsBusy = value;
+                OnPropertyChanged();
+            }
+        }
         public BaseVM()
         {
-            IsNotUserAuth = true;
+            if(Preferences.Default.Get("phone", string.Empty) != string.Empty)
+            {
+                UsersService.usersService.AuthorizeUser(new Models.Users() 
+                {
+                    userPhone = Preferences.Default.Get("phone", string.Empty),
+                    userPasswod = Preferences.Default.Get("password", string.Empty) 
+                });
+            }
+            CheckUserAuth();
+        }
+        public void CheckUserAuth()
+        {
+            if (UsersService.UserInfo != null)
+            {
+                IsNotUserAuth = false;
+            }
+            else
+            {
+                IsNotUserAuth = true;
+            }
         }
 
     }

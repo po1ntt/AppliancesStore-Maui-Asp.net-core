@@ -16,7 +16,6 @@ namespace WebApi.Controllers
         }
         public class BasketParams
         {
-            public int id_basket { get; set; }
             public string? action { get; set; }
             public int product_id { get; set; }
             public int user_id { get; set; }
@@ -50,7 +49,7 @@ namespace WebApi.Controllers
         {
             try
             {
-                Basket? baskettoupdate = context.Basket.FirstOrDefault(p=> p.id_basket== basketAction.id_basket);
+                Basket? baskettoupdate = context.Basket.FirstOrDefault(p=> p.product_id== basketAction.product_id);
                 if(baskettoupdate !=null)
                 {
                     if (basketAction.action == "plus")
