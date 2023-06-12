@@ -3,110 +3,91 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Client.Views.HomeView"
              Title="Главная"
-             Shell.NavBarIsVisible="True"
-             Background="#fff"
-              xmlns:uranium="http://schemas.enisn-projects.io/dotnet/maui/uraniumui"
-            xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-             xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
-                          xmlns:vm="clr-namespace:Client.ViewsModels">
+             BackgroundColor="White"
+             xmlns:vm ="clr-namespace:Client.ViewsModels"
+             xmlns:controls="clr-namespace:Client.CustomControls"
+            xmlns:sk="clr-namespace:Maui.Skeleton;assembly=Sharpnado.HorusSkeleton.Maui"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             >
+
     <ContentPage.BindingContext>
-        <vm:HomeVM></vm:HomeVM>
+        <vm:HomeViewModel />
     </ContentPage.BindingContext>
+    <ContentPage.Resources>
+        <ResourceDictionary>
+            <DataTemplate x:Key="ProductCategoryTemplate">
 
+                <Frame
+                     Padding="0"   BackgroundColor="#fbfbfb">
+                    <Grid WidthRequest="220" HeightRequest="400" Padding="5" RowDefinitions="200,60,40,50,40">
+                        <Image WidthRequest="200" HeightRequest="200" Grid.Row="0" Source="{Binding ProductImage}"></Image>
+                        <Label TextColor="Black" FontSize="13" HorizontalTextAlignment="Start" HorizontalOptions="Center" Margin="5,5,0,0" Text="{Binding ProductName}" Grid.Row="1"></Label>
+                        <Grid CompressedLayout.IsHeadless="True"  HeightRequest="50" Grid.Row="2" >
+                            <HorizontalStackLayout CompressedLayout.IsHeadless="True" VerticalOptions="CenterAndExpand" >
+                                <Image VerticalOptions="Center" HeightRequest="30" Source="ic_star_icon.png">
+                                    <Image.Behaviors>
+                                        <toolkit:IconTintColorBehavior TintColor="Gray" />
+                                    </Image.Behaviors>
+                                </Image>
+                                <Label Margin="0,0,10,0" TextColor="Red" FontSize="16" VerticalOptions="Center" Text="{Binding AvgGrade}"></Label>
+                                <Label HorizontalOptions="Start" VerticalOptions="Center" FontSize="16" TextColor="#363636" Grid.Column="1" Text="{Binding CountReviews,StringFormat='{0} отзывов'}"></Label>
+                            </HorizontalStackLayout>
+                        </Grid>
+                        <Grid CompressedLayout.IsHeadless="True" HeightRequest="30" Grid.Row="3">
+                            <Label VerticalOptions="Center" FontSize="20" Text="{Binding ProductPrice, StringFormat='{0} ₽'}" TextColor="Black"></Label>
+                        </Grid>
 
-    <ScrollView>
-        <Grid BackgroundColor="White"  RowDefinitions="auto,1*">
-           
-        <StackLayout HorizontalOptions="FillAndExpand" Orientation="Horizontal" Grid.Row="0" Margin="10">
-                <ImageButton Margin="0,0,5,0" Source="{FontImageSource Color=Orange, FontFamily=FASolid,Glyph={x:Static fa:Solid.Filter}}">
-                    
-                </ImageButton>
-                <material:TextField TitleColor="Gray" AccentColor="Orange" BorderColor="Orange" HorizontalOptions="FillAndExpand" Title="Поиск по названию"></material:TextField>
-        </StackLayout>
+                        <Grid CompressedLayout.IsHeadless="True"  HeightRequest="50"  Grid.Row="4" ColumnDefinitions="1*,1*"   >
+                            <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:HomeViewModel}}, Path=ShowPopup}"  Grid.Column="0" CornerRadius="0" Padding="0" Source="id_shopping_basket_white.png" BackgroundColor="Orange" HorizontalOptions="FillAndExpand"></ImageButton>
+                            <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:HomeViewModel}}, Path=ShowPopup}"   x:Name="imgButton" Source="ic_heart_icon.png"  Background="transparent" Grid.Column="1"   HorizontalOptions="FillAndExpand">
+                                <ImageButton.Behaviors>
+                                    <toolkit:IconTintColorBehavior TintColor="Black" />
+                                </ImageButton.Behaviors>
 
-            <Border Padding="10"  Background="#f5f5f6" Stroke="transparent" StrokeThickness="0" Grid.Row="1">
-            <Border.StrokeShape>
-                <RoundRectangle CornerRadius="10,10,0,0"></RoundRectangle>
-            </Border.StrokeShape>
-                <StackLayout>
+                            </ImageButton>
+                        </Grid>
+                    </Grid>
+                </Frame>
+            </DataTemplate>
+        </ResourceDictionary>
+     
+    </ContentPage.Resources>
+    <RefreshView IsRefreshing="{Binding IsBusy}" RefreshColor="Orange" Command="{Binding RefreshCommand}">
+        <ScrollView Orientation="Vertical" HorizontalScrollBarVisibility="Never" VerticalOptions="FillAndExpand">
+            
+            <VerticalStackLayout Margin="5">
+                <Frame 
+                    Margin="5" Background="orange">
+                    <StackLayout>
+                        <Label Text="Авторизация"  TextColor="White" HorizontalOptions="Center" FontSize="30" Margin="5"></Label>
+                        <Button Text="Войти в аккаунт | Зарегистрироваться" TextColor="Black"  Background="white" CornerRadius="5"></Button>
+                    </StackLayout>
+                </Frame>
+                <StackLayout  sk:Skeleton.IsParent="True"
+	                            sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
+                                sk:Skeleton.IsBusy="{Binding IsBusy}" 
+                                 BindableLayout.ItemsSource="{Binding ProductsAndCategory}"
+                                  >
+                    <BindableLayout.ItemTemplate>
+                        <DataTemplate>
+                            <Frame BackgroundColor="White" Padding="5"  Margin="5">
+                                <StackLayout>
+                                    <Label FontAttributes="Bold" FontSize="22" TextColor="Black" Text="{Binding nameCategory}"></Label>
+                                    <ScrollView Orientation="Horizontal">
+                                        <StackLayout BindableLayout.ItemsSource="{Binding products, Mode=OneTime}"
+                                                  BindableLayout.ItemTemplate="{StaticResource ProductCategoryTemplate}"
+                                                 Orientation="Horizontal"
+                                                    HorizontalOptions="FillAndExpand"
+                                                    VerticalOptions="FillAndExpand"
+                                                     />
+                                    </ScrollView>
+                                </StackLayout>
+                            </Frame>
+                        </DataTemplate>
+                </BindableLayout.ItemTemplate>
+               </StackLayout>
+            </VerticalStackLayout>
+        </ScrollView>
 
-                    <Frame IsVisible="{Binding IsNotUserAuth}" Margin="5" Background="white" Padding="10">
-                        <StackLayout>
-                            <Label TextColor="#333" FontSize="20"  Text="Авторизируйся!" Margin="5" FontAttributes="Bold">
-                            </Label>
-                            <Button Clicked="Auth_Clicked" Text="Авторизация" Background="transparent" TextColor="Black" BorderColor="Orange" BorderWidth="1"></Button>
-                        </StackLayout>
-
-                    </Frame>
-
-                    <Frame Margin="5" Background="white" Padding="10">
-                        <StackLayout>
-
-                            <Label TextColor="#333" FontSize="20"  Text="Популярные Категории" Margin="5" FontAttributes="Bold" />
-                            <CollectionView ItemsSource="{Binding SubCategories}" ItemsLayout="HorizontalList">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Frame Padding="5" Margin="5" BackgroundColor="#f5f5f6" HeightRequest="100" WidthRequest="100">
-                                            <Label TextColor="#333" HorizontalOptions="Center" FontSize="10" VerticalOptions="Center" Text="{Binding nameSubCategory}"></Label>
-                                        </Frame>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </StackLayout>
-
-                    </Frame>
-                    <Frame Margin="5" Background="white" Padding="10">
-                        <StackLayout>
-
-                            <Label  TextColor="#333" FontSize="20"  Text="В тренде" Margin="5" FontAttributes="Bold"></Label>
-                            <CollectionView ZIndex="100"  ItemsLayout="HorizontalList" ItemsSource="{Binding productsTrend}">
-                                <CollectionView.ItemTemplate>
-                                    <DataTemplate>
-                                        <Grid Margin="10" Padding="10" HeightRequest="250" WidthRequest="220" Background="#f5f5f6">
-                                            <Grid.RowDefinitions>
-                                                <RowDefinition Height="0.8*"></RowDefinition>
-                                                <RowDefinition Height="0.4*"></RowDefinition>
-                                                <RowDefinition Height="0.2*"></RowDefinition>
-
-                                            </Grid.RowDefinitions>
-                                            <Image Source="{Binding ProductData.productImageUrl}"></Image>
-                                            <Label Grid.Row="1" Text="{Binding ProductData.productsName}"></Label>
-                                            <Label Grid.Row="2" FontSize="20" FontAttributes="Bold" Text="{Binding ProductData.price}"></Label>
-                                            <Grid ColumnDefinitions="0.7*, 0.2*" ColumnSpacing="5" Grid.Row="3">
-                                                <Button Grid.Column="0" HorizontalOptions="FillAndExpand"  Padding="10" CornerRadius="5" Text="В корзину" BackgroundColor="Orange" TextColor="White">
-
-                                                </Button>
-                                                <ImageButton Grid.Column="1" Margin="0,0,10,0" Source="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.HeartCirclePlus}, Color=FloralWhite}">
-                                                    <ImageButton.Triggers>
-                                                        <DataTrigger
-                                                        TargetType="ImageButton"
-                                                        Binding="{Binding IsFavorite}"
-                                                    Value="True">
-                                                            <Setter Property="Source"
-                                                    Value="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.HeartCirclePlus}, Color=Red}"></Setter>
-
-                                                        </DataTrigger>
-                                                        <DataTrigger
-                                                            TargetType="ImageButton"
-                                                            Binding="{Binding IsFavorite}"
-                                                        Value="False">
-                                                            <Setter Property="Source"
-                                                        Value="{FontImageSource FontFamily=FASolid, Glyph={x:Static fa:Solid.HeartCirclePlus}, Color=Gray}"></Setter>
-
-                                                        </DataTrigger>
-                                                    </ImageButton.Triggers>
-                                                </ImageButton>
-
-                                            </Grid>
-                                        </Grid>
-                                    </DataTemplate>
-                                </CollectionView.ItemTemplate>
-                            </CollectionView>
-                        </StackLayout>
-
-                    </Frame>
-                </StackLayout>
-            </Border>
-    </Grid>
-    </ScrollView>
+    </RefreshView>
 </ContentPage>

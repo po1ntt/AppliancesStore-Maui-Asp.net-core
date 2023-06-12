@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using WebApi.Models;
-using WebApi.Models.ModelsToClient;
 
 namespace WebApi.Controllers
 {
@@ -10,85 +9,78 @@ namespace WebApi.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        public AppliancesStoreDbContext context { get; set; }
+        private AppliancesStoreContext appliancesStoreContext { get; set; }
         public ProductController()
         {
-            context = new AppliancesStoreDbContext();
+            appliancesStoreContext = new AppliancesStoreContext();
         }
-        [HttpGet("GetProducts")]
-        public async Task<List<Products>> GetProducts() => await context.Products.Include(p=> p.ReviewsProduct).Include(p=> p.Subcategory).ToListAsync();
-        [HttpGet("GetProductsBySubCategory")]
-        public async Task<List<ProductModel>> GetProductsBySubCategory(int id_subcategory) 
+        [HttpGet("GetProductByCategory")]
+        public async Task<List<Product>> GetProductByCategory(int id_category)
         {
-            var result = new List<ProductModel>();
-            try
+            var collection = new List<Product>();
+            collection = await appliancesStoreContext.Products.Include(p => p.Reviews).Include(p => p.ProductBrand).Include(p => p.ProductCategory).Where(p => p.ProductCategoryId == id_category).ToListAsync();
+            foreach (var item in collection)
             {
-                var products = await context.Products.Include(p => p.ReviewsProduct).Where(p => p.Subcategory_id == id_subcategory).ToListAsync();
-                foreach (var item in products)
+                if (item.Reviews.Count != 0)
                 {
-                    var itemProduct = new ProductModel();
-                    itemProduct.id_product = item.id_products;
-                    itemProduct.Price = item.Price;
-                    itemProduct.ProductDescription = item.ProductsDesсription;
-                    if (item.ReviewsProduct.Count > 0)
-                    {
-                        itemProduct.AvgGrade = item.ReviewsProduct.Average(p => p.Grade);
-                    }
-                    itemProduct.CountReviews = item.ReviewsProduct.Count;
-                    itemProduct.NameProduct = item.ProductsName;
-                    itemProduct.Quantity = item.Quantity;
-                    itemProduct.IsNew = item.IsNew;
-                    itemProduct.IsTrend = item.IsTrend;
-                    itemProduct.ImageUrl = item.ProductImageUrl;
-                    result.Add(itemProduct);
+                    item.CountReviews = item.Reviews.Count();
+                    item.AvgGrade = item.Reviews.Average(p => p.Grade);
                 }
-                return result;
 
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            return collection;
         }
-        [HttpGet("GetProductsBySearch")]
-        public async Task<List<ProductModel>> GetProductsBySearch(string searchText)
+        [HttpGet("GetProductsByBrand")]
+        public async Task<List<Product>> GetProductsByBrand(int id_brand)
         {
-            var result = new List<ProductModel>();
-            try
+            var collection = new List<Product>();
+            collection = await appliancesStoreContext.Products.Include(p=> p.Reviews).Include(p=> p.ProductBrand).Include(p=> p.ProductCategory).Where(p => p.ProductBrandId == id_brand).ToListAsync();
+            foreach(var item in collection)
             {
-                var products = await context.Products.Include(p => p.ReviewsProduct).Where(p => p.ProductsName.ToLower().Contains(searchText.ToLower())).ToListAsync();
-                foreach (var item in products)
+                if(item.Reviews.Count != 0)
                 {
-                    var itemProduct = new ProductModel();
-                    itemProduct.id_product = item.id_products;
-                    itemProduct.Price = item.Price;
-                    itemProduct.ProductDescription = item.ProductsDesсription;
-                    if (item.ReviewsProduct.Count > 0)
-                    {
-                        itemProduct.AvgGrade = item.ReviewsProduct.Average(p => p.Grade);
-                    }
-                    itemProduct.CountReviews = item.ReviewsProduct.Count;
-                    itemProduct.NameProduct = item.ProductsName;
-                    itemProduct.Quantity = item.Quantity;
-                    itemProduct.IsNew = item.IsNew;
-                    itemProduct.IsTrend = item.IsTrend;
-                    itemProduct.ImageUrl = item.ProductImageUrl;
-                    result.Add(itemProduct);
+                    item.CountReviews = item.Reviews.Count();
+                    item.AvgGrade = item.Reviews.Average(p => p.Grade);
                 }
-                return result;
+      
             }
-            catch (Exception ex)
-            {
-                throw;
-            }
+            return collection;
         }
-
-        [HttpGet("GetCharacteristicProduct")]
-        public List<CharacteristicProduct> GetCharacteristicProduct(int id_product) => context.CharacteristicProduct.Where(p=> p.product_id == id_product).Include(p => p.Character).ToList();
-        [HttpGet("GetReviewsProduct")]
-
-        public List<ReviewsProduct> GetReviewsProduct(int id_product) => context.ReviewsProduct.Where(p => p.product_id == id_product).Include(p=> p.Users).ToList();
-
+        [HttpPost("AddNewProduct")]
+        public IActionResult AddNewProduct(Product product)
+        {
+            if (product == null)
+                return BadRequest();
+            appliancesStoreContext.Products.Add(new Product()
+            {
+                ProductBrandId = product.ProductBrandId,
+                ProductName = product.ProductName,
+                ProductDescription= product.ProductDescription,
+                ProductCategoryId = product.ProductCategoryId,
+                ProductImage = product.ProductImage
+            });
+            appliancesStoreContext.SaveChanges();
+            return Ok();
+        }
+        [HttpPost("AddProductToFavorite")]
+        public IActionResult ProductToFavorite(Favorite favorite)
+        {
+            if (favorite == null)
+                return BadRequest();
+            appliancesStoreContext.Favorites.Add(favorite);
+            appliancesStoreContext.SaveChanges();
+            return Ok();
+        }
+        [HttpDelete("DeleteProductFromFavorite")]
+        public IActionResult DeleteProductFromFavorite(int id_favorite)
+        {
+            var favoriteToDelete = appliancesStoreContext.Favorites.FirstOrDefault(p => p.IdFavorites == id_favorite);
+            if (favoriteToDelete == null)
+                return BadRequest();
+            appliancesStoreContext.Favorites.Remove(favoriteToDelete);
+            appliancesStoreContext.SaveChanges();
+            return Ok();
+        }
 
     }
 }

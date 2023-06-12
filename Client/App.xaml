@@ -12,7 +12,6 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />
-                <ResourceDictionary Source="Views/Templates/CatalogTree/TemplatesCatalog.xaml" />
                 <ResourceDictionary>
                     <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
                 </ResourceDictionary>

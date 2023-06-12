@@ -1,25 +1,22 @@
-﻿using System.ComponentModel.DataAnnotations;
-using System.ComponentModel.DataAnnotations.Schema;
+﻿using System;
+using System.Collections.Generic;
 using System.Text.Json.Serialization;
 
-namespace WebApi.Models
+namespace WebApi.Models;
+
+public partial class Basket
 {
-    public class Basket
-    {
-        [Key]
-        public  int id_basket { get; set; }
-        [ForeignKey("Products")]
+    public int IdBasket { get; set; }
 
-        public int product_id { get; set; }
-        public int AmountProduct { get; set; }
-        [ForeignKey("Users")]
-        public int user_id { get; set; }
-        [JsonIgnore]
+    public int? ProductId { get; set; }
 
-        public Users? Users { get; set; }
-        public Products Products { get; set; }
+    public int? UserId { get; set; }
+    public int? CountProduct { get; set; }
+    [JsonIgnore]
 
 
+    public virtual Product? Product { get; set; }
+    [JsonIgnore]
 
-    }
+    public virtual User? User { get; set; }
 }

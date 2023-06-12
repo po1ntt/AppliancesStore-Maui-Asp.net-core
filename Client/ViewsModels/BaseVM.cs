@@ -1,16 +1,24 @@
 ﻿using Client.DataService;
-using CommunityToolkit.Mvvm.ComponentModel;
+using Client.DataService.ServiceAPI;
+using CommunityToolkit.Maui.Alerts;
+using CommunityToolkit.Maui.Core;
+using Mopups.Interfaces;
+using Mopups.Services;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace Client.ViewsModels
 {
-    public class BaseVM : ObservableObject
+    public class BaseVM : INotifyPropertyChanged
     {
-		private bool _IsNotUserAuth;
+        public IPopupNavigation popupNavigation;
+
+        private bool _IsNotUserAuth;
 
 		public bool IsNotUserAuth
         {
@@ -30,29 +38,37 @@ namespace Client.ViewsModels
                 OnPropertyChanged();
             }
         }
+        public NetworkAccess networkAccess { get; set; }
+        public IRestAPIService restAPIService { get; set; }
         public BaseVM()
         {
-            if(Preferences.Default.Get("phone", string.Empty) != string.Empty)
-            {
-                UsersService.usersService.AuthorizeUser(new Models.Users() 
-                {
-                    userPhone = Preferences.Default.Get("phone", string.Empty),
-                    userPasswod = Preferences.Default.Get("password", string.Empty) 
-                });
-            }
-            CheckUserAuth();
+            popupNavigation = new PopupNavigation();
+            restAPIService = new RestAPIService();
+            networkAccess = Connectivity.NetworkAccess;
         }
-        public void CheckUserAuth()
+        public async void ShowSnackBar(string message)
         {
-            if (UsersService.UserInfo != null)
+            var snackbarOptions = new SnackbarOptions
             {
-                IsNotUserAuth = false;
-            }
-            else
-            {
-                IsNotUserAuth = true;
-            }
+                BackgroundColor = Colors.Orange,
+                TextColor = Colors.White,
+                ActionButtonTextColor = Colors.White,
+                CornerRadius = new CornerRadius(5),
+                CharacterSpacing = 0
+
+
+            };
+            TimeSpan duration = TimeSpan.FromSeconds(2);
+            var snacbarTest = Snackbar.Make(message, duration: duration, actionButtonText: "Ок", visualOptions: snackbarOptions);
+
+
+            await snacbarTest.Show();
         }
+        public void OnPropertyChanged([CallerMemberName] string prop = "")
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+        }
+        public event PropertyChangedEventHandler PropertyChanged;
 
     }
 }

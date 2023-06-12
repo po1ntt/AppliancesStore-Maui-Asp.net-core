@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Drawing.Printing;
+using Microsoft.EntityFrameworkCore;
+using NuGet.ContentModel;
 using WebApi.Models;
 
 namespace WebApi.Controllers
@@ -9,78 +10,66 @@ namespace WebApi.Controllers
     [ApiController]
     public class BasketController : ControllerBase
     {
-        public AppliancesStoreDbContext context { get; set; }
+        public AppliancesStoreContext appliancesStoreContext { get; set; }
         public BasketController()
         {
-            context = new AppliancesStoreDbContext();
+            appliancesStoreContext = new AppliancesStoreContext();
         }
-        public class BasketParams
+        [HttpGet("GetBasket")]
+        public async Task<List<Basket>> GetBasket(int userid)
         {
-            public string? action { get; set; }
-            public int product_id { get; set; }
-            public int user_id { get; set; }
-
+            var collection = new List<Basket>();
+            collection =  await appliancesStoreContext.Baskets.Where(p=> p.UserId == userid).ToListAsync();
+            return collection;
         }
         [HttpPost("AddProductToBasket")]
-        public async Task<bool> addProductToBasket([FromBody]BasketParams basket)
+        public IActionResult AddProductToBasket(Basket basket)
         {
-            try
-            {
-                context.Basket.Add(new Basket
-                {
-                    product_id = basket.product_id,
-                    AmountProduct = 1,
-                    user_id = basket.user_id
-
-                });
-                await context.SaveChangesAsync();
-                return true;
-            }
-            catch(Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-          
+            if (basket == null)
+                return BadRequest();
+            appliancesStoreContext.Baskets.Add(basket);
+            appliancesStoreContext.SaveChanges();
+            return Ok();
         }
-     
-        [HttpPut("BasketPlusMinus")]
-        public async Task<bool> BasketPlusMinus([FromBody]BasketParams basketAction)
+        [HttpPut("UpdateProductPlus")]
+        public async Task<IActionResult> UpdateProductPlus(Basket basket)
         {
-            try
+            if (basket == null)
+                return BadRequest();
+            var basketToUpdate = await appliancesStoreContext.Baskets.FirstOrDefaultAsync(p=> p.IdBasket == basket.IdBasket);
+            if(basketToUpdate != null)
             {
-                Basket? baskettoupdate = context.Basket.FirstOrDefault(p=> p.product_id== basketAction.product_id);
-                if(baskettoupdate !=null)
-                {
-                    if (basketAction.action == "plus")
-                    {
-                        baskettoupdate.AmountProduct++;
-                        await context.SaveChangesAsync();
-
-                        return true;
-
-                    }
-                    else
-                    {
-                        baskettoupdate.AmountProduct--;
-                        await context.SaveChangesAsync();
-                        return true;
-
-                    }
-                }
-                else
-                {
-                    return false;
-                }
+                basketToUpdate.CountProduct = basketToUpdate.CountProduct++;
+                appliancesStoreContext.SaveChanges();
+                return Ok();
             }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-                return false;
-            }
-
+            return BadRequest();    
         }
-        // [HttpGet("GetBasket")]
-        // public List<Products> GetProducts()
+        [HttpPut("UpdateProductMinus")]
+        public async Task<IActionResult> UpdateProductMinus(Basket basket)
+        {
+            if (basket == null)
+                return BadRequest();
+            var basketToUpdate = await appliancesStoreContext.Baskets.FirstOrDefaultAsync(p => p.IdBasket == basket.IdBasket);
+            if (basketToUpdate != null)
+            {
+                basketToUpdate.CountProduct = basketToUpdate.CountProduct--;
+                appliancesStoreContext.SaveChanges();
+                return Ok();
+            }
+            return BadRequest();
+        }
+
+        [HttpDelete("DeleteProductFromBasket")]
+        public IActionResult DeleteProductFromBasket(int id_basket)
+        {
+            
+            var baskettoremove = appliancesStoreContext.Baskets.FirstOrDefault(p => p.IdBasket == id_basket);
+            if (baskettoremove == null)
+                return BadRequest();
+            appliancesStoreContext.Baskets.Remove(baskettoremove);
+            appliancesStoreContext.SaveChanges();
+            return Ok();
+        }
     }
 }

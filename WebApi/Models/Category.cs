@@ -1,13 +1,17 @@
-﻿using System.ComponentModel.DataAnnotations;
+﻿using System;
+using System.Collections.Generic;
+using System.Text.Json.Serialization;
 
-namespace WebApi.Models
+namespace WebApi.Models;
+
+public partial class Category
 {
-    public class Category
-    {
-        [Key]
-        public int id_categoryProduct { get; set; }
-        public string? CategoryName { get; set; }
-        public string? CategoryImage { get; set; }
-        public ICollection<Subcategory>? Subcategories { get; set; }
-    }
+    public int IdCategory { get; set; }
+
+    public string? Name { get; set; }
+    public string? Logo { get; set; }
+
+    [JsonIgnore]
+
+    public virtual ICollection<Product> Products { get; set; } = new List<Product>();
 }

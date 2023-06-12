@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<mopup:PopupPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="Client.Views.Popups.NotAuthorizedPopupView"
+             xmlns:animPopup="clr-namespace:Mopups.Animations;assembly=Mopups"
+             xmlns:mopup="clr-namespace:Mopups.Pages;assembly=Mopups"
+             Background="#8000"
+             CloseWhenBackgroundIsClicked="True">
+    <mopup:PopupPage.Animation>
+        <animPopup:ScaleAnimation
+            DurationIn="700"
+            EasingIn="BounceOut"
+            PositionIn="Bottom"
+            PositionOut="Top"
+            ScaleIn="1"
+            ScaleOut="0.7">
+            
+        </animPopup:ScaleAnimation>
+    </mopup:PopupPage.Animation>
+    <Border  BackgroundColor="White" WidthRequest="300" HeightRequest="300">
+        <Border.StrokeShape>
+            <RoundRectangle CornerRadius="25,0,0,25" /> 
+        </Border.StrokeShape>
+        <Grid RowDefinitions="70,1*,60">
+            <Grid Grid.Row="0" BackgroundColor="Orange">
+                <Label HorizontalOptions="Center" VerticalOptions="Center" FontSize="22" Text="Необходима авторизация" TextColor="White" FontAttributes="Bold"></Label>
+            </Grid>
+            <Label HorizontalTextAlignment="Center" Grid.Row="1" TextColor="Black" FontSize="20" HorizontalOptions="Center" VerticalOptions="Center" Text="Перейти на страницу авторизации?">
+                
+            </Label>
+            <Border Grid.Row="2" BackgroundColor="White">
+                <Grid  ColumnDefinitions="1*,10,1*">
+                    <Button Clicked="Cancel_Clicked" TextColor="Black" BackgroundColor="Transparent" CornerRadius="0" Text="Отмена" />
+                    <Label Text="|" Grid.Column="1" VerticalOptions="Center" FontSize="20" TextColor="Black"></Label>
+                    <Button Grid.Column="2" TextColor="Black" BackgroundColor="Transparent" CornerRadius="0"  Text="Перейти" />
+                </Grid>
+            </Border>
+        </Grid>
+    </Border>
+</mopup:PopupPage>

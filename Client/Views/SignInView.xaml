@@ -3,42 +3,8 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Client.Views.SignInView"
              Title="Авторизация"
-             xmlns:xct="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-            xmlns:material="http://schemas.enisn-projects.io/dotnet/maui/uraniumui/material"
-             xmlns:fa="clr-namespace:UraniumUI.Icons.FontAwesome;assembly=UraniumUI.Icons.FontAwesome"
-             Background="#fff"
-             xmlns:input="clr-namespace:InputKit.Shared.Controls;assembly=InputKit.Maui"
-              xmlns:validation="clr-namespace:InputKit.Shared.Validations;assembly=InputKit.Maui"
-             Shell.TabBarIsVisible="False"
-             Shell.NavBarIsVisible="True"
-             xmlns:vm="clr-namespace:Client.ViewsModels"
-
-
->
-    <ContentPage.BindingContext>
-        <vm:SignInVM></vm:SignInVM>
-    </ContentPage.BindingContext>
-    <VerticalStackLayout VerticalOptions="Center">
-        <input:FormView Padding="10" >
-            <Image  Source="logo.png" HeightRequest="100" HorizontalOptions="Center" />
-
-            <input:AdvancedEntry BackgroundColor="White"  Placeholder="Номер телефона" Text="{Binding Password}" CornerRadius="5"  TextColor="Black" BorderColor="Black"
-                                  PlaceholderColor="Gray"  IconImage="{FontImageSource Color=Orange, FontFamily=FASolid,Glyph={x:Static fa:Solid.Phone}}" TitleColor="Black" >
-                <input:AdvancedEntry.Validations >
-                    <validation:RequiredValidation Message="Это поле необходимо заполнить"/>
-                    <validation:MinLengthValidation MinLength="9" Message="Не меньше 9 символов" />
-                </input:AdvancedEntry.Validations>
-            </input:AdvancedEntry>
-            <input:AdvancedEntry BackgroundColor="White"   PlaceholderColor="Gray" Text="{Binding Phone}"  Margin="0,0,0,10" TextColor="Black" CornerRadius="5" Placeholder="Пароль" IsPassword="True"  BorderColor="Black"  IconImage="{FontImageSource Color=Orange, FontFamily=FASolid,Glyph={x:Static fa:Solid.User}}" TitleColor="White" >
-                <input:AdvancedEntry.Validations>
-                    <validation:RequiredValidation Message="Это поле необходимо заполнить"/>
-                </input:AdvancedEntry.Validations>
-            </input:AdvancedEntry>
-            <Button Margin="0,0,0,10" BackgroundColor="Orange" CornerRadius="5" TextColor="White" StyleClass="FilledButton" Text="Войти в аккаунт"
-                    input:FormView.IsSubmitButton="True" Command="{Binding authorizeUserCommand}"></Button>
-            <Button Margin="0,0,0,10" BackgroundColor="Orange" CornerRadius="5" TextColor="White" StyleClass="FilledButton" Text="Регистрация"
-                    ></Button>
-        </input:FormView>
+             BackgroundColor="White">
+    <VerticalStackLayout>
        
     </VerticalStackLayout>
 </ContentPage>

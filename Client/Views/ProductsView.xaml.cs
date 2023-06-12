@@ -1,21 +1,12 @@
+using Client.DataService.DboModels;
 using Client.ViewsModels;
 
 namespace Client.Views;
-
 public partial class ProductsView : ContentPage
 {
-    public ProductsView()
-    {
-        InitializeComponent();
-    }
-    public ProductsView(Models.Subcategory subcategory)
+	public ProductsView(Category category)
 	{
 		InitializeComponent();
-        BindingContext = new ProductsVM(subcategory);
+		this.BindingContext = new ProductsViewModel(category);
 	}
-
-    private async void PopThisPage_Tapped(object sender, TappedEventArgs e)
-    {
-        await Shell.Current.Navigation.PopAsync();
-    }
 }

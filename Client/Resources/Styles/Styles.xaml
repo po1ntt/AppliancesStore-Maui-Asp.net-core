@@ -109,7 +109,7 @@
     </Style>
 
     <Style TargetType="Entry">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Black}, Dark={StaticResource Black}}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular"/>
         <Setter Property="FontSize" Value="14" />
@@ -146,13 +146,22 @@
         <Setter Property="VisualStateManager.VisualStateGroups">
             <VisualStateGroupList>
                 <VisualStateGroup x:Name="CommonStates">
-                    <VisualState x:Name="Normal" />
-                    <VisualState x:Name="Disabled">
+                    <VisualState x:Name="Normal">
                         <VisualState.Setters>
-                            <Setter Property="Opacity" Value="0.5" />
+                            <Setter Property="Scale"
+                        Value="1" />
                         </VisualState.Setters>
                     </VisualState>
+
+                    <VisualState x:Name="Pressed">
+                        <VisualState.Setters>
+                            <Setter Property="Scale"
+                        Value="0.8" />
+                        </VisualState.Setters>
+                    </VisualState>
+
                 </VisualStateGroup>
+
             </VisualStateGroupList>
         </Setter>
     </Style>
@@ -272,7 +281,7 @@
     </Style>
 
     <Style TargetType="SearchHandler">
-        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource White}}" />
+        <Setter Property="TextColor" Value="{AppThemeBinding Light={StaticResource Gray900}, Dark={StaticResource Black}}" />
         <Setter Property="PlaceholderColor" Value="{StaticResource Gray500}" />
         <Setter Property="BackgroundColor" Value="Transparent" />
         <Setter Property="FontFamily" Value="OpenSansRegular" />
@@ -380,13 +389,13 @@
 
     <Style TargetType="Shell" ApplyToDerivedTypes="True">
         <Setter Property="Shell.BackgroundColor" Value="#fff" />
-        <Setter Property="Shell.ForegroundColor" Value="{OnPlatform WinUI={StaticResource Primary}, Default={StaticResource White}}" />
+        <Setter Property="Shell.ForegroundColor" Value="{OnPlatform WinUI={StaticResource Black}, Default={StaticResource Black}}" />
         <Setter Property="Shell.TitleColor" Value="#333" />
         <Setter Property="Shell.DisabledColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray950}}" />
         <Setter Property="Shell.UnselectedColor" Value="{AppThemeBinding Light={StaticResource Gray200}, Dark={StaticResource Gray200}}" />
         <Setter Property="Shell.NavBarHasShadow" Value="True" />
         <Setter Property="Shell.TabBarBackgroundColor" Value="#fff" />
-        <Setter Property="Shell.TabBarForegroundColor" Value="#333" />
+        <Setter Property="Shell.TabBarForegroundColor" Value="#fff" />
         <Setter Property="Shell.TabBarTitleColor" Value="OrangeRed" />
         <Setter Property="Shell.TabBarUnselectedColor" Value="Orange" />
     </Style>

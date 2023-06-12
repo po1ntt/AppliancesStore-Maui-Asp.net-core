@@ -3,9 +3,10 @@ using Client.ViewsModels;
 using InputKit.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
-using CommunityToolkit.Mvvm;
 using UraniumUI;
 using CommunityToolkit.Maui;
+using Mopups.Interfaces;
+using Mopups.Services;
 
 namespace Client
 {
@@ -19,7 +20,7 @@ namespace Client
                 .UseMauiCommunityToolkit()
                 .UseUraniumUI()
                 .UseUraniumUIMaterial()
-              
+               
                 .ConfigureMauiHandlers(handlers =>
                 {
                     // Add following line:
@@ -32,10 +33,9 @@ namespace Client
                     fonts.AddFontAwesomeIconFonts();
                 });
 
-            builder.Services.AddSingleton<CatalogsView>();
-            builder.Services.AddSingleton<HomeView>();
+            builder.Services.AddTransient<HomeView>();
             builder.Services.AddSingleton<BaseVM>();
-
+            builder.Services.AddSingleton<IPopupNavigation>(MopupService.Instance);
 
 #if DEBUG
             builder.Logging.AddDebug();

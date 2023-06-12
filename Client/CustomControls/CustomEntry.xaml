@@ -2,11 +2,13 @@
 <ContentView xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Client.CustomControls.CustomEntry"
-             xmlns:hanlers="clr-namespace:Client.Handlers">
-    <Frame Padding="10" BorderColor="Transparent" CornerRadius="0">
-        <Grid ColumnDefinitions="25,*" ColumnSpacing="10">
-            <Image VerticalOptions="Center" Source="email.png" HeightRequest="25" WidthRequest="25" />
-            <hanlers:BorderlessEntry VerticalOptions="Center" Placeholder="Email" Grid.Column="1" />
+             xmlns:hanlers="clr-namespace:Client.Handlers"
+             BackgroundColor="White">
+    <Frame BackgroundColor="White" CornerRadius="20" Margin="10" BorderColor="Orange" Padding="10" >
+        <Grid ColumnDefinitions="25,10,*" ColumnSpacing="10">
+            <Image VerticalOptions="Center" Source="ic_star_icon.png" HeightRequest="25" WidthRequest="25" />
+            <Label Grid.Column="1" Text="|" FontSize="20" VerticalOptions="Center" FontAttributes="Bold" TextColor="Black"></Label>
+            <hanlers:BorderlessEntry TextColor="Black" Placeholder="Поиск по названию" VerticalOptions="Center" PlaceholderColor="Gray" Grid.Column="2" />
         </Grid>
     </Frame>
 </ContentView>

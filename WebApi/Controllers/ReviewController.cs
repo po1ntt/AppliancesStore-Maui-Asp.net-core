@@ -9,13 +9,17 @@ namespace WebApi.Controllers
     [ApiController]
     public class ReviewController : ControllerBase
     {
-        public AppliancesStoreDbContext context { get; set; }
+        private AppliancesStoreContext appliancesStoreContext { get; set; }
         public ReviewController()
         {
-            context = new AppliancesStoreDbContext();
+            appliancesStoreContext = new AppliancesStoreContext();
         }
-        [HttpGet("GetReviews")]
-        public List<ReviewsProduct> GetReviews() => context.ReviewsProduct.Include(x=> x.Users).ToList();
-        
+        [HttpGet("GetProductReviews")]
+        public async Task<List<Review>> GetReviewsAsync(int id_product)
+        {
+            var collection = new List<Review>();
+            collection = await appliancesStoreContext.Reviews.Where(p => p.ProductId == id_product).ToListAsync();
+            return collection;
+        } 
     }
 }
