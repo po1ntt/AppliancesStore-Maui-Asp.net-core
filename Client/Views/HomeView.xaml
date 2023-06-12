@@ -38,7 +38,7 @@
                         </Grid>
 
                         <Grid CompressedLayout.IsHeadless="True"  HeightRequest="50"  Grid.Row="4" ColumnDefinitions="1*,1*"   >
-                            <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:HomeViewModel}}, Path=ShowPopup}"  Grid.Column="0" CornerRadius="0" Padding="0" Source="id_shopping_basket_white.png" BackgroundColor="Orange" HorizontalOptions="FillAndExpand"></ImageButton>
+                            <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:HomeViewModel}}, Path=ShowPopup}"  Grid.Column="0" Source="id_shopping_basket_white.png" BackgroundColor="Orange" ></ImageButton>
                             <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:HomeViewModel}}, Path=ShowPopup}"   x:Name="imgButton" Source="ic_heart_icon.png"  Background="transparent" Grid.Column="1"   HorizontalOptions="FillAndExpand">
                                 <ImageButton.Behaviors>
                                     <toolkit:IconTintColorBehavior TintColor="Black" />
