@@ -3,8 +3,69 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Client.Views.SignInView"
              Title="Авторизация"
-             BackgroundColor="White">
-    <VerticalStackLayout>
-       
+             BackgroundColor="White"
+             xmlns:vm="clr-namespace:Client.ViewsModels"
+             >
+    <ContentPage.BindingContext>
+        <vm:SignInViewModel /> 
+    </ContentPage.BindingContext>
+    <VerticalStackLayout HorizontalOptions="Center" >
+        <Image HeightRequest="300" Source="pngappliances.png" />
+        <Grid HorizontalOptions="Fill" VerticalOptions="FillAndExpand">
+            <Border Padding="20" BackgroundColor="White" StrokeThickness="2" HorizontalOptions="Fill" VerticalOptions="FillAndExpand">
+                <Border.StrokeShape>
+                    <RoundRectangle BackgroundColor="Orange"  CornerRadius="5,5,5,5"/>
+                </Border.StrokeShape>
+                <Border.Stroke>
+                    <LinearGradientBrush EndPoint="0,1">
+                        <GradientStop Color="Orange"
+                          Offset="0.1" />
+                        <GradientStop Color="Brown"
+                          Offset="1.0" />
+                    </LinearGradientBrush>
+                </Border.Stroke>
+                <Border.Shadow>
+                    <Shadow Brush="orange" />
+                </Border.Shadow>
+                <StackLayout HorizontalOptions="Center" VerticalOptions="Center">
+                    <Border WidthRequest="300"  Margin="10" BackgroundColor="White" Grid.Row="0" Padding="5">
+                        <Border.StrokeShape>
+                            <RoundRectangle BackgroundColor="Orange"  CornerRadius="5,5,5,5"/>
+                        </Border.StrokeShape>
+                        <Border.Stroke>
+                            <LinearGradientBrush EndPoint="0,1">
+                                <GradientStop Color="Orange"
+                          Offset="0.1" />
+                                <GradientStop Color="Brown"
+                          Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Stroke>
+                        <Border.Shadow>
+                            <Shadow Brush="orange" />
+                        </Border.Shadow>
+                        <Entry TextColor="Black" Text="{Binding Login}" PlaceholderColor="Gray" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Placeholder="Введите логин"></Entry>
+                </Border>
+                <Border Margin="10" Padding="5" BackgroundColor="White"  Grid.Row="1">
+                        <Border.StrokeShape>
+                            <RoundRectangle BackgroundColor="Orange"  CornerRadius="5,5,5,5"/>
+                        </Border.StrokeShape>
+                        <Border.Stroke>
+                            <LinearGradientBrush EndPoint="0,1">
+                                <GradientStop Color="Orange"
+                          Offset="0.1" />
+                                <GradientStop Color="Brown"
+                          Offset="1.0" />
+                            </LinearGradientBrush>
+                        </Border.Stroke>
+                        <Border.Shadow>
+                            <Shadow Brush="orange" />
+                        </Border.Shadow>
+                        <Entry TextColor="Black" Text="{Binding Password}" PlaceholderColor="Gray"  Placeholder="Введите пароль"></Entry>
+                    </Border>
+                    <Button Command="{Binding AuthUserCommand}" Margin="0,0,0,10" BackgroundColor="Transparent" BorderColor="Orange" CornerRadius="10" BorderWidth="2" Grid.Row="2" Text="Авторизоваться"></Button>
+                    <Button BackgroundColor="Orange" TextColor="White" CornerRadius="10" Grid.Row="3" Text="Регистрация"></Button>
+                </StackLayout>
+            </Border>
+        </Grid>
     </VerticalStackLayout>
 </ContentPage>

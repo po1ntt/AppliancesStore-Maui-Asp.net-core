@@ -7,14 +7,16 @@
              xmlns:models="clr-namespace:Client.DataService.DboModels"
              BackgroundColor="White"
              xmlns:custom="clr-namespace:Client.CustomControls"
-             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit">
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+              xmlns:convertors="clr-namespace:Client.Convertors">
  
     <Grid RowDefinitions="80,*">
         <custom:CustomEntry Grid.Row="0" BackgroundColor="White"/> 
         <CollectionView Grid.Row="1" ItemsSource="{Binding Products}"
                         Margin="5"
                        
-                       BackgroundColor="White"
+                        BackgroundColor="White"
+                      
                        >
             <CollectionView.ItemTemplate>
                 <DataTemplate x:DataType="models:Product">
@@ -29,7 +31,9 @@
                                     <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
                                         <Image VerticalOptions="Center" HeightRequest="25" Source="ic_star_icon.png" >
                                             <Image.Behaviors>
-                                                <toolkit:IconTintColorBehavior TintColor="Gray" />
+                                                <toolkit:IconTintColorBehavior TintColor="{Binding IsFavorite, Converter={StaticResource favoritesConverter}}" >
+
+                                                </toolkit:IconTintColorBehavior>
                                             </Image.Behaviors>
                                         </Image>
                                         <Label VerticalOptions="Center" TextColor="#333" Text="{Binding AvgGrade}" />
@@ -60,6 +64,14 @@
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
             </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <ContentView Background="white">
+                    <Frame BackgroundColor="White">
+                        <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black" Text="Ничего не найдено"></Label>
+                    </Frame>
+                </ContentView>
+              
+            </CollectionView.EmptyView>
         </CollectionView>
     </Grid>
 </ContentPage>

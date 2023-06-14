@@ -9,7 +9,6 @@ namespace Client
         public App()
         {
             InitializeComponent();
-
             MainPage = new AppShell();
         }
     }

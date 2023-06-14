@@ -8,6 +8,8 @@ using System.Text;
 using System.Text.Json;
 using System.Threading.Tasks;
 using Client.DataService.DboModels;
+using System.Text.Json.Serialization;
+using Newtonsoft.Json;
 
 namespace Client.DataService.ServiceAPI
 {
@@ -26,9 +28,12 @@ namespace Client.DataService.ServiceAPI
                 PropertyNamingPolicy = JsonNamingPolicy.CamelCase
             };
         }
-        public Task<bool> AddProductToFavorite(Favorite favorite)
+        public async Task<bool> AddProductToFavorite(Favorite favorite)
         {
-            throw new NotImplementedException();
+            var stringContent = new StringContent(favorite.ToString());
+            var response = await httpclient.PostAsJsonAsync(UrlsApi.ADDPRODUCTTOFAVORITE_URL, favorite);
+            return response.IsSuccessStatusCode;
+
         }
 
         public Task<bool> DeleteProductFromBasket(Basket basket)
@@ -99,16 +104,59 @@ namespace Client.DataService.ServiceAPI
 
         public async Task<List<ProductAndCategoryModel>> GetProductAndCategoryModels()
         {
-            var collection = await httpclient.GetFromJsonAsync(UrlsApi.GETPRODUCTSANDCATEGORY_URL, typeof(List<ProductAndCategoryModel>), jsonSerializerOptions) as List<ProductAndCategoryModel>;
-           
-            foreach(var model in collection.ToList())
+            try
             {
-                if(model.products.Count == 0)
+                var collection = await httpclient.GetFromJsonAsync(UrlsApi.GETPRODUCTSANDCATEGORY_URL, typeof(List<ProductAndCategoryModel>), jsonSerializerOptions) as List<ProductAndCategoryModel>;
+
+                foreach (var model in collection.ToList())
                 {
-                    collection.Remove(model);
+                    if (model.products.Count == 0)
+                    {
+                        collection.Remove(model);
+                    }
                 }
+                return collection;
             }
+            catch(Exception ex)
+            {
+                await Shell.Current.DisplayAlert("Ошибка", ex.Message, "Ок");
+                return new List<ProductAndCategoryModel>();
+            }
+          
+
+        }
+
+        public async Task<bool> AuhtorizeUser(string login, string password)
+        {
+           var response = await httpclient.GetAsync(UrlsApi.AuthorizeUser(login, password));
+            var responseContent = await response.Content.ReadAsStringAsync();
+            var user =JsonConvert.DeserializeObject<User>(responseContent);
+            Preferences.Set("id_user", user.IdUser);
+            return response.IsSuccessStatusCode;
+        }
+
+        public Task<User> RegistUser(string login, string password)
+        {
+            throw new NotImplementedException();
+        }
+
+        public async Task<List<Product>> GetUserFavorites()
+        {
+            var collection = await httpclient.GetFromJsonAsync(UrlsApi.FavoritesUser(Preferences.Get("id_user", 0)), typeof(List<Product>), jsonSerializerOptions) as List<Product>;
             return collection;
+        }
+
+        public async Task<List<Product>> GetUserBasket()
+        {
+            var collection = await httpclient.GetFromJsonAsync(UrlsApi.BasketUser(Preferences.Get("id_user",0)), typeof(List<Product>), jsonSerializerOptions) as List<Product>;
+            return collection;
+        }
+
+        public async Task<bool> AddProductToBasket(Basket basket)
+        {
+            var stringContent = new StringContent(basket.ToString());
+            var response = await httpclient.PostAsync(UrlsApi.ADDPRODUCTTOBASKT_URL, stringContent);
+            return response.IsSuccessStatusCode;
         }
     }
 }

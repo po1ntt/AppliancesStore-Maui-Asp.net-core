@@ -14,6 +14,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using Client.DataService.DboModels;
+using Client.Views;
 
 namespace Client.ViewsModels
 {
@@ -29,21 +30,21 @@ namespace Client.ViewsModels
                      OnPropertyChanged();
                  }
              }*/
-        public ObservableCollection<ProductAndCategoryModel> ProductsAndCategory { get; set; }  
+        public ObservableCollection<ProductAndCategoryModel> ProductsAndCategory { get; set; }
+        public ObservableCollection<Brand> Brands { get; set; }
+
         public Command RefreshCommand { get; set; }
         
         public Command ShowPopup { get; set; }
-            
+        public Command GotoAuthPage { get; set; }
         public HomeViewModel()
         {
             ProductsAndCategory = new ObservableCollection<ProductAndCategoryModel>();
+            Brands = new ObservableCollection<Brand>();
             RefreshCommand = new Command((object args) => Init());
             ShowPopup = new Command((object args) => NeedAuthorized());
+            GotoAuthPage = new Command(async (object args) => await Shell.Current.Navigation.PushAsync(new SignInView()));
             Init();
-        }
-        public async void NeedAuthorized()
-        {
-           await  MopupService.Instance.PushAsync(new NotAuthorizedPopupView());
         }
         public async void Init()
         {
@@ -62,10 +63,17 @@ namespace Client.ViewsModels
                         ProductsAndCategory.Add(item);
                     }
                 }
-     
+                List<Brand> brands = await restAPIService.GetBrands();
+                if(brands.Count != 0)
+                {
+                    foreach(var item in brands)
+                    {
+                        Brands.Add(item);
+                    }
+                }
                 IsBusy = false;
             }
-            catch (Exception)
+            catch (Exception ex)
             {
 
                 throw;

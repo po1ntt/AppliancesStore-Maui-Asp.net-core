@@ -14,10 +14,25 @@ namespace Client.DataService.Constants
         public const string UpdateProductCntPlus_URL = $"{ADRESS}/api/Basket/UpdateProductPlus";
         public const string UpdateProductCntMinus_URL = $"{ADRESS}/api/Basket/UpdateProductMinus";
         public const string GETPRODUCTSANDCATEGORY_URL = $"{ADRESS}/api/Specific/GetCategoryAndProducts";
+        public const string ADDPRODUCTTOFAVORITE_URL = $"{ADRESS}/api/Product/AddProductToFavorite";
+        public const string ADDPRODUCTTOBASKT_URL = $"{ADRESS}/api/Basket/AddProductToBasket";
 
         public static string ProductByBrand(int id_brand)
         {
             return $"{ADRESS}/api/Product/GetProductsByBrand?id_brand={id_brand}";
+        }
+        public static string FavoritesUser(int id_user)
+        {
+            return $"{ADRESS}/api/Users/GetFavoritesUser?userid={id_user}";
+        }
+        public static string BasketUser(int id_user)
+        {
+            return $"{ADRESS}/api/Users/GetBasketUser?userid={id_user}";
+        }
+        public static string AuthorizeUser(string login ,string password)
+        {
+            return $"{ADRESS}/api/Users/AuthorizeUser?login={login}&password={password}";
+
         }
         public static string ProductByCategory(int id_category)
         {

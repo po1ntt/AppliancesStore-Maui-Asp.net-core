@@ -67,7 +67,11 @@ namespace WebApi.Controllers
         {
             if (favorite == null)
                 return BadRequest();
-            appliancesStoreContext.Favorites.Add(favorite);
+            appliancesStoreContext.Favorites.Add(new Favorite
+            {
+                UserId = favorite.UserId,
+                ProductId = favorite.ProductId
+            });
             appliancesStoreContext.SaveChanges();
             return Ok();
         }

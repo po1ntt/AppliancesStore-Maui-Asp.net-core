@@ -33,7 +33,6 @@ namespace Client
                     fonts.AddFontAwesomeIconFonts();
                 });
 
-            builder.Services.AddTransient<HomeView>();
             builder.Services.AddSingleton<BaseVM>();
             builder.Services.AddSingleton<IPopupNavigation>(MopupService.Instance);
 

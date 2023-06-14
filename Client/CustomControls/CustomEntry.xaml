@@ -6,7 +6,7 @@
              BackgroundColor="White">
     <Frame BackgroundColor="White" CornerRadius="20" Margin="10" BorderColor="Orange" Padding="10" >
         <Grid ColumnDefinitions="25,10,*" ColumnSpacing="10">
-            <Image VerticalOptions="Center" Source="ic_star_icon.png" HeightRequest="25" WidthRequest="25" />
+            <Image VerticalOptions="Center" Source="ic_magnifying_glass.png" HeightRequest="25" WidthRequest="25" />
             <Label Grid.Column="1" Text="|" FontSize="20" VerticalOptions="Center" FontAttributes="Bold" TextColor="Black"></Label>
             <hanlers:BorderlessEntry TextColor="Black" Placeholder="Поиск по названию" VerticalOptions="Center" PlaceholderColor="Gray" Grid.Column="2" />
         </Grid>

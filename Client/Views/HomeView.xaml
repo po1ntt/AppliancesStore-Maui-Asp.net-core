@@ -8,6 +8,8 @@
              xmlns:controls="clr-namespace:Client.CustomControls"
             xmlns:sk="clr-namespace:Maui.Skeleton;assembly=Sharpnado.HorusSkeleton.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             Appearing="ContentPage_Appearing"
+              xmlns:convertors="clr-namespace:Client.Convertors"
              >
 
     <ContentPage.BindingContext>
@@ -26,7 +28,9 @@
                             <HorizontalStackLayout CompressedLayout.IsHeadless="True" VerticalOptions="CenterAndExpand" >
                                 <Image VerticalOptions="Center" HeightRequest="30" Source="ic_star_icon.png">
                                     <Image.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="Gray" />
+                                        <toolkit:IconTintColorBehavior TintColor="{Binding IsFavorite, Converter={StaticResource favoritesConverter}}" >
+
+                                        </toolkit:IconTintColorBehavior>
                                     </Image.Behaviors>
                                 </Image>
                                 <Label Margin="0,0,10,0" TextColor="Red" FontSize="16" VerticalOptions="Center" Text="{Binding AvgGrade}"></Label>
@@ -39,7 +43,7 @@
 
                         <Grid CompressedLayout.IsHeadless="True"  HeightRequest="50"  Grid.Row="4" ColumnDefinitions="1*,1*"   >
                             <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:HomeViewModel}}, Path=ShowPopup}"  Grid.Column="0" Source="id_shopping_basket_white.png" BackgroundColor="Orange" ></ImageButton>
-                            <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:HomeViewModel}}, Path=ShowPopup}"   x:Name="imgButton" Source="ic_heart_icon.png"  Background="transparent" Grid.Column="1"   HorizontalOptions="FillAndExpand">
+                            <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:BaseVM}}, Path=AddToFavoriteCommand}" CommandParameter="{Binding}"   x:Name="imgButton" Source="ic_heart_icon.png"  Background="transparent" Grid.Column="1"   HorizontalOptions="FillAndExpand">
                                 <ImageButton.Behaviors>
                                     <toolkit:IconTintColorBehavior TintColor="Black" />
                                 </ImageButton.Behaviors>
@@ -56,12 +60,38 @@
         <ScrollView Orientation="Vertical" HorizontalScrollBarVisibility="Never" VerticalOptions="FillAndExpand">
             
             <VerticalStackLayout Margin="5">
-                <Frame 
+                <Frame x:Name="UserNotAuthFrame" 
                     Margin="5" Background="orange">
                     <StackLayout>
                         <Label Text="Авторизация"  TextColor="White" HorizontalOptions="Center" FontSize="30" Margin="5"></Label>
-                        <Button Text="Войти в аккаунт | Зарегистрироваться" TextColor="Black"  Background="white" CornerRadius="5"></Button>
+                        <Button Command="{Binding GotoAuthPage}" Text="Войти в аккаунт | Зарегистрироваться" TextColor="Black"  Background="white" CornerRadius="5"></Button>
                     </StackLayout>
+                </Frame>
+                <Frame x:Name="UserAuthFrame" 
+                    Margin="5" Background="orange">
+                    <StackLayout>
+                        <Label Text="Вы авторизованы"  TextColor="White" HorizontalOptions="Center" FontSize="30" Margin="5"></Label>
+                    </StackLayout>
+                </Frame>
+                <Frame BackgroundColor="White" Padding="5"  Margin="5">
+                    <VerticalStackLayout>
+                        <Label FontAttributes="Bold" FontSize="22" TextColor="Black" Text="Бренды"></Label>
+                        <ScrollView Orientation="Horizontal">
+                            <CollectionView ItemsSource="{Binding Brands, Mode=OneTime}"
+                                        
+                                         ItemsLayout="HorizontalGrid, 2"
+                                         HorizontalOptions="FillAndExpand"
+                                         VerticalOptions="FillAndExpand">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate>
+                                        <Frame BackgroundColor="White" Padding="5" HeightRequest="60" WidthRequest="120" Margin="5">
+                                            <Image Source="{Binding LogoBrand}" HeightRequest="50" WidthRequest="100" />
+                                        </Frame>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
+                        </ScrollView>
+                    </VerticalStackLayout>
                 </Frame>
                 <StackLayout  sk:Skeleton.IsParent="True"
 	                            sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"

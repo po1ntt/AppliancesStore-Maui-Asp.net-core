@@ -6,6 +6,7 @@ namespace WebApi.Models;
 
 public partial class Favorite
 {
+   
     public int IdFavorites { get; set; }
 
     public int? ProductId { get; set; }
@@ -14,4 +15,8 @@ public partial class Favorite
     [JsonIgnore]
 
     public virtual User? User { get; set; }
+
+    [JsonIgnore]
+
+    public virtual Product? Product { get; set; }
 }

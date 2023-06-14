@@ -9,6 +9,9 @@
     <TabBar>
         <ShellContent Title="Главная" ContentTemplate="{DataTemplate local:HomeView}" Icon="home.png" />
         <ShellContent Title="Каталог" ContentTemplate="{DataTemplate local:CatalogView}" Icon="list.png" />
+        <ShellContent Title="Корзина" ContentTemplate="{DataTemplate local:BasketView}" Icon="id_shopping_basket_white.png" />
         <ShellContent Title="Избранное" ContentTemplate="{DataTemplate local:FavoritesView}" Icon="heart.png" />
+        <ShellContent Title="Профиль" ContentTemplate="{DataTemplate local:ProfileView}" Icon="user.png" />
+
     </TabBar>
 </Shell>

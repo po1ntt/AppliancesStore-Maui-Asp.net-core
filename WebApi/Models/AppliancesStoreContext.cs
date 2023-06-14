@@ -109,7 +109,10 @@ public partial class AppliancesStoreContext : DbContext
             entity.Property(e => e.IdFavorites).HasColumnName("id_favorites");
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
-
+            entity.HasOne(d => d.Product).WithMany(p => p.Favorites)
+               .HasForeignKey(d => d.ProductId)
+               .OnDelete(DeleteBehavior.Cascade)
+               .HasConstraintName("FK_Favorites_Products");
             entity.HasOne(d => d.User).WithMany(p => p.Favorites)
                 .HasForeignKey(d => d.UserId)
                 .OnDelete(DeleteBehavior.Cascade)

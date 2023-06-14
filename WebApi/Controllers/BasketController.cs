@@ -27,7 +27,11 @@ namespace WebApi.Controllers
         {
             if (basket == null)
                 return BadRequest();
-            appliancesStoreContext.Baskets.Add(basket);
+            appliancesStoreContext.Baskets.Add(new Basket
+            { 
+                UserId = basket.UserId,
+                ProductId = basket.ProductId
+            });
             appliancesStoreContext.SaveChanges();
             return Ok();
         }

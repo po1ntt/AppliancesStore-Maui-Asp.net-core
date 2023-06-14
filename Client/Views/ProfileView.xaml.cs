@@ -1,8 +1,8 @@
 namespace Client.Views;
 
-public partial class FavoritesView : ContentPage
+public partial class ProfileView : ContentPage
 {
-	public FavoritesView()
+	public ProfileView()
 	{
 		InitializeComponent();
 		Preferences.Clear();

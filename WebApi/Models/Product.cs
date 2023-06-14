@@ -20,6 +20,7 @@ public partial class Product
     public double AvgGrade { get; set; }
     [NotMapped]
     public double CountReviews { get; set; }
+   
     public string? ProductImage { get; set; }
     [JsonIgnore]
 
@@ -27,6 +28,8 @@ public partial class Product
     [JsonIgnore]
 
     public virtual ICollection<OrderedProduct> OrderedProducts { get; set; } = new List<OrderedProduct>();
+    [JsonIgnore]
+    public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
 
     public virtual Brand? ProductBrand { get; set; }
 
