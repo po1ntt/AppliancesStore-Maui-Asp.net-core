@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Client.DataService;
 using Client.DataService.DboModels;
 
 namespace Client.ViewsModels
@@ -42,13 +43,32 @@ namespace Client.ViewsModels
                 }
                 else
                 {
-                    Products = await restAPIService.GetProductsByCategory(Category.IdCategory);
+                    List<Product> products = await restAPIService.GetProductsByCategory(Category.IdCategory);
+                    foreach (var product in products)
+                    {
+                        if (StaticValues.Favorites.Any(a => a.IdProduct == product.IdProduct))
+                        {
+                            product.IsFavorite = "1";
+                        }
+                        else
+                        {
+                            product.IsFavorite = "0";
+                        }
+                        if (StaticValues.Basket.Any(a => a.ProductId == product.IdProduct))
+                        {
+                            product.IsBasket = "1";
+                        }
+                        else
+                        {
+                            product.IsBasket = "0";
+                        }
+                    }
+                    Products = products;
                 }
                 IsBusy = false;
             }
             catch (Exception)
             {
-
                 throw;
             }
            

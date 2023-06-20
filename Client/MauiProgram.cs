@@ -7,6 +7,7 @@ using UraniumUI;
 using CommunityToolkit.Maui;
 using Mopups.Interfaces;
 using Mopups.Services;
+using Client.DataService;
 
 namespace Client
 {
@@ -34,6 +35,9 @@ namespace Client
                 });
 
             builder.Services.AddSingleton<BaseVM>();
+            builder.Services.AddTransient<HomeView>();
+            builder.Services.AddTransient<FavoritesView>();
+
             builder.Services.AddSingleton<IPopupNavigation>(MopupService.Instance);
 
 #if DEBUG

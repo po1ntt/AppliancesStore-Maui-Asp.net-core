@@ -12,9 +12,8 @@ public partial class Basket
 
     public int? UserId { get; set; }
     public int? CountProduct { get; set; }
-
     public virtual Product? Product { get; set; }
     [JsonIgnore]
 
-    public virtual User User { get; set; }
+    public virtual User? User { get; set; }
 }

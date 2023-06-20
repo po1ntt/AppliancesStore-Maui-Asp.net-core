@@ -3,11 +3,56 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Client.Views.BasketView"
              Title="Корзина"
-             BackgroundColor="White">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             BackgroundColor="White"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:Client.ViewsModels">
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding ApperingCommand}" EventName="Appearing" />
+    </ContentPage.Behaviors>
+    <ContentPage.BindingContext>
+        <vm:BaskeViewModel />
+    </ContentPage.BindingContext>
+    <Grid Padding="10" RowDefinitions="1*,50,100">
+        <CollectionView EmptyView="В корзине пусто :(" ItemsSource="{Binding Baskets}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <Frame Padding="10" Margin="10,0,10,0"  BackgroundColor="#fbfbfb" CornerRadius="4" >
+                        <Frame.GestureRecognizers>
+                            <ClickGestureRecognizer  />
+                        </Frame.GestureRecognizers>
+                        <Grid ColumnDefinitions="125, 250">
+                            <Image Grid.Row="0" Source="{Binding Product.ProductImage}"></Image>
+                            <Grid RowDefinitions="30,60,30,40" Grid.Column="1">
+                                <Label FontSize="20" VerticalOptions="Center" Grid.Row="0" Text="{Binding Product.ProductPrice, StringFormat='{0} Р'}" TextColor="Black">
+
+                                </Label>
+                                <Label Grid.Row="1" Text="{Binding Product.ProductName}" TextColor="Black">
+
+                                </Label>
+                                <Label Grid.Row="2" TextColor="Black" Text="{Binding CountProduct, StringFormat='Кол-во в корзине: {0}'}"></Label>
+                                <Grid Grid.Row="3" HorizontalOptions="Start" ColumnDefinitions="50,50,50">
+                                    <Button Command="{Binding Source={RelativeSource AncestorType={Type vm:BaskeViewModel}}, Path=MinusCommand}" CommandParameter="{Binding}" Margin="0,0,10,0" Grid.Column="0"  Text="-"  Padding="0" FontSize="20" HeightRequest="40" WidthRequest="40" TextColor="White" BackgroundColor="Orange" CornerRadius="5" >
+                                        
+                                    </Button>
+                                    <Button Command="{Binding Source={RelativeSource AncestorType={Type vm:BaskeViewModel}}, Path=PlusCommand}" CommandParameter="{Binding}" Margin="0,0,10,0" Grid.Column="1" Text="+"  Padding="0" FontSize="20" HeightRequest="40" WidthRequest="40" TextColor="White" BackgroundColor="Orange" CornerRadius="5" >
+
+                                    </Button>
+                                    <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:BaskeViewModel}}, Path=DeleteCommand}" CommandParameter="{Binding}" Margin="0,0,10,0" Grid.Column="2" Source="trash_image.png" HeightRequest="50" WidthRequest="50" Padding="5" BackgroundColor="Black" CornerRadius="5" >
+                                        <ImageButton.Behaviors>
+                                            <toolkit:IconTintColorBehavior TintColor="White" />
+                                        </ImageButton.Behaviors>
+                                    </ImageButton>
+                                </Grid>
+                            </Grid>
+                        </Grid>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.ItemsLayout>
+                <LinearItemsLayout Orientation="Vertical" ItemSpacing="20" />
+            </CollectionView.ItemsLayout>
+        </CollectionView>
+        <Label TextColor="Black" FontSize="28" Grid.Row="1" Text="{Binding SumOrder, StringFormat='Итого: {0} руб.'}"></Label>
+        <Button HorizontalOptions="FillAndExpand" TextColor="White" FontSize="28" HeightRequest="-1" VerticalOptions="FillAndExpand" CornerRadius="5"  Grid.Row="2" Background="orange" Text="Оформить заказ" />
+    </Grid>
 </ContentPage>

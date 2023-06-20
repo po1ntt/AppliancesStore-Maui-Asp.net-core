@@ -1,11 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Runtime.CompilerServices;
 using System.Text.Json.Serialization;
 
 namespace Client.DataService.DboModels;
 
-public partial class Product
+public partial class Product : INotifyPropertyChanged
 {
     public int IdProduct { get; set; }
 
@@ -19,8 +22,25 @@ public partial class Product
     public double AvgGrade { get; set; }
     public double CountReviews { get; set; }
     public int? ProductBrandId { get; set; }
-    public double IsFavorite { get; set; }
-    public double IsBasket { get; set; }
+    private string _IsFavorite;
+
+    public string IsFavorite
+    {
+        get { return _IsFavorite; }
+        set { _IsFavorite = value;
+            OnPropertyChanged();
+        }
+    }
+    private string _IsBasket;
+
+    public string IsBasket
+    {
+        get { return _IsBasket; }
+        set { _IsBasket = value;
+            OnPropertyChanged();
+        }
+    }
+
     public string? ProductImage { get; set; }
     [JsonIgnore]
 
@@ -37,4 +57,9 @@ public partial class Product
     [JsonIgnore]
 
     public virtual ICollection<Review> Reviews { get; set; } = new List<Review>();
+    public void OnPropertyChanged([CallerMemberName] string prop = "")
+    {
+        PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(prop));
+    }
+    public event PropertyChangedEventHandler PropertyChanged;
 }

@@ -19,7 +19,7 @@ namespace WebApi.Controllers
         public async Task<List<Basket>> GetBasket(int userid)
         {
             var collection = new List<Basket>();
-            collection =  await appliancesStoreContext.Baskets.Where(p=> p.UserId == userid).ToListAsync();
+            collection =  await appliancesStoreContext.Baskets.Include(p=> p.Product).Where(p=> p.UserId == userid).ToListAsync();
             return collection;
         }
         [HttpPost("AddProductToBasket")]
@@ -31,6 +31,7 @@ namespace WebApi.Controllers
             { 
                 UserId = basket.UserId,
                 ProductId = basket.ProductId
+                ,CountProduct = basket.CountProduct
             });
             appliancesStoreContext.SaveChanges();
             return Ok();
@@ -65,10 +66,10 @@ namespace WebApi.Controllers
         }
 
         [HttpDelete("DeleteProductFromBasket")]
-        public IActionResult DeleteProductFromBasket(int id_basket)
+        public IActionResult DeleteProductFromBasket(int id_user, int id_product)
         {
             
-            var baskettoremove = appliancesStoreContext.Baskets.FirstOrDefault(p => p.IdBasket == id_basket);
+            var baskettoremove = appliancesStoreContext.Baskets.FirstOrDefault(p => p.UserId == id_user && p.ProductId == id_product);
             if (baskettoremove == null)
                 return BadRequest();
             appliancesStoreContext.Baskets.Remove(baskettoremove);

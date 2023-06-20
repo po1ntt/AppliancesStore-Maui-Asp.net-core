@@ -76,12 +76,13 @@ namespace WebApi.Controllers
             return Ok();
         }
         [HttpDelete("DeleteProductFromFavorite")]
-        public IActionResult DeleteProductFromFavorite(int id_favorite)
+        public IActionResult DeleteProductFromFavorite(int id_user, int id_product)
         {
-            var favoriteToDelete = appliancesStoreContext.Favorites.FirstOrDefault(p => p.IdFavorites == id_favorite);
+            var favoriteToDelete = appliancesStoreContext.Favorites.FirstOrDefault(p => p.ProductId == id_product && p.UserId == id_user);
             if (favoriteToDelete == null)
                 return BadRequest();
-            appliancesStoreContext.Favorites.Remove(favoriteToDelete);
+            var entity =appliancesStoreContext.Favorites.Attach(favoriteToDelete);
+            appliancesStoreContext.Favorites.Entry(favoriteToDelete).State = EntityState.Deleted;
             appliancesStoreContext.SaveChanges();
             return Ok();
         }

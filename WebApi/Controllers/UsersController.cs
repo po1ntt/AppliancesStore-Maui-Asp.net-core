@@ -59,7 +59,7 @@ namespace WebApi.Controllers
         [HttpGet("GetFavoritesUser")]
         public async Task<List<Product>> GetFavoritesUser(int userid)
         {
-           var favorites = await appliancesStoreContext.Favorites.Include(p => p.Product).Where(p => p.UserId == userid).ToListAsync();
+           var favorites = await appliancesStoreContext.Favorites.Include(p => p.Product.ProductCategory).Include(p=> p.Product.ProductBrand).Where(p => p.UserId == userid).ToListAsync();
            List<Product> result = new List<Product>();
            foreach(var item in favorites)
             {
@@ -73,7 +73,7 @@ namespace WebApi.Controllers
         [HttpGet("GetBasketUser")]
         public async Task<List<Product>> GetBasketUser(int userid)
         {
-            var basket = await appliancesStoreContext.Baskets.Include(p=> p.Product).Where(p => p.UserId == userid).ToListAsync();
+            var basket = await appliancesStoreContext.Baskets.Include(p => p.Product.ProductCategory).Include(p => p.Product.ProductBrand).ToListAsync();
             List<Product> result = new List<Product>();
             foreach (var item in basket)
             {

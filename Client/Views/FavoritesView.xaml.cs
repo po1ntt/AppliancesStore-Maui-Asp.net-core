@@ -5,6 +5,5 @@ public partial class FavoritesView : ContentPage
 	public FavoritesView()
 	{
 		InitializeComponent();
-		Preferences.Clear();
 	}
 }

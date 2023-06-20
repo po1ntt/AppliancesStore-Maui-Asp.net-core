@@ -61,9 +61,11 @@
 	  <None Remove="Platforms\Android\Resources\xml\network_security_config.xml" />
 	  <None Remove="Resources\Fonts\18vagRounded.ttf" />
 	  <None Remove="Resources\Images\basket.png" />
+	  <None Remove="Resources\Images\checkmark_white.png" />
 	  <None Remove="Resources\Images\for_signin_woutback.png" />
 	  <None Remove="Resources\Images\heart.png" />
 	  <None Remove="Resources\Images\home.png" />
+	  <None Remove="Resources\Images\ic_favorite_heart_icon.png" />
 	  <None Remove="Resources\Images\ic_heart_icon.png" />
 	  <None Remove="Resources\Images\ic_magnifying_glass.png" />
 	  <None Remove="Resources\Images\ic_shopping_basket_black.png" />
@@ -73,6 +75,7 @@
 	  <None Remove="Resources\Images\logo.png" />
 	  <None Remove="Resources\Images\pngappliances.png" />
 	  <None Remove="Resources\Images\rarrow.png" />
+	  <None Remove="Resources\Images\trash_image.png" />
 	  <None Remove="Resources\Images\user.png" />
 	  <None Remove="Resources\Images\withoutbg.png" />
 	</ItemGroup>

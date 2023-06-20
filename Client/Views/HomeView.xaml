@@ -6,7 +6,6 @@
              BackgroundColor="White"
              xmlns:vm ="clr-namespace:Client.ViewsModels"
              xmlns:controls="clr-namespace:Client.CustomControls"
-            xmlns:sk="clr-namespace:Maui.Skeleton;assembly=Sharpnado.HorusSkeleton.Maui"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              Appearing="ContentPage_Appearing"
               xmlns:convertors="clr-namespace:Client.Convertors"
@@ -15,6 +14,9 @@
     <ContentPage.BindingContext>
         <vm:HomeViewModel />
     </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding ApperingCommand}" EventName="Appearing" />
+    </ContentPage.Behaviors>
     <ContentPage.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="ProductCategoryTemplate">
@@ -28,7 +30,7 @@
                             <HorizontalStackLayout CompressedLayout.IsHeadless="True" VerticalOptions="CenterAndExpand" >
                                 <Image VerticalOptions="Center" HeightRequest="30" Source="ic_star_icon.png">
                                     <Image.Behaviors>
-                                        <toolkit:IconTintColorBehavior TintColor="{Binding IsFavorite, Converter={StaticResource favoritesConverter}}" >
+                                        <toolkit:IconTintColorBehavior TintColor="Gray" >
 
                                         </toolkit:IconTintColorBehavior>
                                     </Image.Behaviors>
@@ -42,12 +44,10 @@
                         </Grid>
 
                         <Grid CompressedLayout.IsHeadless="True"  HeightRequest="50"  Grid.Row="4" ColumnDefinitions="1*,1*"   >
-                            <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:HomeViewModel}}, Path=ShowPopup}"  Grid.Column="0" Source="id_shopping_basket_white.png" BackgroundColor="Orange" ></ImageButton>
-                            <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:BaseVM}}, Path=AddToFavoriteCommand}" CommandParameter="{Binding}"   x:Name="imgButton" Source="ic_heart_icon.png"  Background="transparent" Grid.Column="1"   HorizontalOptions="FillAndExpand">
-                                <ImageButton.Behaviors>
-                                    <toolkit:IconTintColorBehavior TintColor="Black" />
-                                </ImageButton.Behaviors>
-
+                            <ImageButton Command="{Binding Source={RelativeSource AncestorType={Type vm:BaseVM}}, Path=AddProductToBasket}" CommandParameter="{Binding}"  Grid.Column="0" Source="{Binding IsBasket, Converter={StaticResource basketConverter}}" BackgroundColor="Orange" ></ImageButton>
+                            <ImageButton  Command="{Binding Source={RelativeSource AncestorType={Type vm:BaseVM}}, Path=AddToFavoriteCommand}" CommandParameter="{Binding}"  x:Name="imgButton" Source="{Binding IsFavorite, Converter={StaticResource favoritesConverter}}"  Background="transparent" Grid.Column="1"   HorizontalOptions="FillAndExpand">
+                           
+                
                             </ImageButton>
                         </Grid>
                     </Grid>
@@ -56,7 +56,7 @@
         </ResourceDictionary>
      
     </ContentPage.Resources>
-    <RefreshView IsRefreshing="{Binding IsBusy}" RefreshColor="Orange" Command="{Binding RefreshCommand}">
+    <RefreshView IsRefreshing="{Binding Refreshing}" RefreshColor="Orange" Command="{Binding RefreshCommand}">
         <ScrollView Orientation="Vertical" HorizontalScrollBarVisibility="Never" VerticalOptions="FillAndExpand">
             
             <VerticalStackLayout Margin="5">
@@ -93,9 +93,7 @@
                         </ScrollView>
                     </VerticalStackLayout>
                 </Frame>
-                <StackLayout  sk:Skeleton.IsParent="True"
-	                            sk:Skeleton.Animation="{sk:DefaultAnimation Fade}"
-                                sk:Skeleton.IsBusy="{Binding IsBusy}" 
+                <StackLayout  
                                  BindableLayout.ItemsSource="{Binding ProductsAndCategory}"
                                   >
                     <BindableLayout.ItemTemplate>
@@ -104,7 +102,7 @@
                                 <StackLayout>
                                     <Label FontAttributes="Bold" FontSize="22" TextColor="Black" Text="{Binding nameCategory}"></Label>
                                     <ScrollView Orientation="Horizontal">
-                                        <StackLayout BindableLayout.ItemsSource="{Binding products, Mode=OneTime}"
+                                        <StackLayout BindableLayout.ItemsSource="{Binding products}"
                                                   BindableLayout.ItemTemplate="{StaticResource ProductCategoryTemplate}"
                                                  Orientation="Horizontal"
                                                     HorizontalOptions="FillAndExpand"

@@ -16,10 +16,14 @@ namespace Client.DataService.Constants
         public const string GETPRODUCTSANDCATEGORY_URL = $"{ADRESS}/api/Specific/GetCategoryAndProducts";
         public const string ADDPRODUCTTOFAVORITE_URL = $"{ADRESS}/api/Product/AddProductToFavorite";
         public const string ADDPRODUCTTOBASKT_URL = $"{ADRESS}/api/Basket/AddProductToBasket";
-
+        ///api/Product/DeleteProductFromFavorite?id_user=1&id_product=18
         public static string ProductByBrand(int id_brand)
         {
             return $"{ADRESS}/api/Product/GetProductsByBrand?id_brand={id_brand}";
+        }
+        public static string DeleteFromFavoriteProduct(int id_user, int id_product)
+        {
+            return $"{ADRESS}/api/Product/DeleteProductFromFavorite?id_user={id_user}&id_product={id_product}";
         }
         public static string FavoritesUser(int id_user)
         {
@@ -27,7 +31,7 @@ namespace Client.DataService.Constants
         }
         public static string BasketUser(int id_user)
         {
-            return $"{ADRESS}/api/Users/GetBasketUser?userid={id_user}";
+            return $"{ADRESS}/api/Basket/GetBasket?userid={id_user}";
         }
         public static string AuthorizeUser(string login ,string password)
         {
@@ -38,9 +42,9 @@ namespace Client.DataService.Constants
         {
             return $"{ADRESS}/api/Product/GetProductByCategory?id_category={id_category}";
         }
-        public static string RemoveProductFromBasket(int id_basket)
+        public static string DeleteFromBasketProduct(int id_user, int id_product)
         {
-            return $"{ADRESS}/api/Basket/DeleteProductFromBasket?id_basket={id_basket}";
+            return $"{ADRESS}/api/Basket/DeleteProductFromBasket?id_user={id_user}&id_product={id_product}";
         }
 
 

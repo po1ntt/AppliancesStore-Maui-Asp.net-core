@@ -16,6 +16,8 @@
                 <ResourceDictionary>
                     <toolkit:ByteArrayToImageSourceConverter x:Key="ByteArrayToImageSourceConverter" />
                     <converter:FavoritesConverter x:Key="favoritesConverter" />
+                    <converter:BasketConverter x:Key="basketConverter" />
+
                 </ResourceDictionary>
                 <material:StyleResource />
 

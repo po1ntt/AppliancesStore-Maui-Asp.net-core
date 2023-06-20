@@ -10,6 +10,6 @@ namespace Client.DataService.SpecialModels
     public class ProductAndCategoryModel
     {
         public string? nameCategory { get; set; }
-        public List<Product>? products { get; set; } 
+        public List<Product>? products { get; set; } = new List<Product>();
     }
 }

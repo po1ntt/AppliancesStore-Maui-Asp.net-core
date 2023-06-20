@@ -40,8 +40,8 @@ namespace Client.ViewsModels
                 bool result = await restAPIService.AuhtorizeUser(Login, Password);
                 if (result)
                 {
-                    Preferences.Set(nameof(Login), Login);
-                    Preferences.Set(nameof(Password), Password);
+                    Preferences.Default.Set(nameof(Login), Login);
+                    Preferences.Default.Set(nameof(Password), Password);
                     await Shell.Current.Navigation.PopAsync();
                 }
             }

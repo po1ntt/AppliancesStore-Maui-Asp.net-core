@@ -18,28 +18,7 @@ namespace Client.ViewsModels
 {
     public class BaseVM : INotifyPropertyChanged
     {
-        private List<Product> _Favorites;
-
-        public List<Product> Favorites
-        {
-            get { return _Favorites; }
-            set
-            {
-                _Favorites = value;
-                OnPropertyChanged();
-            }
-        }
-        private List<Product> _Basket;
-
-        public List<Product> Basket
-        {
-            get { return _Basket; }
-            set
-            {
-                _Basket = value;
-                OnPropertyChanged();
-            }
-        }
+     
         public IPopupNavigation popupNavigation;
 
         private bool _IsNotUserAuth;
@@ -74,9 +53,22 @@ namespace Client.ViewsModels
                 OnPropertyChanged();
             }
         }
+        private bool _Refreshing;
+
+        public bool Refreshing
+        {
+            get { return _Refreshing; }
+            set
+            {
+                _Refreshing = value;
+                OnPropertyChanged();
+            }
+        }
         public Command AddToFavoriteCommand { get;
             set;
         }
+        public Command AddProductToBasket { get
+        ;set; }
         public NetworkAccess networkAccess { get; set; }
         public IRestAPIService restAPIService { get; set; }
         public BaseVM()
@@ -85,19 +77,25 @@ namespace Client.ViewsModels
             restAPIService = new RestAPIService();
             networkAccess = Connectivity.NetworkAccess;
             AddToFavoriteCommand = new Command(async (object args) => AddToFavorites(args as Product));
-
-            if (!string.IsNullOrWhiteSpace(Preferences.Get("Login", "")))
+            AddProductToBasket = new Command(async (object args) => AddToBasket(args as Product));
+            if(StaticValues.Favorites == null)
             {
-                FillBasketAndFavorites();
-                UserAuth = true;
+                StaticValues.Favorites = new List<Product>();
+                StaticValues.Basket = new List<Basket>();
+                if (!string.IsNullOrWhiteSpace(Preferences.Default.Get("Login", "")))
+                {
+                    FillBasketAndFavorites();
+                    UserAuth = true;
+                }
+                else
+                    UserAuth = false;
             }
-            else
-                UserAuth = false;
+          
         }
         public async void FillBasketAndFavorites()
         {
-            Favorites = await restAPIService.GetUserFavorites();
-            Basket = await restAPIService.GetUserBasket();
+            StaticValues.Favorites = await restAPIService.GetUserFavorites();
+            StaticValues.Basket = await restAPIService.GetUserBasketById();
         }
         public async void ShowSnackBar(string message)
         {
@@ -121,6 +119,51 @@ namespace Client.ViewsModels
         {
             if (!string.IsNullOrWhiteSpace(Preferences.Get("Login", "")))
             {
+                if(product.IsBasket != "1")
+                {
+                    var addAction = await restAPIService.AddProductToBasket(new Basket
+                    {
+                        ProductId = product.IdProduct,
+                        UserId = Preferences.Get("id_user", 0),
+                        CountProduct = 1
+                    });
+                    if (addAction == true)
+                    {
+                        ShowSnackBar("Товар добавлен в корзину");
+                        product.IsBasket = "1";
+                        StaticValues.Basket.Add(new Basket
+                        {
+                            ProductId = product.IdProduct,
+                            UserId = Preferences.Get("id_user", 0),
+                            CountProduct = 1
+                        });
+
+                    }
+                    else
+                    {
+                        ShowSnackBar("Что-то пошло не так");
+                    }
+                }
+                else
+                {
+                    var addAction = await restAPIService.DeleteProductFromBasket(new Basket
+                    {
+                        ProductId = product.IdProduct,
+                        UserId = Preferences.Get("id_user", 0),
+                        CountProduct = 1
+                    });
+                    if(addAction == true)
+                    {
+                        ShowSnackBar("Товар удален из корзины");
+                        product.IsBasket = "0";
+                        StaticValues.Basket = await restAPIService.GetUserBasketById();
+                    }
+                    else
+                    {
+                        ShowSnackBar("Что-то пошло не так");
+
+                    }
+                }
 
             }
             else
@@ -132,15 +175,34 @@ namespace Client.ViewsModels
         {
             if (!string.IsNullOrWhiteSpace(Preferences.Get("Login", "")))
             {
-                var addAction = await restAPIService.AddProductToFavorite(new Favorite
+                if(product.IsFavorite == "1")
                 {
-                    ProductId = product.IdProduct,
-                    UserId = Preferences.Get("id_user", 0)
-                });
-                if(addAction == true)
-                {
-                    ShowSnackBar("Товар добавлен в избранное");
+                    var addAction = await restAPIService.DeleteProductFromFavorite(product.IdProduct);
+                    if (addAction == true)
+                    {
+                        ShowSnackBar("Товар удален из избранного");
+                        product.IsFavorite = "0";
+                        StaticValues.Favorites.Remove(product);
+
+                    }
                 }
+                else
+                {
+                    var addAction = await restAPIService.AddProductToFavorite(new Favorite
+                    {
+                        ProductId = product.IdProduct,
+                        UserId = Preferences.Get("id_user", 0)
+                    });
+                    if (addAction == true)
+                    {
+                        ShowSnackBar("Товар добавлен в избранное");
+                        product.IsFavorite = "1";
+
+                        StaticValues.Favorites.Add(product);
+
+                    }
+                }
+               
             }
             else
             {

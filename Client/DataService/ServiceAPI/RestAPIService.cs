@@ -36,14 +36,16 @@ namespace Client.DataService.ServiceAPI
 
         }
 
-        public Task<bool> DeleteProductFromBasket(Basket basket)
+        public async Task<bool> DeleteProductFromBasket(Basket basket)
         {
-            throw new NotImplementedException();
+            var response = await httpclient.DeleteAsync(UrlsApi.DeleteFromBasketProduct(basket.UserId, basket.ProductId));
+            return response.IsSuccessStatusCode;
         }
 
-        public Task<bool> DeleteProductFromFavorite(Favorite favorite)
+        public async Task<bool> DeleteProductFromFavorite(int id_product)
         {
-            throw new NotImplementedException();
+            var response = await httpclient.DeleteAsync(UrlsApi.DeleteFromFavoriteProduct(Preferences.Default.Get("id_user", 0), id_product));
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<List<Brand>> GetBrands()
@@ -75,20 +77,27 @@ namespace Client.DataService.ServiceAPI
             throw new NotImplementedException();
         }
 
-        public async Task<bool> UpdateCountProductInBasket(Basket basket, string action)
+        public async Task<string> UpdateCountProductInBasket(Basket basket, string action)
         {
-            var stringContent = new StringContent(basket.ToString());
             HttpResponseMessage response = new HttpResponseMessage();
-            if(action == "plus")
-                response = await httpclient.PutAsync(UrlsApi.UpdateProductCntPlus_URL, stringContent);
+            if (action == "plus")
+            {
+               await httpclient.PutAsJsonAsync(UrlsApi.UpdateProductCntPlus_URL, basket);
+            }
             else
             {
-                if(basket.CountProduct > 1)
-                    response = await httpclient.PutAsync(UrlsApi.UpdateProductCntPlus_URL, stringContent);
+                if (basket.CountProduct > 1)
+                {
+                     await httpclient.PutAsJsonAsync(UrlsApi.UpdateProductCntPlus_URL, basket);
+                    return "MinusAction";
+                }
                 else
-                    response = await httpclient.DeleteAsync(UrlsApi.RemoveProductFromBasket(basket.IdBasket));
+                {
+                     await httpclient.DeleteAsync(UrlsApi.DeleteFromBasketProduct(basket.UserId, basket.ProductId));
+                    return "DeleteAction";
+                }
             }
-            return response.IsSuccessStatusCode;
+            return "PlusAction";
            
         }
 
@@ -131,7 +140,7 @@ namespace Client.DataService.ServiceAPI
            var response = await httpclient.GetAsync(UrlsApi.AuthorizeUser(login, password));
             var responseContent = await response.Content.ReadAsStringAsync();
             var user =JsonConvert.DeserializeObject<User>(responseContent);
-            Preferences.Set("id_user", user.IdUser);
+            Preferences.Default.Set("id_user", user.IdUser);
             return response.IsSuccessStatusCode;
         }
 
@@ -142,21 +151,22 @@ namespace Client.DataService.ServiceAPI
 
         public async Task<List<Product>> GetUserFavorites()
         {
-            var collection = await httpclient.GetFromJsonAsync(UrlsApi.FavoritesUser(Preferences.Get("id_user", 0)), typeof(List<Product>), jsonSerializerOptions) as List<Product>;
+            var collection = await httpclient.GetFromJsonAsync(UrlsApi.FavoritesUser(Preferences.Default.Get("id_user", 0)), typeof(List<Product>), jsonSerializerOptions) as List<Product>;
             return collection;
         }
 
-        public async Task<List<Product>> GetUserBasket()
-        {
-            var collection = await httpclient.GetFromJsonAsync(UrlsApi.BasketUser(Preferences.Get("id_user",0)), typeof(List<Product>), jsonSerializerOptions) as List<Product>;
-            return collection;
-        }
+
 
         public async Task<bool> AddProductToBasket(Basket basket)
         {
-            var stringContent = new StringContent(basket.ToString());
-            var response = await httpclient.PostAsync(UrlsApi.ADDPRODUCTTOBASKT_URL, stringContent);
+            var response = await httpclient.PostAsJsonAsync(UrlsApi.ADDPRODUCTTOBASKT_URL, basket);
             return response.IsSuccessStatusCode;
+        }
+
+        public async Task<List<Basket>> GetUserBasketById()
+        {
+            var collection = await httpclient.GetFromJsonAsync(UrlsApi.BasketUser(Preferences.Default.Get("id_user", 0)), typeof(List<Basket>), jsonSerializerOptions) as List<Basket>;
+            return collection;
         }
     }
 }

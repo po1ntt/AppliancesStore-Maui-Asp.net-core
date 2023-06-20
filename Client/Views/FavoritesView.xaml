@@ -16,10 +16,13 @@
             <convertors:FavoritesConverter x:Key="favoritesConverter" />
         </ResourceDictionary>
     </ContentPage.Resources>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding ApperingCommand}" EventName="Appearing" />
+    </ContentPage.Behaviors>
     <Grid RowDefinitions="80,*">
         
         <custom:CustomEntry Grid.Row="0" BackgroundColor="White"/>
-        <CollectionView Grid.Row="1" ItemsSource="{Binding Favorites}"
+        <CollectionView Grid.Row="1" ItemsSource="{Binding FavoritesList}"
                         Margin="5"
                        BackgroundColor="White"
                        >
@@ -36,7 +39,7 @@
                                     <StackLayout HorizontalOptions="Center" Orientation="Horizontal">
                                         <Image VerticalOptions="Center" HeightRequest="25" Source="ic_star_icon.png" >
                                             <Image.Behaviors>
-                                                <toolkit:IconTintColorBehavior TintColor="{Binding IsFavorite, Converter={StaticResource favoritesConverter}}" >
+                                                <toolkit:IconTintColorBehavior TintColor="Gray" >
                                                    
                                                 </toolkit:IconTintColorBehavior>
                                             </Image.Behaviors>
@@ -58,8 +61,8 @@
                                     <ImageButton BackgroundColor="Orange" Source="id_shopping_basket_white.png">
 
                                     </ImageButton>
-                                    <ImageButton Grid.Column="1" BackgroundColor="Transparent" Source="ic_heart_icon.png">
-
+                                    <ImageButton  Command="{Binding Source={RelativeSource AncestorType={Type vm:FavoritesViewModel}}, Path=DeleteFromFavoritesCommand}" CommandParameter="{Binding}"  Grid.Column="1" BackgroundColor="Transparent" Source="ic_favorite_heart_icon.png">
+                                        
                                     </ImageButton>
                                 </Grid>
                             </Grid>

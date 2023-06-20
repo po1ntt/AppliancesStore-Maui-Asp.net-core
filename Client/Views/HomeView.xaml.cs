@@ -14,7 +14,7 @@ public partial class HomeView : ContentPage
 
     private void ContentPage_Appearing(object sender, EventArgs e)
     {
-        if (!string.IsNullOrWhiteSpace(Preferences.Get("Login", "")))
+        if (!string.IsNullOrWhiteSpace(Preferences.Default.Get("Login", "")))
         {
             UserAuthFrame.IsVisible = true;
             UserNotAuthFrame.IsVisible = false;
