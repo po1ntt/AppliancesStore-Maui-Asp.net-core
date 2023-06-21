@@ -5,11 +5,13 @@ using System.Text;
 using System.Threading.Tasks;
 using Client.DataService;
 using Client.DataService.DboModels;
+using Mopups.Services;
 
 namespace Client.ViewsModels
 {
     public class ProductsViewModel : BaseVM
     {
+        
         private List<Product> _Products;
 
         public List<Product> Products
@@ -19,12 +21,34 @@ namespace Client.ViewsModels
                 OnPropertyChanged();
             }
         }
+        private string _TitlePage;
+
+        public string TitlePage
+        {
+            get { return _TitlePage; }
+            set { _TitlePage = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public Brand Brand { get; set; } 
         public Category Category { get; set; }
         public Command RefreshCommand { get; set; }
+        public ProductsViewModel(Brand brand)
+        {
+            Brand = brand;
+            Category = null;
+            TitlePage = brand.NameBrand;
+            RefreshCommand = new Command((object args) => Init());
+            Init();
+        }
         public ProductsViewModel(Category category)
         {
             Products = new List<Product>();
             Category = category;
+            TitlePage = category.Name;
+
+            Brand = null;
             RefreshCommand = new Command((object args) => Init());
             Init();
         }
@@ -32,6 +56,7 @@ namespace Client.ViewsModels
         {
             try
             {
+                ShowLoadingPopup();
                 IsBusy = true;
                 if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
                 {
@@ -43,7 +68,18 @@ namespace Client.ViewsModels
                 }
                 else
                 {
-                    List<Product> products = await restAPIService.GetProductsByCategory(Category.IdCategory);
+                    List<Product> products = new List<Product>();
+
+                    if (Brand != null)
+                    {
+                        products = await restAPIService.GetProductsByBrand(Brand
+                            .IdBrand);
+                    }
+                    else
+                    {
+                       products = await restAPIService.GetProductsByCategory(Category.IdCategory);
+
+                    }
                     foreach (var product in products)
                     {
                         if (StaticValues.Favorites.Any(a => a.IdProduct == product.IdProduct))
@@ -66,6 +102,7 @@ namespace Client.ViewsModels
                     Products = products;
                 }
                 IsBusy = false;
+                await MopupService.Instance.PopAllAsync();
             }
             catch (Exception)
             {

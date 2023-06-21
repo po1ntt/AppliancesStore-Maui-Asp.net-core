@@ -16,6 +16,8 @@ namespace Client.DataService.Constants
         public const string GETPRODUCTSANDCATEGORY_URL = $"{ADRESS}/api/Specific/GetCategoryAndProducts";
         public const string ADDPRODUCTTOFAVORITE_URL = $"{ADRESS}/api/Product/AddProductToFavorite";
         public const string ADDPRODUCTTOBASKT_URL = $"{ADRESS}/api/Basket/AddProductToBasket";
+        public const string GetPaymentMethod_URL = $"{ADRESS}/api/Specific/GetPaymentMethods";
+
         ///api/Product/DeleteProductFromFavorite?id_user=1&id_product=18
         public static string ProductByBrand(int id_brand)
         {

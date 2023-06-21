@@ -10,8 +10,6 @@ public partial class Order
 
     public string? OrderNumber { get; set; }
 
-    public int? OrderedProductsId { get; set; }
-
     public DateTime? DateOrderBegin { get; set; }
 
     public DateTime? DateOrderEnd { get; set; }
@@ -19,12 +17,11 @@ public partial class Order
     public int? StatusId { get; set; }
 
     public int? UserId { get; set; }
-
+    public int? PaymentId { get; set; }
     public string? Comment { get; set; }
-    [JsonIgnore]
 
-    public virtual OrderedProduct? OrderedProducts { get; set; }
-    [JsonIgnore]
+    public virtual ICollection<OrderedProduct> OrderedProducts { get; set; } = new List<OrderedProduct>();
+    public virtual PaymentMethod? PaymentMethod { get; set; }
 
     public virtual Status? Status { get; set; }
     [JsonIgnore]

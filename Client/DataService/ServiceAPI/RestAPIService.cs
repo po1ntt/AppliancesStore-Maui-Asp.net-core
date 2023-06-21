@@ -168,5 +168,11 @@ namespace Client.DataService.ServiceAPI
             var collection = await httpclient.GetFromJsonAsync(UrlsApi.BasketUser(Preferences.Default.Get("id_user", 0)), typeof(List<Basket>), jsonSerializerOptions) as List<Basket>;
             return collection;
         }
+
+        public async Task<List<PaymentMethod>> GetPaymentMethods()
+        {
+            var collection = await httpclient.GetFromJsonAsync(UrlsApi.GetPaymentMethod_URL, typeof(List<PaymentMethod>), jsonSerializerOptions);
+            return collection as List<PaymentMethod>;
+        }
     }
 }

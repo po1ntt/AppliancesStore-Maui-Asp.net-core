@@ -27,7 +27,6 @@ public partial class User
 
     public virtual ICollection<Favorite> Favorites { get; set; } = new List<Favorite>();
 
-    public virtual ICollection<OrderedProduct> OrderedProducts { get; set; } = new List<OrderedProduct>();
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
 

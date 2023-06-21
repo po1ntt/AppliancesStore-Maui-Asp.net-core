@@ -53,6 +53,6 @@
             </CollectionView.ItemsLayout>
         </CollectionView>
         <Label TextColor="Black" FontSize="28" Grid.Row="1" Text="{Binding SumOrder, StringFormat='Итого: {0} руб.'}"></Label>
-        <Button HorizontalOptions="FillAndExpand" TextColor="White" FontSize="28" HeightRequest="-1" VerticalOptions="FillAndExpand" CornerRadius="5"  Grid.Row="2" Background="orange" Text="Оформить заказ" />
+        <Button Clicked="Button_Clicked" HorizontalOptions="FillAndExpand" TextColor="White" FontSize="28" HeightRequest="-1" VerticalOptions="FillAndExpand" CornerRadius="5"  Grid.Row="2" Background="orange" Text="Оформить заказ" />
     </Grid>
 </ContentPage>

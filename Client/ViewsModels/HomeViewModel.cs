@@ -40,6 +40,7 @@ namespace Client.ViewsModels
                 OnPropertyChanged();
             }
         }
+        public Command BrandItemTapped { get; set; }
 
         public ObservableCollection<Brand> Brands { get; set; }
 
@@ -57,6 +58,16 @@ namespace Client.ViewsModels
             ShowPopup = new Command((object args) => NeedAuthorized());
             ApperingCommand = new Command(async (object args) => await Init());
             GotoAuthPage = new Command(async (object args) => await Shell.Current.Navigation.PushAsync(new SignInView()));
+            BrandItemTapped= new Command((object args) => BrandSelected(args as Brand));
+
+        }
+        public async void BrandSelected(Brand brand)
+        {
+            ShowLoadingPopup();
+            IsBusy = true;
+            await Shell.Current.Navigation.PushAsync(new ProductsView(brand));
+            IsBusy = false;
+            await MopupService.Instance.PopAllAsync();
         }
         public async Task Init()
         {
@@ -64,6 +75,8 @@ namespace Client.ViewsModels
                 return;
             try
             {
+                ShowLoadingPopup();
+                IsBusy = true;
                 Refreshing = true;
                 if (Connectivity.Current.NetworkAccess != NetworkAccess.Internet)
                 {
@@ -159,8 +172,11 @@ namespace Client.ViewsModels
             finally
             {
                 Refreshing = false;
+                IsBusy = true;
+                await MopupService.Instance.PopAllAsync();
+
             }
-           
+
         }
     }
 }

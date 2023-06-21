@@ -26,6 +26,13 @@ namespace WebApi.Controllers
             collection = await appliancesStoreContext.Brands.ToListAsync();
             return collection;
         }
+        [HttpGet("GetPaymentMethods")]
+        public async Task<List<PaymentMethod>> GetPaymentMethods()
+        {
+            var collection = new List<PaymentMethod>();
+            collection = await appliancesStoreContext.PaymentMethod.ToListAsync();
+            return collection;
+        }
         [HttpGet("GetCategory")]
         public async Task<List<Category>> GetCategory()
         {

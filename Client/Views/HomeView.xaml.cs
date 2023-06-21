@@ -1,3 +1,5 @@
+using Client.Views.Popups;
+
 namespace Client.Views;
 
 public partial class HomeView : ContentPage
@@ -12,8 +14,9 @@ public partial class HomeView : ContentPage
 		await Shell.Current.Navigation.PushAsync(new SignInView());
     }
 
-    private void ContentPage_Appearing(object sender, EventArgs e)
+    private async void ContentPage_Appearing(object sender, EventArgs e)
     {
+
         if (!string.IsNullOrWhiteSpace(Preferences.Default.Get("Login", "")))
         {
             UserAuthFrame.IsVisible = true;

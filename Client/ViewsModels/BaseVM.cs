@@ -18,11 +18,14 @@ namespace Client.ViewsModels
 {
     public class BaseVM : INotifyPropertyChanged
     {
-     
+       
         public IPopupNavigation popupNavigation;
 
         private bool _IsNotUserAuth;
-
+        public async void ShowLoadingPopup()
+        {
+            await MopupService.Instance.PushAsync(new LoadingPopup());
+        }
 		public bool IsNotUserAuth
         {
 			get { return _IsNotUserAuth; }
@@ -94,8 +97,25 @@ namespace Client.ViewsModels
         }
         public async void FillBasketAndFavorites()
         {
-            StaticValues.Favorites = await restAPIService.GetUserFavorites();
-            StaticValues.Basket = await restAPIService.GetUserBasketById();
+
+            if (IsBusy == true)
+                return;
+            try
+            {
+                IsBusy = true;
+                StaticValues.Favorites = await restAPIService.GetUserFavorites();
+                StaticValues.Basket = await restAPIService.GetUserBasketById();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
+            finally
+            {
+                IsBusy = false;
+
+            }
+            
         }
         public async void ShowSnackBar(string message)
         {
@@ -117,59 +137,76 @@ namespace Client.ViewsModels
         }
         public async void AddToBasket(Product product)
         {
-            if (!string.IsNullOrWhiteSpace(Preferences.Get("Login", "")))
+            if (IsBusy == true)
+                return;
+            try
             {
-                if(product.IsBasket != "1")
+                IsBusy = true;
+
+                if (!string.IsNullOrWhiteSpace(Preferences.Get("Login", "")))
                 {
-                    var addAction = await restAPIService.AddProductToBasket(new Basket
+                    if (product.IsBasket != "1")
                     {
-                        ProductId = product.IdProduct,
-                        UserId = Preferences.Get("id_user", 0),
-                        CountProduct = 1
-                    });
-                    if (addAction == true)
-                    {
-                        ShowSnackBar("Товар добавлен в корзину");
-                        product.IsBasket = "1";
-                        StaticValues.Basket.Add(new Basket
+                        var addAction = await restAPIService.AddProductToBasket(new Basket
                         {
                             ProductId = product.IdProduct,
                             UserId = Preferences.Get("id_user", 0),
                             CountProduct = 1
                         });
+                        if (addAction == true)
+                        {
+                            ShowSnackBar("Товар добавлен в корзину");
+                            product.IsBasket = "1";
+                            StaticValues.Basket.Add(new Basket
+                            {
+                                ProductId = product.IdProduct,
+                                UserId = Preferences.Get("id_user", 0),
+                                CountProduct = 1
+                            });
 
+                        }
+                        else
+                        {
+                            ShowSnackBar("Что-то пошло не так");
+                        }
                     }
                     else
                     {
-                        ShowSnackBar("Что-то пошло не так");
+                        var addAction = await restAPIService.DeleteProductFromBasket(new Basket
+                        {
+                            ProductId = product.IdProduct,
+                            UserId = Preferences.Get("id_user", 0),
+                            CountProduct = 1
+                        });
+                        if (addAction == true)
+                        {
+                            ShowSnackBar("Товар удален из корзины");
+                            product.IsBasket = "0";
+                            StaticValues.Basket = await restAPIService.GetUserBasketById();
+                        }
+                        else
+                        {
+                            ShowSnackBar("Что-то пошло не так");
+
+                        }
                     }
+
                 }
                 else
                 {
-                    var addAction = await restAPIService.DeleteProductFromBasket(new Basket
-                    {
-                        ProductId = product.IdProduct,
-                        UserId = Preferences.Get("id_user", 0),
-                        CountProduct = 1
-                    });
-                    if(addAction == true)
-                    {
-                        ShowSnackBar("Товар удален из корзины");
-                        product.IsBasket = "0";
-                        StaticValues.Basket = await restAPIService.GetUserBasketById();
-                    }
-                    else
-                    {
-                        ShowSnackBar("Что-то пошло не так");
-
-                    }
+                    NeedAuthorized();
                 }
-
             }
-            else
+            catch (Exception)
             {
-                NeedAuthorized();
+
+                throw;
             }
+            finally
+            {
+                IsBusy = false;
+            }
+           
         }
         public async void AddToFavorites(Product product)
         {

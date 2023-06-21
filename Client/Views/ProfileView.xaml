@@ -4,10 +4,13 @@
              x:Class="Client.Views.ProfileView"
              Title="Профиль"
              BackgroundColor="White">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+    <ScrollView>
+        <VerticalStackLayout>
+            <Label Text="Активные заказы" FontAttributes="Bold" Margin="5" FontSize="25" TextColor="Black"></Label>
+                <CollectionView></CollectionView>
+            <Label Text="Завершенные заказы" FontAttributes="Bold" Margin="5" FontSize="25" TextColor="Black"></Label>
+                <CollectionView></CollectionView>
+        </VerticalStackLayout>
+    </ScrollView>
+
 </ContentPage>

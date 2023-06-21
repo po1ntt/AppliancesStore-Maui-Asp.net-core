@@ -9,4 +9,9 @@ public partial class ProductsView : ContentPage
 		InitializeComponent();
 		this.BindingContext = new ProductsViewModel(category);
 	}
+    public ProductsView(Brand brand)
+    {
+        InitializeComponent();
+        this.BindingContext = new ProductsViewModel(brand);
+    }
 }

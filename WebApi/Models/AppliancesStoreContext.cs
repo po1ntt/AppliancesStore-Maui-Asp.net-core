@@ -28,6 +28,7 @@ public partial class AppliancesStoreContext : DbContext
     public virtual DbSet<Order> Orders { get; set; }
 
     public virtual DbSet<OrderedProduct> OrderedProducts { get; set; }
+    public virtual DbSet<PaymentMethod> PaymentMethod { get; set; }
 
     public virtual DbSet<Product> Products { get; set; }
 
@@ -132,13 +133,10 @@ public partial class AppliancesStoreContext : DbContext
                 .HasColumnType("datetime")
                 .HasColumnName("dateOrderEnd");
             entity.Property(e => e.OrderNumber).HasColumnName("orderNumber");
-            entity.Property(e => e.OrderedProductsId).HasColumnName("orderedProducts_id");
             entity.Property(e => e.StatusId).HasColumnName("status_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
 
-            entity.HasOne(d => d.OrderedProducts).WithMany(p => p.Orders)
-                .HasForeignKey(d => d.OrderedProductsId)
-                .HasConstraintName("FK_Orders_OrderedProducts");
+         
 
             entity.HasOne(d => d.Status).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.StatusId)
@@ -156,17 +154,17 @@ public partial class AppliancesStoreContext : DbContext
 
             entity.Property(e => e.IdOrderedProducts).HasColumnName("id_orderedProducts");
             entity.Property(e => e.ProductId).HasColumnName("product_id");
-            entity.Property(e => e.UserId).HasColumnName("user_id");
+            entity.Property(e => e.orderId).HasColumnName("order_id");
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderedProducts)
                 .HasForeignKey(d => d.ProductId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_OrderedProducts_Products");
 
-            entity.HasOne(d => d.User).WithMany(p => p.OrderedProducts)
-                .HasForeignKey(d => d.UserId)
+            entity.HasOne(d => d.Order).WithMany(p => p.OrderedProducts)
+                .HasForeignKey(d => d.orderId)
                 .OnDelete(DeleteBehavior.Cascade)
-                .HasConstraintName("FK_OrderedProducts_Users");
+                .HasConstraintName("FK_OrderedProducts_Orders");
         });
 
         modelBuilder.Entity<Product>(entity =>
@@ -250,6 +248,14 @@ public partial class AppliancesStoreContext : DbContext
                 .HasForeignKey(d => d.RoleId)
                 .OnDelete(DeleteBehavior.Cascade)
                 .HasConstraintName("FK_Users_Roles");
+        });
+        modelBuilder.Entity<PaymentMethod>(entity =>
+        {
+            entity.HasKey(e => e.IdPayment);
+            entity.ToTable("PaymentMethod");
+            entity.Property(e => e.IdPayment).HasColumnName("id_paymentMethod");
+
+            entity.Property(e => e.PayMethod).HasColumnName("paymentMethod");
         });
 
         OnModelCreatingPartial(modelBuilder);

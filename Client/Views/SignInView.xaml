@@ -5,6 +5,7 @@
              Title="Авторизация"
              BackgroundColor="White"
              xmlns:vm="clr-namespace:Client.ViewsModels"
+             Shell.TabBarIsVisible="False"
              >
     <ContentPage.BindingContext>
         <vm:SignInViewModel /> 

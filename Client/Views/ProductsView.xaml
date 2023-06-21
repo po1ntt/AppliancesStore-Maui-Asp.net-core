@@ -3,13 +3,14 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Client.Views.ProductsView"
              xmlns:vm="clr-namespace:Client.ViewsModels"
-             Title="{Binding Category.Name}"
+             Title="{Binding TitlePage}"
              xmlns:models="clr-namespace:Client.DataService.DboModels"
              BackgroundColor="White"
              xmlns:custom="clr-namespace:Client.CustomControls"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
-              xmlns:convertors="clr-namespace:Client.Convertors">
- 
+              xmlns:convertors="clr-namespace:Client.Convertors"
+             Shell.TabBarIsVisible="False">
+
     <Grid RowDefinitions="80,*">
         <custom:CustomEntry Grid.Row="0" BackgroundColor="White"/> 
         <CollectionView Grid.Row="1" ItemsSource="{Binding Products}"
