@@ -1,4 +1,5 @@
 ﻿using Client.DataService.DboModels;
+using Mopups.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -87,25 +88,74 @@ namespace Client.ViewsModels
 
         public ObservableCollection<PaymentMethod> PaymentMethods { get; set; } = new ObservableCollection<PaymentMethod>();
         public ObservableCollection<Basket> Baskets {get;set;} = new ObservableCollection<Basket>();
+        public Command CreateOrder { get; set; }
 
         public OrderCreateViewModel()
         {
+            CreateOrder = new Command(async (object args) => await AddOrder());
             Init();
         }
-        public async void AddOrder()
+        public async Task AddOrder()
         {
-           if(!string.IsNullOrWhiteSpace(FirstName)
-             && !string.IsNullOrWhiteSpace(SecondName)
-             && !string.IsNullOrWhiteSpace(Patronymic)
-             && !string.IsNullOrWhiteSpace(Adres)
-             && SelectedPaymentMethod != null)
+            try
             {
+                IsBusy = true;
+                ShowLoadingPopup();
+                if (!string.IsNullOrWhiteSpace(FirstName)
+            && !string.IsNullOrWhiteSpace(SecondName)
+            && !string.IsNullOrWhiteSpace(Patronymic)
+            && !string.IsNullOrWhiteSpace(Adres)
+            && SelectedPaymentMethod != null)
+                {
+                    Random random = new Random();
+                    Order order = new Order();
+                    order.FirstNameReceiver = FirstName;
+                    order.SecondNameReceiver = SecondName;
+                    order.AdressReceiver = Adres;
+                    order.Comment = Comment;
+                    order.PatronymicReceiver = Patronymic;
+                    order.StatusId = 1;
+                    order.PaymentId = SelectedPaymentMethod.IdPayment;
+                    order.OrderNumber = random.Next(999, 1000000).ToString();
+                    order.UserId = Preferences.Default.Get("id_user", 0);
+                    foreach (var item in await restAPIService.GetUserBasketById())
+                    {
+                        order.OrderedProducts.Add(new OrderedProduct()
+                        {
+                            ProductId = item.ProductId,
+                            CountProduct = item.CountProduct
+                        });
+                    }
+                    bool result = await restAPIService.AddNewOrder(order);
+                    if (result)
+                    {
+                        ShowSnackBar("Заказ успешно создан");
+                        await Shell.Current.Navigation.PopAsync();
 
+                    }
+                    else
+                    {
+                        ShowSnackBar("SomethingGoingWrong");
+
+                    }
+
+                }
+                else
+                {
+                    await Shell.Current.DisplayAlert("", "Заполните данные для заказа", "Ок");
+                }
             }
-            else
+            catch (Exception ex)
             {
-                await Shell.Current.DisplayAlert("", "Заполните данные для заказа", "Ок");
+                await Shell.Current.DisplayAlert("Error", ex.Message, "ок");
+                throw;
             }
+            finally
+            {
+                IsBusy = false;
+                await MopupService.Instance.PopAsync();
+            }
+          
         }
         public async void Init()
         {
@@ -124,7 +174,7 @@ namespace Client.ViewsModels
             foreach (var item in baskets)
             {
                 Baskets.Add(item);
-                SumOrder = (double)(SumOrder + item.Product.ProductPrice);
+                SumOrder = (double)(SumOrder + item.Product.ProductPrice * item.CountProduct);
 
             }
             SumOrder = Math.Round(SumOrder, 2);

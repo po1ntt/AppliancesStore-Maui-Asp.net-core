@@ -1,5 +1,6 @@
 ﻿using Client.DataService;
 using Client.DataService.DboModels;
+using Client.Views.OrdersViews;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -44,11 +45,29 @@ namespace Client.ViewsModels
             foreach(var item in baskets)
             {
                 Baskets.Add(item);
-                SumOrder = (double)(SumOrder + item.Product.ProductPrice);
+                SumOrder = (double)(SumOrder + item.Product.ProductPrice * item.CountProduct);
             }
             SumOrder = Math.Round(SumOrder, 2);
 
 
+        }
+        public async void GoToOrderCreatePage()
+        {
+            if(Baskets.Count > 0)
+            {
+                if (!string.IsNullOrWhiteSpace(Preferences.Default.Get("Login", "")))
+                {
+                    await Shell.Current.Navigation.PushAsync(new OrderCreateView());
+                }
+                else
+                {
+                    NeedAuthorized();
+                }
+            }
+            else
+            {
+                await Shell.Current.DisplayAlert(" ", "Корзина пуста", "Ок");
+            }
         }
         public async void Plus(Basket basket)
         {

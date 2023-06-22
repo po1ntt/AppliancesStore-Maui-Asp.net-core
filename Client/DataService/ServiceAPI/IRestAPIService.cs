@@ -10,12 +10,13 @@ namespace Client.DataService.ServiceAPI
 {
     public interface IRestAPIService
     {
+        Task<bool> AddNewOrder(Order order);
         Task<bool> AuhtorizeUser(string login, string password);
         Task<User> RegistUser(string login, string password);
         Task<List<Product>> GetUserFavorites();
         Task<List<Basket>> GetUserBasketById();
         Task<List<PaymentMethod>> GetPaymentMethods();
-
+        Task<List<Order>> GetOrders();
         Task<List<Category>> GetCategories();
         Task<List<Brand>> GetBrands();
         Task<List<Product>> GetProductsByCategory(int id_category);
@@ -27,8 +28,7 @@ namespace Client.DataService.ServiceAPI
         Task<bool> AddProductToFavorite(Favorite favorite);
         Task<bool> AddProductToBasket(Basket basket);
         Task<bool> DeleteProductFromFavorite(int id_product);
-        Task<bool> AddReviewToProduct(Review review);
-        Task<bool> GetReviewsToProduct(int id_product);
+  
        
     }
 }

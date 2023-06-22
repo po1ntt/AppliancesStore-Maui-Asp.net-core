@@ -25,7 +25,16 @@ namespace Client.ViewsModels
             FavoritesList.Clear();
             foreach (var item in StaticValues.Favorites)
             {
+                if (StaticValues.Basket.Any(a => a.ProductId == item.IdProduct))
+                {
+                    item.IsBasket = "1";
+                }
+                else
+                {
+                    item.IsBasket = "0";
+                }
                 FavoritesList.Add(item);
+
             }
           
         }

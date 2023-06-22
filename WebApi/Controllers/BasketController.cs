@@ -44,7 +44,7 @@ namespace WebApi.Controllers
             var basketToUpdate = await appliancesStoreContext.Baskets.FirstOrDefaultAsync(p=> p.IdBasket == basket.IdBasket);
             if(basketToUpdate != null)
             {
-                basketToUpdate.CountProduct = basketToUpdate.CountProduct++;
+                basketToUpdate.CountProduct = basketToUpdate.CountProduct + 1;
                 appliancesStoreContext.SaveChanges();
                 return Ok();
             }
@@ -58,7 +58,7 @@ namespace WebApi.Controllers
             var basketToUpdate = await appliancesStoreContext.Baskets.FirstOrDefaultAsync(p => p.IdBasket == basket.IdBasket);
             if (basketToUpdate != null)
             {
-                basketToUpdate.CountProduct = basketToUpdate.CountProduct--;
+                basketToUpdate.CountProduct = basketToUpdate.CountProduct - 1;
                 appliancesStoreContext.SaveChanges();
                 return Ok();
             }

@@ -3,14 +3,42 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Client.Views.ProfileView"
              Title="Профиль"
-             BackgroundColor="White">
-    <ScrollView>
-        <VerticalStackLayout>
-            <Label Text="Активные заказы" FontAttributes="Bold" Margin="5" FontSize="25" TextColor="Black"></Label>
-                <CollectionView></CollectionView>
-            <Label Text="Завершенные заказы" FontAttributes="Bold" Margin="5" FontSize="25" TextColor="Black"></Label>
-                <CollectionView></CollectionView>
-        </VerticalStackLayout>
-    </ScrollView>
+             BackgroundColor="White"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             xmlns:vm="clr-namespace:Client.ViewsModels">
+    <ContentPage.BindingContext>
+        <vm:ProfileViewModel />
+    </ContentPage.BindingContext>
+    <ContentPage.Behaviors>
+        <toolkit:EventToCommandBehavior Command="{Binding ApperingCommand}" EventName="Appearing" />
+    </ContentPage.Behaviors>
 
+    <Grid>
+        <CollectionView HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" ItemsSource="{Binding SpecialOrders}">
+            <CollectionView.ItemTemplate>
+                <DataTemplate>
+                    <StackLayout>
+                        <Label Text="{Binding Name}" FontAttributes="Bold" TextColor="Black" Margin="5" FontSize="18" />
+                        <StackLayout BindableLayout.ItemsSource="{Binding Orders}">
+                            <BindableLayout.ItemTemplate>
+                                <DataTemplate>
+                                    <Frame Margin="10" BackgroundColor="White">
+                                        <Label TextColor="Black" Text="{Binding Comment}"></Label>
+                                    </Frame>
+                                </DataTemplate>
+                            </BindableLayout.ItemTemplate>
+                        </StackLayout>
+                    </StackLayout>
+                </DataTemplate>
+            </CollectionView.ItemTemplate>
+            <CollectionView.EmptyViewTemplate>
+                <DataTemplate>
+                    <Frame>
+                        <Label Text="Вы ничего не заказывали" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"></Label>
+                    </Frame>
+                </DataTemplate>
+            </CollectionView.EmptyViewTemplate>
+        </CollectionView>
+    </Grid>
+   
 </ContentPage>

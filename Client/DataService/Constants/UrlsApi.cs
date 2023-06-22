@@ -17,8 +17,15 @@ namespace Client.DataService.Constants
         public const string ADDPRODUCTTOFAVORITE_URL = $"{ADRESS}/api/Product/AddProductToFavorite";
         public const string ADDPRODUCTTOBASKT_URL = $"{ADRESS}/api/Basket/AddProductToBasket";
         public const string GetPaymentMethod_URL = $"{ADRESS}/api/Specific/GetPaymentMethods";
+        public const string AddNewOrder_URL = $"{ADRESS}/api/Order/AddNewOrder";
 
+        /// /api/Order/AddNewOrder
         ///api/Product/DeleteProductFromFavorite?id_user=1&id_product=18
+        
+        public static string GetOrders_URL()
+        {
+            return $"{ADRESS}/api/Order/GetOrders?userid={Preferences.Default.Get("id_user", 0)}";
+        }
         public static string ProductByBrand(int id_brand)
         {
             return $"{ADRESS}/api/Product/GetProductsByBrand?id_brand={id_brand}";

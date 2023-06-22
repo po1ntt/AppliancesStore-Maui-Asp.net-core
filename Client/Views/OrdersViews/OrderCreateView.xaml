@@ -98,7 +98,7 @@
                 <Border.Shadow>
                     <Shadow Brush="orange" />
                 </Border.Shadow>
-                <Entry TextColor="Black" Text="{Binding Comment}" PlaceholderColor="Gray" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Placeholder="Комментарий к заказу"></Entry>
+                <Entry  TextColor="Black" Text="{Binding Comment}" PlaceholderColor="Gray" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Placeholder="Комментарий к заказу"></Entry>
             </Border>
             <Border  Margin="10" BackgroundColor="White" Grid.Row="0" Padding="5">
             <Border.StrokeShape>
@@ -140,7 +140,7 @@
             </CollectionView.ItemTemplate>
         </CollectionView>
         <Label Text="{Binding SumOrder, StringFormat='Итого: {0}'}" Margin="5" TextColor="Black" FontSize="25"></Label>
-            <Button Text="Заказать" TextColor="White" FontSize="25" BackgroundColor="Orange" HeightRequest="100" CornerRadius="5" Margin="10,10,10,20"></Button>
+            <Button Command="{Binding CreateOrder}" Text="Заказать" TextColor="White" FontSize="25" BackgroundColor="Orange" HeightRequest="100" CornerRadius="5" Margin="10,10,10,20"></Button>
     </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

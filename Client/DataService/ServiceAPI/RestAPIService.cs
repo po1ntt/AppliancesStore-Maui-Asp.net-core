@@ -88,7 +88,7 @@ namespace Client.DataService.ServiceAPI
             {
                 if (basket.CountProduct > 1)
                 {
-                     await httpclient.PutAsJsonAsync(UrlsApi.UpdateProductCntPlus_URL, basket);
+                     await httpclient.PutAsJsonAsync(UrlsApi.UpdateProductCntMinus_URL, basket);
                     return "MinusAction";
                 }
                 else
@@ -101,15 +101,7 @@ namespace Client.DataService.ServiceAPI
            
         }
 
-        public Task<bool> AddReviewToProduct(Review review)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<bool> GetReviewsToProduct(int id_product)
-        {
-            throw new NotImplementedException();
-        }
+   
 
         public async Task<List<ProductAndCategoryModel>> GetProductAndCategoryModels()
         {
@@ -173,6 +165,18 @@ namespace Client.DataService.ServiceAPI
         {
             var collection = await httpclient.GetFromJsonAsync(UrlsApi.GetPaymentMethod_URL, typeof(List<PaymentMethod>), jsonSerializerOptions);
             return collection as List<PaymentMethod>;
+        }
+
+        public async Task<bool> AddNewOrder(Order order)
+        {
+            var response = await httpclient.PostAsJsonAsync(UrlsApi.AddNewOrder_URL, order);
+            return response.IsSuccessStatusCode;
+        }
+
+        public async Task<List<Order>> GetOrders()
+        {
+            var collection = await httpclient.GetFromJsonAsync(UrlsApi.GetOrders_URL(), typeof(List<Order>), jsonSerializerOptions);
+            return collection as List<Order>;
         }
     }
 }

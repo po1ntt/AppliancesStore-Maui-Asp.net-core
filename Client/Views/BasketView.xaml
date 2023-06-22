@@ -21,7 +21,7 @@
                             <ClickGestureRecognizer  />
                         </Frame.GestureRecognizers>
                         <Grid ColumnDefinitions="125, 250">
-                            <Image Grid.Row="0" Source="{Binding Product.ProductImage}"></Image>
+                            <Image Margin="10" Grid.Row="0" Source="{Binding Product.ProductImage}"></Image>
                             <Grid RowDefinitions="30,60,30,40" Grid.Column="1">
                                 <Label FontSize="20" VerticalOptions="Center" Grid.Row="0" Text="{Binding Product.ProductPrice, StringFormat='{0} Р'}" TextColor="Black">
 

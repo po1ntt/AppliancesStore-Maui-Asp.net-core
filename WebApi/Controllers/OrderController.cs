@@ -21,5 +21,52 @@ namespace WebApi.Controllers
             collection = await appliancesStoreContext.Orders.Include(p => p.OrderedProducts).Include(p=>p.Status).Where(p => p.UserId == userid).ToListAsync();
             return collection;
         }
+        [HttpPost("AddNewOrder")]
+        public async Task<bool> AddNewOrder(Order order)
+        {
+            try
+            {
+                appliancesStoreContext.Orders.Add(new Order()
+                {
+                    OrderNumber = order.OrderNumber,
+                    FirstNameReceiver = order.FirstNameReceiver,
+                    SecondNameReceiver = order.SecondNameReceiver,
+                    PatronymicReceiver = order.PatronymicReceiver,
+                    Comment = order.Comment,
+                    StatusId = 1,
+                    UserId = order.UserId,
+                    AdressReceiver = order.AdressReceiver,
+                    DateOrderBegin = DateTime.Today.ToString("d"),
+                    PaymentId = order.PaymentId
+                    
+                });
+                await appliancesStoreContext.SaveChangesAsync();
+                var thatOrder = appliancesStoreContext.Orders.FirstOrDefault(p=>p.OrderNumber == order.OrderNumber);
+                if (thatOrder != null)
+                {
+                    foreach(var item in order.OrderedProducts)
+                    {
+                        appliancesStoreContext.OrderedProducts.Add(new OrderedProduct()
+                        {
+                            orderId = thatOrder.IdOrder,
+                            ProductId = item.ProductId,
+                            CountProduct = item.CountProduct
+                        });
+                        await appliancesStoreContext.SaveChangesAsync();
+
+                    }
+                }
+
+                return true;
+            }
+            catch (Exception ex)
+            {
+
+                return false;
+                throw;
+            }
+           
+        }
+        
     }
 }

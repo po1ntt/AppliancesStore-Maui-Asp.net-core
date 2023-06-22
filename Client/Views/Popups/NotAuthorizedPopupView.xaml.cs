@@ -14,4 +14,10 @@ public partial class NotAuthorizedPopupView : Mopups.Pages.PopupPage
     {
         await MopupService.Instance.PopAsync();
     }
+
+    private async void Button_Clicked(object sender, EventArgs e)
+    {
+        await MopupService.Instance.PopAsync();
+        await Shell.Current.Navigation.PushAsync(new SignInView());
+    }
 }

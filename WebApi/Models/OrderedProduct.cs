@@ -10,6 +10,7 @@ public partial class OrderedProduct
 
     public int? orderId { get; set; }
 
+    public int? CountProduct { get; set; }
     public int? ProductId { get; set; }
 
     [JsonIgnore]

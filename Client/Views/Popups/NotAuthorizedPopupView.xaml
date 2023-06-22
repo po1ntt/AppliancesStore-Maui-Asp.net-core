@@ -32,7 +32,7 @@
                 <Grid  ColumnDefinitions="1*,10,1*">
                     <Button Clicked="Cancel_Clicked" TextColor="Black" BackgroundColor="Transparent" CornerRadius="0" Text="Отмена" />
                     <Label Text="|" Grid.Column="1" VerticalOptions="Center" FontSize="20" TextColor="Black"></Label>
-                    <Button Grid.Column="2" TextColor="Black" BackgroundColor="Transparent" CornerRadius="0"  Text="Перейти" />
+                    <Button Clicked="Button_Clicked" Grid.Column="2" TextColor="Black" BackgroundColor="Transparent" CornerRadius="0"  Text="Перейти" />
                 </Grid>
             </Border>
         </Grid>

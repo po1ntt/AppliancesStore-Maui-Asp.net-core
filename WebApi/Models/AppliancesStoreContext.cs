@@ -127,20 +127,26 @@ public partial class AppliancesStoreContext : DbContext
             entity.Property(e => e.IdOrder).HasColumnName("id_order");
             entity.Property(e => e.Comment).HasColumnName("comment");
             entity.Property(e => e.DateOrderBegin)
-                .HasColumnType("datetime")
                 .HasColumnName("dateOrderBegin");
             entity.Property(e => e.DateOrderEnd)
-                .HasColumnType("datetime")
                 .HasColumnName("dateOrderEnd");
             entity.Property(e => e.OrderNumber).HasColumnName("orderNumber");
             entity.Property(e => e.StatusId).HasColumnName("status_id");
             entity.Property(e => e.UserId).HasColumnName("user_id");
-
-         
+            entity.Property(e => e.FirstNameReceiver).HasColumnName("FirstNameReceiver");
+            entity.Property(e => e.SecondNameReceiver).HasColumnName("SecondNameReceiver");
+            entity.Property(e => e.AdressReceiver).HasColumnName("AdressReceiver");
+            entity.Property(e => e.PatronymicReceiver).HasColumnName("PatronymicReceiver");
+            entity.Property(e => e.PaymentId).HasColumnName("paymentMethod_id");
 
             entity.HasOne(d => d.Status).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.StatusId)
                 .HasConstraintName("FK_Orders_Status");
+
+
+            entity.HasOne(d => d.PaymentMethod).WithMany(p => p.Orders)
+              .HasForeignKey(d => d.PaymentId)
+              .HasConstraintName("FK_Orders_PaymentMethod");
 
             entity.HasOne(d => d.User).WithMany(p => p.Orders)
                 .HasForeignKey(d => d.UserId)
@@ -155,6 +161,8 @@ public partial class AppliancesStoreContext : DbContext
             entity.Property(e => e.IdOrderedProducts).HasColumnName("id_orderedProducts");
             entity.Property(e => e.ProductId).HasColumnName("product_id");
             entity.Property(e => e.orderId).HasColumnName("order_id");
+            entity.Property(e => e.CountProduct).HasColumnName("CountProduct");
+           
 
             entity.HasOne(d => d.Product).WithMany(p => p.OrderedProducts)
                 .HasForeignKey(d => d.ProductId)
