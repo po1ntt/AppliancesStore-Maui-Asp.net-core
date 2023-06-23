@@ -17,6 +17,9 @@
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding ApperingCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
+    <ContentPage.ToolbarItems>
+        <ToolbarItem  IconImageSource="exit_door_img.png" x:Name="exitBtn" Clicked="ToolbarItem_Clicked" Command="{Binding OutFromAccount}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.Resources>
         <ResourceDictionary>
             <DataTemplate x:Key="ProductCategoryTemplate">

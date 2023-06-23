@@ -6,6 +6,7 @@
              BackgroundColor="White"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:Client.ViewsModels">
+    
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding ApperingCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
@@ -13,7 +14,7 @@
         <vm:BaskeViewModel />
     </ContentPage.BindingContext>
     <Grid Padding="10" RowDefinitions="1*,50,100">
-        <CollectionView EmptyView="В корзине пусто :(" ItemsSource="{Binding Baskets}">
+        <CollectionView  ItemsSource="{Binding Baskets}">
             <CollectionView.ItemTemplate>
                 <DataTemplate>
                     <Frame Padding="10" Margin="10,0,10,0"  BackgroundColor="#fbfbfb" CornerRadius="4" >
@@ -51,6 +52,9 @@
             <CollectionView.ItemsLayout>
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="20" />
             </CollectionView.ItemsLayout>
+            <CollectionView.EmptyView>
+                <Label HorizontalOptions="Center" VerticalOptions="Center" Text="В корзине пусто :(" TextColor="Black"></Label>
+            </CollectionView.EmptyView>
         </CollectionView>
         <Label TextColor="Black" FontSize="28" Grid.Row="1" Text="{Binding SumOrder, StringFormat='Итого: {0} руб.'}"></Label>
         <Button Clicked="Button_Clicked" HorizontalOptions="FillAndExpand" TextColor="White" FontSize="28" HeightRequest="-1" VerticalOptions="FillAndExpand" CornerRadius="5"  Grid.Row="2" Background="orange" Text="Оформить заказ" />

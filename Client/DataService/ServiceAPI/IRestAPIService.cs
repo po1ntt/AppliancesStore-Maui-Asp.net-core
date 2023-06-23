@@ -12,7 +12,7 @@ namespace Client.DataService.ServiceAPI
     {
         Task<bool> AddNewOrder(Order order);
         Task<bool> AuhtorizeUser(string login, string password);
-        Task<User> RegistUser(string login, string password);
+        Task<bool> RegistUser(User user);
         Task<List<Product>> GetUserFavorites();
         Task<List<Basket>> GetUserBasketById();
         Task<List<PaymentMethod>> GetPaymentMethods();
@@ -21,7 +21,6 @@ namespace Client.DataService.ServiceAPI
         Task<List<Brand>> GetBrands();
         Task<List<Product>> GetProductsByCategory(int id_category);
         Task<List<Product>> GetProductsByBrand(int id_brand);
-        Task<List<Product>> GetProductsByName(string name);
         Task<List<ProductAndCategoryModel>> GetProductAndCategoryModels();
         Task<bool> DeleteProductFromBasket(Basket basket);
         Task<string> UpdateCountProductInBasket(Basket basket, string action);

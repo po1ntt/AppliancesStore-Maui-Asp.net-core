@@ -14,6 +14,7 @@ namespace Client.ViewsModels
        
         public ObservableCollection<SpecialOrder> SpecialOrders { get; set; } = new ObservableCollection<SpecialOrder>();
         public Command ApperingCommand { get; set; }
+        public Command OutFromAccount { get; set; }
 
         public ProfileViewModel()
         {
@@ -42,7 +43,19 @@ namespace Client.ViewsModels
                     Orders = listNotActiveOrders.ToList()
                 });
             }
-         
+            OutFromAccount = new Command((object args) => OutAccount());
+
+
+        }
+        public async void OutAccount()
+        {
+            bool answer = await Shell.Current.DisplayAlert("Выход из аккаунта", "Вы действительно хотите выйти из аккаунта?", "Да", "Нет");
+            if (answer)
+            {
+                Preferences.Default.Clear();
+                Init();
+            }
+
         }
     }
 }

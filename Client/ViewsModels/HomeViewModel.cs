@@ -45,7 +45,7 @@ namespace Client.ViewsModels
         public ObservableCollection<Brand> Brands { get; set; }
 
         public Command RefreshCommand { get; set; }
-        
+        public Command OutFromAccount { get; set; }
         public Command ShowPopup { get; set; }
         public Command ApperingCommand { get; set; }
          
@@ -59,6 +59,7 @@ namespace Client.ViewsModels
             ApperingCommand = new Command(async (object args) => await Init());
             GotoAuthPage = new Command(async (object args) => await Shell.Current.Navigation.PushAsync(new SignInView()));
             BrandItemTapped= new Command((object args) => BrandSelected(args as Brand));
+            OutFromAccount = new Command((object args) => OutAccount());
 
         }
         public async void BrandSelected(Brand brand)
@@ -69,6 +70,19 @@ namespace Client.ViewsModels
             IsBusy = false;
             await MopupService.Instance.PopAllAsync();
         }
+        public async void OutAccount()
+        {
+            bool answer = await Shell.Current.DisplayAlert("Выход из аккаунта", "Вы действительно хотите выйти из аккаунта?", "Да", "Нет");
+            if (answer)
+            {
+                Preferences.Default.Clear();
+                StaticValues.Favorites.Clear();
+                StaticValues.Basket.Clear();
+                await Init();
+            }
+          
+        }
+
         public async Task Init()
         {
             if(Refreshing == true)
@@ -87,6 +101,7 @@ namespace Client.ViewsModels
                 if (!string.IsNullOrWhiteSpace(Preferences.Default.Get("Login", "")))
                 {
                     basket = await restAPIService.GetUserBasketById();
+                    FillBasketAndFavorites();
                 }
                
                 if (ProductsAndCategory.Count == 0)
@@ -167,7 +182,7 @@ namespace Client.ViewsModels
                 Refreshing = false;
 
 
-                throw;
+                ShowSnackBar(ex.Message);
             }
             finally
             {

@@ -64,7 +64,7 @@
                         <Entry TextColor="Black" Text="{Binding Password}" PlaceholderColor="Gray"  Placeholder="Введите пароль"></Entry>
                     </Border>
                     <Button Command="{Binding AuthUserCommand}" Margin="0,0,0,10" BackgroundColor="Transparent" BorderColor="Orange" CornerRadius="10" BorderWidth="2" Grid.Row="2" Text="Авторизоваться"></Button>
-                    <Button BackgroundColor="Orange" TextColor="White" CornerRadius="10" Grid.Row="3" Text="Регистрация"></Button>
+                    <Button Clicked="Button_Clicked" BackgroundColor="Orange" TextColor="White" CornerRadius="10" Grid.Row="3" Text="Регистрация"></Button>
                 </StackLayout>
             </Border>
         </Grid>

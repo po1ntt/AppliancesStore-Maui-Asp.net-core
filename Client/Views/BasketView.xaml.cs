@@ -13,4 +13,8 @@ public partial class BasketView : ContentPage
     {
 		await Shell.Current.Navigation.PushAsync(new OrderCreateView());
     }
+    private void ToolbarItem_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }

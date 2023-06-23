@@ -99,6 +99,7 @@ namespace Client.ViewsModels
         {
             try
             {
+               
                 IsBusy = true;
                 ShowLoadingPopup();
                 if (!string.IsNullOrWhiteSpace(FirstName)
@@ -107,6 +108,7 @@ namespace Client.ViewsModels
             && !string.IsNullOrWhiteSpace(Adres)
             && SelectedPaymentMethod != null)
                 {
+                    List<Basket> baskets = await restAPIService.GetUserBasketById();
                     Random random = new Random();
                     Order order = new Order();
                     order.FirstNameReceiver = FirstName;
@@ -118,7 +120,7 @@ namespace Client.ViewsModels
                     order.PaymentId = SelectedPaymentMethod.IdPayment;
                     order.OrderNumber = random.Next(999, 1000000).ToString();
                     order.UserId = Preferences.Default.Get("id_user", 0);
-                    foreach (var item in await restAPIService.GetUserBasketById())
+                    foreach (var item in baskets)
                     {
                         order.OrderedProducts.Add(new OrderedProduct()
                         {
@@ -130,6 +132,10 @@ namespace Client.ViewsModels
                     if (result)
                     {
                         ShowSnackBar("Заказ успешно создан");
+                        foreach(var item in baskets)
+                        {
+                            await restAPIService.DeleteProductFromBasket(item);
+                        }
                         await Shell.Current.Navigation.PopAsync();
 
                     }

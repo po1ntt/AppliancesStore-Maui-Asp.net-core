@@ -8,6 +8,9 @@
              Background="white"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              >
+    <ContentPage.ToolbarItems>
+        <ToolbarItem  IconImageSource="exit_door_img.png" Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:CatalogViewModel /> 
     </ContentPage.BindingContext>
@@ -47,7 +50,7 @@
                         </Frame>
                     </DataTemplate>
                 </CollectionView.ItemTemplate>
-            
+               
             </CollectionView>
 
         </VerticalStackLayout>

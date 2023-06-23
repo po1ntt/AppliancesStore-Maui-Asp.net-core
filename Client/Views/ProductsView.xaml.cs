@@ -14,4 +14,5 @@ public partial class ProductsView : ContentPage
         InitializeComponent();
         this.BindingContext = new ProductsViewModel(brand);
     }
+   
 }

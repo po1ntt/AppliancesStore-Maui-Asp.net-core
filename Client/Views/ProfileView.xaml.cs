@@ -6,4 +6,8 @@ public partial class ProfileView : ContentPage
 	{
 		InitializeComponent();
 	}
+    private void ToolbarItem_Clicked(object sender, EventArgs e)
+    {
+
+    }
 }

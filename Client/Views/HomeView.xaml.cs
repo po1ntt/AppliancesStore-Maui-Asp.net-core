@@ -21,13 +21,23 @@ public partial class HomeView : ContentPage
         {
             UserAuthFrame.IsVisible = true;
             UserNotAuthFrame.IsVisible = false;
+            exitBtn.IsEnabled = true;
 
         }
         else
         {
             UserNotAuthFrame.IsVisible = true;
             UserAuthFrame.IsVisible = false;
+            exitBtn.IsEnabled = false;
 
         }
+    }
+
+    private void ToolbarItem_Clicked(object sender, EventArgs e)
+    {
+        UserNotAuthFrame.IsVisible = true;
+        UserAuthFrame.IsVisible = false;
+        exitBtn.IsEnabled = false;
+
     }
 }

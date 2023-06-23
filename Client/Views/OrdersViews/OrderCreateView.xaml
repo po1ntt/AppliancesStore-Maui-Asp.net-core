@@ -130,7 +130,7 @@
                             <Image Source="{Binding Product.ProductImage}" HeightRequest="100" WidthRequest="100"></Image>
                                 <StackLayout Grid.Column="1">
                                     <Label HorizontalOptions="Center" VerticalOptions="Center" Text="{Binding Product.ProductName}" TextColor="Black" FontSize="13"></Label>
-                                    <Label VerticalOptions="Center" Text="{Binding Product.ProductPrice,StringFormat='{0} Р '}" TextColor="Black" FontSize="18"></Label>
+                                    <Label VerticalOptions="Center" Text="{Binding Product.ProductPrice,StringFormat='{0} ₽'}" TextColor="Black" FontSize="18"></Label>
 
                                 </StackLayout>
                             <Label Grid.Column="2" TextColor="Black" VerticalOptions="Center"  Text="{Binding CountProduct,StringFormat='Кол-во: {0}'}"> </Label>

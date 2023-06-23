@@ -6,6 +6,9 @@
              BackgroundColor="White"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              xmlns:vm="clr-namespace:Client.ViewsModels">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem  IconImageSource="exit_door_img.png" Clicked="ToolbarItem_Clicked"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:ProfileViewModel />
     </ContentPage.BindingContext>
@@ -31,13 +34,9 @@
                     </StackLayout>
                 </DataTemplate>
             </CollectionView.ItemTemplate>
-            <CollectionView.EmptyViewTemplate>
-                <DataTemplate>
-                    <Frame>
-                        <Label Text="Вы ничего не заказывали" TextColor="Black" HorizontalOptions="Center" VerticalOptions="Center"></Label>
-                    </Frame>
-                </DataTemplate>
-            </CollectionView.EmptyViewTemplate>
+            <CollectionView.EmptyView>
+                <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Заказов нет :(" TextColor="Black"></Label>
+            </CollectionView.EmptyView>
         </CollectionView>
     </Grid>
    

@@ -14,6 +14,8 @@ namespace Client.ViewsModels
     {
 	    public ObservableCollection<Basket> Baskets { get; set; }
         public Command ApperingCommand { get; set; }
+        public Command OutFromAccount { get; set; }
+
 
         private double _SumOrder;
 
@@ -35,6 +37,7 @@ namespace Client.ViewsModels
             PlusCommand = new Command((object args) => Plus(args as Basket));
             MinusCommand = new Command((object args) => Minus(args as Basket));
             DeleteCommand = new Command((object args) => Delete(args as Basket));
+            OutFromAccount = new Command((object args) => OutAccount());
 
         }
         public async void Init()
@@ -51,6 +54,7 @@ namespace Client.ViewsModels
 
 
         }
+
         public async void GoToOrderCreatePage()
         {
             if(Baskets.Count > 0)
@@ -75,6 +79,16 @@ namespace Client.ViewsModels
             basket.CountProduct = basket.CountProduct + 1;
             SumOrder = (double)(SumOrder + basket.Product.ProductPrice);
             SumOrder = Math.Round(SumOrder, 2);
+        }
+        public async void OutAccount()
+        {
+            bool answer = await Shell.Current.DisplayAlert("Выход из аккаунта", "Вы действительно хотите выйти из аккаунта?", "Да", "Нет");
+            if (answer)
+            {
+                Preferences.Default.Clear();
+                Init();
+            }
+
         }
         public async void Minus(Basket basket)
         {

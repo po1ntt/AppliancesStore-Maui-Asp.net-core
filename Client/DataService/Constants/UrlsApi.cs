@@ -18,10 +18,11 @@ namespace Client.DataService.Constants
         public const string ADDPRODUCTTOBASKT_URL = $"{ADRESS}/api/Basket/AddProductToBasket";
         public const string GetPaymentMethod_URL = $"{ADRESS}/api/Specific/GetPaymentMethods";
         public const string AddNewOrder_URL = $"{ADRESS}/api/Order/AddNewOrder";
+        public const string RegisterUser_URL = $"{ADRESS}/api/Users/RegisterUser";
 
         /// /api/Order/AddNewOrder
         ///api/Product/DeleteProductFromFavorite?id_user=1&id_product=18
-        
+
         public static string GetOrders_URL()
         {
             return $"{ADRESS}/api/Order/GetOrders?userid={Preferences.Default.Get("id_user", 0)}";

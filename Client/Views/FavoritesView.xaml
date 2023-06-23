@@ -7,7 +7,11 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              BackgroundColor="White"
              xmlns:vm="clr-namespace:Client.ViewsModels"
-             xmlns:convertors="clr-namespace:Client.Convertors">
+             xmlns:convertors="clr-namespace:Client.Convertors"
+             xmlns:handlers="clr-namespace:Client.Handlers">
+    <ContentPage.ToolbarItems>
+        <ToolbarItem  IconImageSource="exit_door_img.png" Command="{Binding OutFromAccount}"/>
+    </ContentPage.ToolbarItems>
     <ContentPage.BindingContext>
         <vm:FavoritesViewModel />
     </ContentPage.BindingContext>
@@ -19,12 +23,18 @@
     <ContentPage.Behaviors>
         <toolkit:EventToCommandBehavior Command="{Binding ApperingCommand}" EventName="Appearing" />
     </ContentPage.Behaviors>
-    <Grid RowDefinitions="80,*">
-        
-        <custom:CustomEntry Grid.Row="0" BackgroundColor="White"/>
-        <CollectionView Grid.Row="1" ItemsSource="{Binding FavoritesList}"
+    <Grid RowDefinitions="80,*"  ZIndex="0">
+       
+        <Frame BackgroundColor="White" CornerRadius="20" Margin="10" BorderColor="Orange" Padding="10" >
+            <Grid ColumnDefinitions="25,10,*" ColumnSpacing="10">
+                <Image VerticalOptions="Center" Source="ic_magnifying_glass.png" HeightRequest="25" WidthRequest="25" />
+                <Label Grid.Column="1" Text="|" FontSize="20" VerticalOptions="Center" FontAttributes="Bold" TextColor="Black"></Label>
+                <handlers:BorderlessEntry Text="{Binding SearchValue}" TextColor="Black" Placeholder="Поиск по названию" VerticalOptions="Center" PlaceholderColor="Gray" Grid.Column="2" />
+            </Grid>
+        </Frame>
+        <CollectionView ZIndex="214" Grid.Row="1" ItemsSource="{Binding FavoritesList}"
                         Margin="5"
-                       BackgroundColor="White"
+                         BackgroundColor="White"
                        >
             <CollectionView.ItemTemplate>
                 <DataTemplate >
@@ -38,7 +48,7 @@
                                 
                             </Grid>
                             <Grid RowDefinitions="30,80,40" Grid.Column="1">
-                                <Label FontSize="20" VerticalOptions="Center" Grid.Row="0" Text="{Binding ProductPrice, StringFormat='{0} Р'}" TextColor="Black">
+                                <Label FontSize="20" VerticalOptions="Center" Grid.Row="0" Text="{Binding ProductPrice, StringFormat='{0} ₽'}" TextColor="Black">
 
                                 </Label>
                                 <Label Grid.Row="1" Text="{Binding ProductName}" TextColor="Black">
@@ -61,12 +71,13 @@
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
             </CollectionView.ItemsLayout>
             <CollectionView.EmptyView>
-                <ContentView Background="white">
-                    <Frame BackgroundColor="White">
-                        <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black" Text="Ничего не найдено"></Label>
-                    </Frame>
-                </ContentView>
+                <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Ничего не найдено" TextColor="Black"> </Label>
             </CollectionView.EmptyView>
         </CollectionView>
+        <AbsoluteLayout ZIndex="0">
+            <Label ZIndex="0" Text="Centered text"
+               AbsoluteLayout.LayoutBounds="0.5,0.5,110,25"
+               AbsoluteLayout.LayoutFlags="PositionProportional" />
+        </AbsoluteLayout>
     </Grid>
 </ContentPage>

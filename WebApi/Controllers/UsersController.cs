@@ -25,34 +25,34 @@ namespace WebApi.Controllers
                 return BadRequest();
         }
         [HttpPost("RegisterUser")]
-        public IActionResult AddNewUser(string login, string password,string patronymic, string firstname, string secondname, string gender)
+        public IActionResult AddNewUser(User user)
         {
-            User user = new User();
-            if (!string.IsNullOrWhiteSpace(login))
-                user.Login = login;
-            else
+
+
+            if (string.IsNullOrWhiteSpace(user.Login))
                 return BadRequest();
-            if (!string.IsNullOrWhiteSpace(password))
-                user.Password = login;
-            else
+            var userToCheck = appliancesStoreContext.Users.FirstOrDefault(p => p.Login == user.Login);
+            if (userToCheck != null)
                 return BadRequest();
-            if (!string.IsNullOrWhiteSpace(patronymic))
-                user.Patronymic = patronymic;
-            else
+            if (string.IsNullOrWhiteSpace(user.Password))
+                return BadRequest();
+            if (!string.IsNullOrWhiteSpace(user.Patronymic))
                 user.Patronymic = "-";
-            if (!string.IsNullOrWhiteSpace(firstname))
-                user.FirstName = firstname;
-            else
+            if (!string.IsNullOrWhiteSpace(user.FirstName))
                 user.FirstName = "-";
-            if (!string.IsNullOrWhiteSpace(secondname))
-                user.SecondName = secondname;
-            else
+            if (!string.IsNullOrWhiteSpace(user.SecondName))
                 user.SecondName = "-";
-            if (!string.IsNullOrWhiteSpace(gender))
-                user.Gender = gender;
-            else
+            if (!string.IsNullOrWhiteSpace(user.Gender))
                 user.Gender = "-";
-            appliancesStoreContext.Users.Add(user);
+            appliancesStoreContext.Users.Add(new User() 
+            { 
+                Login = user.Login,
+                Password = user.Password,
+                FirstName = user.FirstName, SecondName = user.SecondName,
+                Gender = user.Gender,
+                Patronymic = user.Patronymic,
+
+            });
             appliancesStoreContext.SaveChanges();
             return Ok(user);
         }

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -11,16 +12,8 @@ namespace Client.ViewsModels
 {
     public class ProductsViewModel : BaseVM
     {
-        
-        private List<Product> _Products;
-
-        public List<Product> Products
-        {
-            get { return _Products; }
-            set { _Products = value;
-                OnPropertyChanged();
-            }
-        }
+        public List<Product> products1 = new List<Product>();
+        public ObservableCollection<Product> Products { get; set; } 
         private string _TitlePage;
 
         public string TitlePage
@@ -30,12 +23,24 @@ namespace Client.ViewsModels
                 OnPropertyChanged();
             }
         }
+        private string _SearchValue;
+
+        public string SearchValue
+        {
+            get { return _SearchValue; }
+            set { _SearchValue = value;
+                OnPropertyChanged();
+                FilterByName();
+            }
+        }
 
         public Brand Brand { get; set; } 
         public Category Category { get; set; }
         public Command RefreshCommand { get; set; }
         public ProductsViewModel(Brand brand)
         {
+            Products = new ObservableCollection<Product>();
+
             Brand = brand;
             Category = null;
             TitlePage = brand.NameBrand;
@@ -44,7 +49,7 @@ namespace Client.ViewsModels
         }
         public ProductsViewModel(Category category)
         {
-            Products = new List<Product>();
+            Products = new ObservableCollection<Product>();
             Category = category;
             TitlePage = category.Name;
 
@@ -68,6 +73,8 @@ namespace Client.ViewsModels
                 }
                 else
                 {
+                    Products.Clear();
+
                     List<Product> products = new List<Product>();
 
                     if (Brand != null)
@@ -98,8 +105,11 @@ namespace Client.ViewsModels
                         {
                             product.IsBasket = "0";
                         }
+                        Products.Add(product);
+
                     }
-                    Products = products;
+                    products1 = products;
+   
                 }
                 IsBusy = false;
                 await MopupService.Instance.PopAllAsync();
@@ -109,6 +119,58 @@ namespace Client.ViewsModels
                 throw;
             }
            
+        }
+        public void FilterByName()
+        {
+            if (!string.IsNullOrWhiteSpace(SearchValue)) 
+            {
+                Products.Clear();
+                foreach (var product in products1.Where(p => p.ProductName.ToLower().Contains(SearchValue.ToLower())).ToList())
+                {
+                    if (StaticValues.Favorites.Any(a => a.IdProduct == product.IdProduct))
+                    {
+                        product.IsFavorite = "1";
+                    }
+                    else
+                    {
+                        product.IsFavorite = "0";
+                    }
+                    if (StaticValues.Basket.Any(a => a.ProductId == product.IdProduct))
+                    {
+                        product.IsBasket = "1";
+                    }
+                    else
+                    {
+                        product.IsBasket = "0";
+                    }
+                    Products.Add(product);
+                }
+            }
+            else
+            {
+                Products.Clear();
+                foreach (var product in products1)
+                {
+                    if (StaticValues.Favorites.Any(a => a.IdProduct == product.IdProduct))
+                    {
+                        product.IsFavorite = "1";
+                    }
+                    else
+                    {
+                        product.IsFavorite = "0";
+                    }
+                    if (StaticValues.Basket.Any(a => a.ProductId == product.IdProduct))
+                    {
+                        product.IsBasket = "1";
+                    }
+                    else
+                    {
+                        product.IsBasket = "0";
+                    }
+                    Products.Add(product);
+                }
+            }
+          
         }
     }
 }

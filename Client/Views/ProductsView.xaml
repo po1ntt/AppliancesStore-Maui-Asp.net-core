@@ -9,10 +9,17 @@
              xmlns:custom="clr-namespace:Client.CustomControls"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
               xmlns:convertors="clr-namespace:Client.Convertors"
-             Shell.TabBarIsVisible="False">
+             Shell.TabBarIsVisible="False"
+             xmlns:handlers="clr-namespace:Client.Handlers">
 
     <Grid RowDefinitions="80,*">
-        <custom:CustomEntry Grid.Row="0" BackgroundColor="White"/> 
+        <Frame BackgroundColor="White" CornerRadius="20" Margin="10" BorderColor="Orange" Padding="10" >
+            <Grid ColumnDefinitions="25,10,*" ColumnSpacing="10">
+                <Image VerticalOptions="Center" Source="ic_magnifying_glass.png" HeightRequest="25" WidthRequest="25" />
+                <Label Grid.Column="1" Text="|" FontSize="20" VerticalOptions="Center" FontAttributes="Bold" TextColor="Black"></Label>
+                <handlers:BorderlessEntry Text="{Binding SearchValue}" TextColor="Black" Placeholder="Поиск по названию" VerticalOptions="Center" PlaceholderColor="Gray" Grid.Column="2" />
+            </Grid>
+        </Frame>
         <CollectionView Grid.Row="1" ItemsSource="{Binding Products}"
                         Margin="5"
                        
@@ -28,7 +35,7 @@
                         <Grid ColumnDefinitions="125, 250">
                             <Image Margin="10" Grid.Row="0" Source="{Binding ProductImage}"></Image>
                             <Grid RowDefinitions="30,80,40" Grid.Column="1">
-                                <Label FontSize="20" VerticalOptions="Center" Grid.Row="0" Text="{Binding ProductPrice, StringFormat='{0} Р'}" TextColor="Black">
+                                <Label FontSize="20" VerticalOptions="Center" Grid.Row="0" Text="{Binding ProductPrice, StringFormat='{0} ₽'}" TextColor="Black">
                                     
                                 </Label>
                                 <Label Grid.Row="1" Text="{Binding ProductName}" TextColor="Black">

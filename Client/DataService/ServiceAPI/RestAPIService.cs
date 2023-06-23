@@ -72,11 +72,7 @@ namespace Client.DataService.ServiceAPI
             return collection as List<Product>;
         }
 
-        public Task<List<Product>> GetProductsByName(string name)
-        {
-            throw new NotImplementedException();
-        }
-
+      
         public async Task<string> UpdateCountProductInBasket(Basket basket, string action)
         {
             HttpResponseMessage response = new HttpResponseMessage();
@@ -136,18 +132,26 @@ namespace Client.DataService.ServiceAPI
             return response.IsSuccessStatusCode;
         }
 
-        public Task<User> RegistUser(string login, string password)
+        public async Task<bool> RegistUser(User user)
         {
-            throw new NotImplementedException();
+            var response = await httpclient.PostAsJsonAsync(UrlsApi.RegisterUser_URL, user);
+            return response.IsSuccessStatusCode;
         }
 
         public async Task<List<Product>> GetUserFavorites()
         {
-            var collection = await httpclient.GetFromJsonAsync(UrlsApi.FavoritesUser(Preferences.Default.Get("id_user", 0)), typeof(List<Product>), jsonSerializerOptions) as List<Product>;
-            return collection;
+            try
+            {
+                var collection = await httpclient.GetFromJsonAsync(UrlsApi.FavoritesUser(Preferences.Default.Get("id_user", 0)), typeof(List<Product>), jsonSerializerOptions) as List<Product>;
+                return collection;
+            }
+            catch (Exception)
+            {
+                await Retry(GetUserFavorites, 5);
+                return new List<Product>();
+            }
+
         }
-
-
 
         public async Task<bool> AddProductToBasket(Basket basket)
         {
@@ -157,8 +161,17 @@ namespace Client.DataService.ServiceAPI
 
         public async Task<List<Basket>> GetUserBasketById()
         {
-            var collection = await httpclient.GetFromJsonAsync(UrlsApi.BasketUser(Preferences.Default.Get("id_user", 0)), typeof(List<Basket>), jsonSerializerOptions) as List<Basket>;
-            return collection;
+            try
+            {
+                var collection = await httpclient.GetFromJsonAsync(UrlsApi.BasketUser(Preferences.Default.Get("id_user", 0)), typeof(List<Basket>), jsonSerializerOptions) as List<Basket>;
+                return collection;
+            }
+            catch (Exception ex)
+            {
+                await Retry(GetUserBasketById , 5);
+                return new List<Basket>();
+            }
+           
         }
 
         public async Task<List<PaymentMethod>> GetPaymentMethods()
@@ -177,6 +190,23 @@ namespace Client.DataService.ServiceAPI
         {
             var collection = await httpclient.GetFromJsonAsync(UrlsApi.GetOrders_URL(), typeof(List<Order>), jsonSerializerOptions);
             return collection as List<Order>;
+        }
+        private static async Task<T> Retry<T>(Func<T> func, int retryCount)
+        {
+            while (true)
+            {
+                try
+                {
+                    var result = await Task.Run(func);
+                    return result;
+                }
+                catch
+                {
+                    if (retryCount == 0)
+                        throw;
+                    retryCount--;
+                }
+            }
         }
     }
 }

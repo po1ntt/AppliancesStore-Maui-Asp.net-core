@@ -94,6 +94,7 @@
 	  <None Remove="Resources\Fonts\18vagRounded.ttf" />
 	  <None Remove="Resources\Images\basket.png" />
 	  <None Remove="Resources\Images\checkmark_white.png" />
+	  <None Remove="Resources\Images\exit_door_img.png" />
 	  <None Remove="Resources\Images\for_signin_woutback.png" />
 	  <None Remove="Resources\Images\heart.png" />
 	  <None Remove="Resources\Images\home.png" />

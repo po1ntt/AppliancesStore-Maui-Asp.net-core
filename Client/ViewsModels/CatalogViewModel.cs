@@ -21,13 +21,25 @@ namespace Client.ViewsModels
         }
         public Command CatalogItemTapped { get; set; }
         public Command RefreshCommand { get; set; }
+        public Command OutFromAccount { get; set; }
 
         public CatalogViewModel()
         {
             Categories = new List<Category>();
             RefreshCommand = new Command((object args) => Init());
             CatalogItemTapped = new Command((object args) => CategorySelected(args as Category));
+            OutFromAccount = new Command((object args) => OutAccount());
+
             Init();
+
+        }
+        public async void OutAccount()
+        {
+            bool answer = await Shell.Current.DisplayAlert("Выход из аккаунта", "Вы действительно хотите выйти из аккаунта?", "Да", "Нет");
+            if (answer)
+            {
+                Preferences.Default.Clear();
+            }
 
         }
         public async void CategorySelected(Category category)
