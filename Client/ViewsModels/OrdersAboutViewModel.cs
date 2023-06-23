@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Client.DataService.DboModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -6,7 +7,20 @@ using System.Threading.Tasks;
 
 namespace Client.ViewsModels
 {
-    internal class OrdersAboutViewModel
+	
+
+	public class OrdersAboutViewModel : BaseVM
     {
+        private Order _Order;
+
+        public Order Order
+        {
+            get { return _Order; }
+            set
+            {
+                _Order = value;
+                OnPropertyChanged();
+            }
+        }
     }
 }

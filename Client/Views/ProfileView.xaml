@@ -42,7 +42,7 @@
                                              
                                                 <Label Text="Комментарий:" TextColor="Gray"></Label>
                                                 <Label Margin="5" TextColor="Black" Text="{Binding Comment}"></Label>
-                                                <Label Text="Кол-во предметов в заказе:" TextColor="Gray"></Label>
+                                                <Label Text="Кол-во позиций в заказе:" TextColor="Gray"></Label>
                                                 <Label Margin="5" TextColor="Black" Text="{Binding OrderedProducts.Count}"></Label>
                                             </StackLayout>
                                         </Grid>

@@ -141,10 +141,9 @@ namespace Client.ViewsModels
                 }
                 else
                 {
-                    List<ProductAndCategoryModel> products = new List<ProductAndCategoryModel>();
 
 
-                    foreach (var item in LastList)
+                    foreach (var item in ProductsAndCategory)
                     {
                         foreach (var product in item.products)
                         {
@@ -165,11 +164,8 @@ namespace Client.ViewsModels
                                 product.IsBasket = "0";
                             }
                         }
-                        products.Add(item);
-
                     }
 
-                    ProductsAndCategory = products;
                 }
                 if(Brands.Count == 0)
                 {
