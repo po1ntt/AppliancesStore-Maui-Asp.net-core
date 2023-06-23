@@ -123,6 +123,8 @@ namespace Client.ViewsModels
             if (answer)
             {
                 Preferences.Default.Clear();
+                StaticValues.Favorites.Clear();
+                StaticValues.Basket.Clear();
                 Init();
             }
 

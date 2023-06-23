@@ -2,11 +2,102 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="Client.Views.OrdersViews.OrderAboutView"
-             Title="OrderAboutView">
-    <VerticalStackLayout>
-        <Label 
-            Text="Welcome to .NET MAUI!"
-            VerticalOptions="Center" 
-            HorizontalOptions="Center" />
-    </VerticalStackLayout>
+             Title="Заказ"
+             Appearing="ContentPage_Appearing"
+             xmlns:vm="clr-namespace:Client.ViewsModels"
+             BackgroundColor="White"
+             Shell.TabBarIsVisible="False">
+   
+    <ScrollView>
+        <VerticalStackLayout>
+            <Frame BackgroundColor="White" Margin="10">
+                <StackLayout>
+                    <Label Text="Номер заказа" TextColor="Gray"></Label>
+                    <Label Text="{Binding Order.OrderNumber}" TextColor="Black"></Label>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="White" Margin="10">
+                <StackLayout>
+                    <Label Text="Дата заказа" TextColor="Gray"></Label>
+                    <Label Text="{Binding Order.DateOrderBegin}" TextColor="Black"></Label>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="White" Margin="10">
+                    <StackLayout>
+                        <Label Text="Дата получения" TextColor="Gray"></Label>
+                        <Label Text="{Binding Order.DateOrderEnd, StringFormat='- {0}'}" TextColor="Black"></Label>
+                    </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="White" Margin="10">
+                    <StackLayout>
+                        <Label Text="Статус заказа" TextColor="Gray"></Label>
+                        <Label Text="{Binding Order.Status.Status1}" TextColor="Black"></Label>
+                    </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="White" Margin="10">
+                <StackLayout>
+                    <Label Text="Способ оплаты" TextColor="Gray"></Label>
+                    <Label Text="{Binding Order.PaymentMethod.PayMethod}" TextColor="Black"></Label>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="White" Margin="10">
+                <StackLayout>
+                    <Label Text="Сумма оплаты" TextColor="Gray"></Label>
+                    <Label Text="{Binding SumOrder, StringFormat='{0} ₽'}" TextColor="Black"></Label>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="White" Margin="10">
+                    <StackLayout>
+                        <Label Text="Комментарий" TextColor="Gray"></Label>
+                        <Label Text="{Binding Order.Comment}" TextColor="Black"></Label>
+                    </StackLayout>
+            </Frame>
+            <Label Text="Данные получателя" TextColor="Black" FontSize="20" Margin="5"></Label>
+            <Frame BackgroundColor="White" Margin="10">
+
+                <StackLayout>
+                    <Label Text="Имя получателя" TextColor="Gray"></Label>
+                    <Label Text="{Binding Order.FirstNameReceiver}" TextColor="Black"></Label>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="White" Margin="10">
+
+                <StackLayout>
+                    <Label Text="Фамилия получателя" TextColor="Gray"></Label>
+                    <Label Text="{Binding Order.SecondNameReceiver}" TextColor="Black"></Label>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="White" Margin="10">
+
+                <StackLayout>
+                    <Label Text="Отчество получателя" TextColor="Gray"></Label>
+                    <Label Text="{Binding Order.PatronymicReceiver}" TextColor="Black"></Label>
+                </StackLayout>
+            </Frame>
+            <Frame BackgroundColor="White" Margin="10">
+                <StackLayout>
+                    <Label Text="Адрес получателя" TextColor="Gray"></Label>
+                    <Label Text="{Binding Order.AdressReceiver}" TextColor="Black"></Label>
+                </StackLayout>
+            </Frame>
+            <Label Text="Позиции заказа" TextColor="Black" FontSize="20" Margin="5"></Label>
+            <StackLayout BindableLayout.ItemsSource="{Binding Order.OrderedProducts}">
+                <BindableLayout.ItemTemplate>
+                    <DataTemplate>
+                        <Frame Padding="5" BackgroundColor="White" HeightRequest="100">
+                            <Grid ColumnDefinitions="110,200,100">
+                                <Image Source="{Binding Product.ProductImage}" HeightRequest="100" WidthRequest="100"></Image>
+                                <StackLayout Grid.Column="1">
+                                    <Label HorizontalOptions="Center" VerticalOptions="Center" Text="{Binding Product.ProductName}" TextColor="Black" FontSize="13"></Label>
+                                    <Label VerticalOptions="Center" Text="{Binding Product.ProductPrice,StringFormat='{0} ₽'}" TextColor="Black" FontSize="18"></Label>
+                                </StackLayout>
+                                <Label Grid.Column="2" TextColor="Black" VerticalOptions="Center"  Text="{Binding CountProduct,StringFormat='Кол-во: {0}'}"></Label>
+                            </Grid>
+                        </Frame>
+                    </DataTemplate>
+                </BindableLayout.ItemTemplate>
+            </StackLayout>
+            <Button x:Name="CancelOrder" TextColor="White" Command="{Binding DeleteOrder}" BackgroundColor="Red" FontSize="18" FontAttributes="Bold" CornerRadius="5" Margin="10" Text="Отменить заказ"></Button>
+        </VerticalStackLayout>
+    </ScrollView>
 </ContentPage>

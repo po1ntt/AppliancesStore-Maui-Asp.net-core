@@ -27,6 +27,7 @@ namespace Client.DataService.ServiceAPI
         Task<bool> AddProductToFavorite(Favorite favorite);
         Task<bool> AddProductToBasket(Basket basket);
         Task<bool> DeleteProductFromFavorite(int id_product);
+        Task<bool> DeletOrder(int id_order);
   
        
     }

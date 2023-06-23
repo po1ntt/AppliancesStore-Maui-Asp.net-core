@@ -26,6 +26,9 @@
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
                                     <Frame Margin="10" BackgroundColor="White">
+                                        <Frame.GestureRecognizers>
+                                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={Type vm:ProfileViewModel}}, Path=OpenOrder}" CommandParameter="{Binding}" />
+                                        </Frame.GestureRecognizers>
                                         <Grid ColumnDefinitions="1*">
                                             <StackLayout>
                                                 <Label Text="Номер:" TextColor="Gray"></Label>

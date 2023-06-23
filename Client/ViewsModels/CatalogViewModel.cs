@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using Client.DataService;
 using Client.DataService.DboModels;
 using Client.Views;
 
@@ -39,6 +40,8 @@ namespace Client.ViewsModels
             if (answer)
             {
                 Preferences.Default.Clear();
+                StaticValues.Favorites.Clear();
+                StaticValues.Basket.Clear();
             }
 
         }

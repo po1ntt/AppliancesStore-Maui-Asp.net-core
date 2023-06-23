@@ -22,7 +22,10 @@ namespace Client.DataService.Constants
 
         /// /api/Order/AddNewOrder
         ///api/Product/DeleteProductFromFavorite?id_user=1&id_product=18
-
+        public static string DeleteOrder_URL(int id_order)
+        {
+            return $"{ADRESS}/api/Order/DeleteOrder?id_order={id_order}";
+        }
         public static string GetOrders_URL()
         {
             return $"{ADRESS}/api/Order/GetOrders?userid={Preferences.Default.Get("id_user", 0)}";

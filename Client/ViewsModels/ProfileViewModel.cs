@@ -1,5 +1,7 @@
 ﻿using Client.DataService.DboModels;
 using Client.DataService.SpecialModels;
+using Client.Views.OrdersViews;
+using Mopups.Services;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -14,11 +16,27 @@ namespace Client.ViewsModels
        
         public ObservableCollection<SpecialOrder> SpecialOrders { get; set; } = new ObservableCollection<SpecialOrder>();
         public Command ApperingCommand { get; set; }
+
+        public Command OpenOrder { get; set; }
         public Command OutFromAccount { get; set; }
 
         public ProfileViewModel()
         {
             ApperingCommand = new Command((object args) => Init());
+            OpenOrder = new Command((object args) => GoToAboutOrder(args as Order));
+        }
+        public async void GoToAboutOrder(Order order)
+        {
+            IsBusy = true;
+            ShowLoadingPopup();
+
+            await Shell.Current.Navigation.PushAsync(new OrderAboutView(order));
+
+
+            IsBusy = false;
+            await MopupService.Instance.PopAsync();
+
+
         }
         public async void Init()
         {
@@ -53,6 +71,8 @@ namespace Client.ViewsModels
             if (answer)
             {
                 Preferences.Default.Clear();
+                StaticValues.Favorites.Clear();
+                StaticValues.Basket.Clear();
                 Init();
             }
 

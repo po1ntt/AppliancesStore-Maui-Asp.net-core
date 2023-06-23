@@ -58,12 +58,7 @@
                 <LinearItemsLayout Orientation="Vertical" ItemSpacing="5" />
             </CollectionView.ItemsLayout>
             <CollectionView.EmptyView>
-                <ContentView Background="white">
-                    <Frame BackgroundColor="White">
-                        <Label HorizontalOptions="Center" VerticalOptions="Center" TextColor="Black" Text="Ничего не найдено"></Label>
-                    </Frame>
-                </ContentView>
-              
+                <Label HorizontalOptions="Center" VerticalOptions="Center" Text="Ничего не найдено :(" TextColor="Black"></Label>
             </CollectionView.EmptyView>
         </CollectionView>
     </Grid>

@@ -208,5 +208,11 @@ namespace Client.DataService.ServiceAPI
                 }
             }
         }
+
+        public async Task<bool> DeletOrder(int id_order)
+        {
+            var response = await httpclient.DeleteAsync(UrlsApi.DeleteOrder_URL(id_order));
+            return response.IsSuccessStatusCode;
+        }
     }
 }

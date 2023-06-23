@@ -18,7 +18,7 @@ namespace WebApi.Controllers
         public async Task<List<Order>> GetOrders(int userid)
         {
             var collection = new List<Order>();
-            collection = await appliancesStoreContext.Orders.Include(p => p.OrderedProducts).Include(p=>p.Status).Where(p => p.UserId == userid).ToListAsync();
+            collection = await appliancesStoreContext.Orders.Include(p => p.OrderedProducts).ThenInclude(p=> p.Product).Include(p=>p.Status).Include(p=> p.PaymentMethod).Where(p => p.UserId == userid).ToListAsync();
             return collection;
         }
         [HttpPost("AddNewOrder")]
@@ -63,10 +63,20 @@ namespace WebApi.Controllers
             {
 
                 return false;
-                throw;
             }
            
         }
-        
+        [HttpDelete("DeleteOrder")]
+        public IActionResult DeleteOrder(int id_order)
+        {
+
+            var orderToRemove = appliancesStoreContext.Orders.FirstOrDefault(p => p.IdOrder == id_order);
+            if (orderToRemove == null)
+                return BadRequest();
+            appliancesStoreContext.Orders.Remove(orderToRemove);
+            appliancesStoreContext.SaveChanges();
+            return Ok();
+        }
+
     }
 }

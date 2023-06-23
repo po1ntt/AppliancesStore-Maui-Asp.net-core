@@ -1,4 +1,5 @@
-﻿using Client.DataService.DboModels;
+﻿using Client.DataService;
+using Client.DataService.DboModels;
 using Mopups.Services;
 using System;
 using System.Collections.Generic;
@@ -136,6 +137,7 @@ namespace Client.ViewsModels
                         {
                             await restAPIService.DeleteProductFromBasket(item);
                         }
+                        StaticValues.Basket.Clear();
                         await Shell.Current.Navigation.PopAsync();
 
                     }

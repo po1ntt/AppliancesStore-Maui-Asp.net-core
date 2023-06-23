@@ -14,7 +14,6 @@ public partial class OrderedProduct
     public int? CountProduct { get; set; }
 
     public virtual ICollection<Order> Orders { get; set; } = new List<Order>();
-    [JsonIgnore]
 
     public virtual Product? Product { get; set; }
     [JsonIgnore]
