@@ -110,6 +110,7 @@ namespace Client.ViewsModels
                 {
                     item.IsBasket = "0";
                 }
+                item.IsFavorite = "1";
                 FavoritesList.Add(item);
 
             }

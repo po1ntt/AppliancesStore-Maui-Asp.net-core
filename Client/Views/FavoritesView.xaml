@@ -40,7 +40,7 @@
                 <DataTemplate >
                     <Frame Padding="10" Margin="10,0,10,0"  BackgroundColor="#fbfbfb" CornerRadius="4" >
                         <Frame.GestureRecognizers>
-                            <ClickGestureRecognizer  />
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={Type vm:BaseVM}}, Path=OpenProductCommad}" CommandParameter="{Binding}" />
                         </Frame.GestureRecognizers>
                         <Grid ColumnDefinitions="125, 250">
                             <Grid>

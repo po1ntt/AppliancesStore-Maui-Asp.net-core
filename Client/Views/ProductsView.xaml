@@ -30,7 +30,7 @@
                 <DataTemplate x:DataType="models:Product">
                     <Frame Padding="10" Margin="10,0,10,0"  BackgroundColor="#fbfbfb" CornerRadius="4" >
                         <Frame.GestureRecognizers>
-                            <ClickGestureRecognizer  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsViewModel}}, Path=CatalogItemTapped}" />
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={Type vm:BaseVM}}, Path=OpenProductCommad}" CommandParameter="{Binding}" />
                         </Frame.GestureRecognizers>
                         <Grid ColumnDefinitions="125, 250">
                             <Image HeightRequest="100" WidthRequest="100" Margin="20" Grid.Row="0" Source="{Binding ProductImage}"></Image>
