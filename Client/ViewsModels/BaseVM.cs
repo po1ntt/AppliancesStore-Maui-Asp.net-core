@@ -1,6 +1,7 @@
 ﻿using Client.DataService;
 using Client.DataService.DboModels;
 using Client.DataService.ServiceAPI;
+using Client.Views;
 using Client.Views.Popups;
 using CommunityToolkit.Maui.Alerts;
 using CommunityToolkit.Maui.Core;
@@ -72,6 +73,7 @@ namespace Client.ViewsModels
         }
         public Command AddProductToBasket { get
         ;set; }
+        public Command OpenProductCommad { get; set; }
         public NetworkAccess networkAccess { get; set; }
         public IRestAPIService restAPIService { get; set; }
         public BaseVM()
@@ -81,6 +83,7 @@ namespace Client.ViewsModels
             networkAccess = Connectivity.NetworkAccess;
             AddToFavoriteCommand = new Command(async (object args) => AddToFavorites(args as Product));
             AddProductToBasket = new Command(async (object args) => AddToBasket(args as Product));
+            OpenProductCommad = new Command((object args) => OpenProductAboutPage(args as Product));
             if(StaticValues.Favorites == null)
             {
                 StaticValues.Favorites = new List<Product>();
@@ -94,6 +97,11 @@ namespace Client.ViewsModels
                     UserAuth = false;
             }
           
+        }
+
+        public async void OpenProductAboutPage(Product product)
+        {
+            await Shell.Current.Navigation.PushAsync(new ProductsAboutView(product));
         }
         public async void FillBasketAndFavorites()
         {

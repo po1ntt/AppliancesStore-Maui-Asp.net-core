@@ -100,7 +100,7 @@
                 </Border.Shadow>
                 <Entry  TextColor="Black" Text="{Binding Comment}" PlaceholderColor="Gray" HorizontalOptions="FillAndExpand" VerticalOptions="FillAndExpand" Placeholder="Комментарий к заказу"></Entry>
             </Border>
-            <Border  Margin="10" BackgroundColor="White" Grid.Row="0" Padding="5">
+            <Border  Margin="10,10,10,0" BackgroundColor="White" Grid.Row="0" Padding="5">
             <Border.StrokeShape>
                 <RoundRectangle BackgroundColor="Orange"  CornerRadius="5,5,5,5"/>
             </Border.StrokeShape>
@@ -117,6 +117,7 @@
             </Border.Shadow>
             <Picker ItemsSource="{Binding PaymentMethods}" SelectedItem="{Binding SelectedPaymentMethod}" ItemDisplayBinding="{Binding PayMethod}"  Title="Выберите способ оплаты" TitleColor="Gray" ></Picker>
         </Border>
+            <Label TextColor="Gray" Margin="10,0,0,0" Text="*Оплата картой проводится на терминале у курьера"></Label>
             <Label Text="Заказ" FontSize="25" Margin="5" FontAttributes="Bold" TextColor="Black"></Label>
 
        <CollectionView ItemsSource="{Binding Baskets}">

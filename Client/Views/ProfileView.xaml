@@ -26,7 +26,26 @@
                             <BindableLayout.ItemTemplate>
                                 <DataTemplate>
                                     <Frame Margin="10" BackgroundColor="White">
-                                        <Label TextColor="Black" Text="{Binding Comment}"></Label>
+                                        <Grid ColumnDefinitions="1*">
+                                            <StackLayout>
+                                                <Label Text="Номер:" TextColor="Gray"></Label>
+                                                <Label Margin="5" TextColor="Black" Text="{Binding OrderNumber}"></Label>
+
+                                                <Label Text="Статус:" TextColor="Gray"></Label>
+                                                <Label Margin="5" TextColor="Black" Text="{Binding Status.Status1}"></Label>
+                                                <Label Text="Дата заказа:" TextColor="Gray"></Label>
+
+                                                <Label Margin="5" TextColor="Black" Text="{Binding DateOrderBegin}"></Label>
+                                                <Label Text="Дата получения:" TextColor="Gray"></Label>
+
+                                                <Label Margin="5" TextColor="Black" Text="{Binding DateOrderEnd,StringFormat='- {0}'}"></Label>
+                                             
+                                                <Label Text="Комментарий:" TextColor="Gray"></Label>
+                                                <Label Margin="5" TextColor="Black" Text="{Binding Comment}"></Label>
+                                                <Label Text="Кол-во предметов в заказе:" TextColor="Gray"></Label>
+                                                <Label Margin="5" TextColor="Black" Text="{Binding OrderedProducts.Count}"></Label>
+                                            </StackLayout>
+                                        </Grid>
                                     </Frame>
                                 </DataTemplate>
                             </BindableLayout.ItemTemplate>

@@ -33,7 +33,7 @@
                             <ClickGestureRecognizer  Command="{Binding Source={RelativeSource AncestorType={x:Type vm:ProductsViewModel}}, Path=CatalogItemTapped}" />
                         </Frame.GestureRecognizers>
                         <Grid ColumnDefinitions="125, 250">
-                            <Image Margin="10" Grid.Row="0" Source="{Binding ProductImage}"></Image>
+                            <Image HeightRequest="100" WidthRequest="100" Margin="20" Grid.Row="0" Source="{Binding ProductImage}"></Image>
                             <Grid RowDefinitions="30,80,40" Grid.Column="1">
                                 <Label FontSize="20" VerticalOptions="Center" Grid.Row="0" Text="{Binding ProductPrice, StringFormat='{0} ₽'}" TextColor="Black">
                                     

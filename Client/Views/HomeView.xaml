@@ -25,7 +25,11 @@
             <DataTemplate x:Key="ProductCategoryTemplate">
 
                 <Frame
+                    
                      Padding="0"   BackgroundColor="#fbfbfb">
+                    <Frame.GestureRecognizers>
+                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={Type vm:BaseVM}}, Path=OpenProductCommad}" CommandParameter="{Binding}" />
+                    </Frame.GestureRecognizers>
                     <Grid WidthRequest="220" HeightRequest="350" Padding="5" RowDefinitions="200,55,0,40,40">
                         <Image WidthRequest="200" HeightRequest="200" Grid.Row="0" Source="{Binding ProductImage}"></Image>
                         <Label TextColor="Black" FontSize="13" HorizontalTextAlignment="Start" HorizontalOptions="Center" Margin="5,5,0,0" Text="{Binding ProductName}" Grid.Row="1"></Label>
@@ -62,11 +66,14 @@
                 <Frame x:Name="UserAuthFrame" 
                     Margin="5" Background="orange">
                     <StackLayout>
-                        <Label Text="Вы авторизованы"  TextColor="White" HorizontalOptions="Center" FontSize="30" Margin="5"></Label>
+                        <Label x:Name="txbPriverLogin" Text="Привет, login" TextColor="White" HorizontalOptions="Center" FontSize="25"></Label>
+                        <Label Text="Вы авторизованы" TextColor="White" HorizontalOptions="Center" FontSize="25" Margin="5"></Label>
                     </StackLayout>
                 </Frame>
                 <Frame BackgroundColor="White" Padding="5"  Margin="5">
+               
                     <VerticalStackLayout>
+                 
                         <Label FontAttributes="Bold" FontSize="22" TextColor="Black" Text="Бренды"></Label>
                         <ScrollView Orientation="Horizontal">
                             <CollectionView ItemsSource="{Binding Brands}"

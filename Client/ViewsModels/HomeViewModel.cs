@@ -40,6 +40,7 @@ namespace Client.ViewsModels
                 OnPropertyChanged();
             }
         }
+        public List<ProductAndCategoryModel> LastList { get; set; } = new List<ProductAndCategoryModel>();
         public Command BrandItemTapped { get; set; }
 
         public ObservableCollection<Brand> Brands { get; set; }
@@ -82,6 +83,7 @@ namespace Client.ViewsModels
             }
           
         }
+        
 
         public async Task Init()
         {
@@ -107,9 +109,9 @@ namespace Client.ViewsModels
                 if (ProductsAndCategory.Count == 0)
                 {
                     List<ProductAndCategoryModel> products = new List<ProductAndCategoryModel>();
-                   
 
-                    foreach (var item in await restAPIService.GetProductAndCategoryModels())
+                    LastList = await restAPIService.GetProductAndCategoryModels();
+                    foreach (var item in LastList)
                     {
                         foreach(var product in item.products)
                         {
@@ -139,8 +141,10 @@ namespace Client.ViewsModels
                 }
                 else
                 {
+                    List<ProductAndCategoryModel> products = new List<ProductAndCategoryModel>();
 
-                    foreach (var item in ProductsAndCategory)
+
+                    foreach (var item in LastList)
                     {
                         foreach (var product in item.products)
                         {
@@ -161,8 +165,11 @@ namespace Client.ViewsModels
                                 product.IsBasket = "0";
                             }
                         }
+                        products.Add(item);
 
                     }
+
+                    ProductsAndCategory = products;
                 }
                 if(Brands.Count == 0)
                 {
@@ -187,7 +194,7 @@ namespace Client.ViewsModels
             finally
             {
                 Refreshing = false;
-                IsBusy = true;
+                IsBusy = false;
                 await MopupService.Instance.PopAllAsync();
 
             }

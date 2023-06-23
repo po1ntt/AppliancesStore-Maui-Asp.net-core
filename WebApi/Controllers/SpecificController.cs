@@ -45,7 +45,7 @@ namespace WebApi.Controllers
         public async Task<List<ProductsAndCategoryInfo>> GetCategoryAndProducts()
         {
             var CategoryAndProducts = new List<ProductsAndCategoryInfo>();
-            var collection = await appliancesStoreContext.Categories.Include(p=> p.Products).ThenInclude(p=> p.Reviews).ToListAsync();
+            var collection = await appliancesStoreContext.Categories.Include(p=> p.Products).ThenInclude(p=> p.ProductBrand).ToListAsync();
             foreach(var item in collection)
             {
                 foreach(var product in item.Products)

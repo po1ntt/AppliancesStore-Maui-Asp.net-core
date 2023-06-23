@@ -22,13 +22,15 @@ public partial class HomeView : ContentPage
             UserAuthFrame.IsVisible = true;
             UserNotAuthFrame.IsVisible = false;
             exitBtn.IsEnabled = true;
-
+            txbPriverLogin.Text = $"Привет, {Preferences.Default.Get("Login", "")}";
         }
         else
         {
             UserNotAuthFrame.IsVisible = true;
             UserAuthFrame.IsVisible = false;
             exitBtn.IsEnabled = false;
+            txbPriverLogin.Text = $"";
+
 
         }
     }
